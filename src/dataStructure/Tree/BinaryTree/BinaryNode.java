@@ -3,35 +3,32 @@ package dataStructure.Tree.BinaryTree;
 import java.io.Serializable;
 
 /**
- * Created by zejian on 2016/12/14.
- * Blog : http://blog.csdn.net/javazejian [原文地址,请尊重原创]
- * 二叉树结点
+ * 二叉树结点实体类
  */
-public class BinaryNode<T extends Comparable> implements Serializable{
+public class BinaryNode<T extends Comparable> implements Serializable {
 
     public BinaryNode<T> left;//左结点
-
     public BinaryNode<T> right;//右结点
+    public T data;//数据
 
-    public T data;
 
-    public BinaryNode(T data,BinaryNode left,BinaryNode right){
-        this.data=data;
-        this.left=left;
-        this.right=right;
+    public BinaryNode(T data, BinaryNode left, BinaryNode right) {
+        this.data = data;
+        this.left = left;
+        this.right = right;
     }
 
-    public BinaryNode(T data){
-        this(data,null,null);
+    public BinaryNode(T data) {
+        this(data, null, null);
 
     }
 
     /**
      * 判断是否为叶子结点
-     * @return
      */
-    public boolean isLeaf(){
-        return this.left==null&&this.right==null;
+    public boolean isLeaf() {
+        return this.left == null && this.right == null;
     }
 
 }
+
