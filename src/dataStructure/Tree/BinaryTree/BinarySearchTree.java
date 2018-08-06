@@ -509,7 +509,7 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
      */
     public boolean removeUnrecure(T data) {
         if (data == null) {
-            throw new RuntimeException("data can\'Comparable be null !");
+            throw new RuntimeException("需要删除掉的数据不能为空!");
         }
         //从根结点开始查找
         BinaryNode<T> current = this.root;

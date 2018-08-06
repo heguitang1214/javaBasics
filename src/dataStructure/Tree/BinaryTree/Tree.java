@@ -43,7 +43,7 @@ public interface Tree<T extends Comparable> {
     List<T> levelOrder();
 
     /**
-     * 将data 插入
+     * 将data插入
      */
     void insert(T data);
 
