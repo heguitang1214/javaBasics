@@ -420,7 +420,7 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
     public void remove(T data) {
         if (data == null)
             throw new RuntimeException("需要删除的数据不能为空!");
-        //删除结点
+        //删除结点,并返回当前的根节点
         root = remove(data, root);
     }
 
@@ -430,28 +430,30 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
      * 2.删除拥有一个子节点的结点(可能是左子节点也可能是右子节点)
      * 3.删除拥有两个子节点的结点
      */
-    private BinaryNode<T> remove(T data, BinaryNode<T> p) {
+    private BinaryNode<T> remove(T data, BinaryNode<T> node) {
         //没有找到要删除的元素,递归结束
-        if (p == null) {
-            return p;
+        if (node == null) {
+            return null;
         }
-        int compareResult = data.compareTo(p.data);
+        int compareResult = data.compareTo(node.data);
 
         if (compareResult < 0) {//左边查找删除结点
-            p.left = remove(data, p.left);
+            node.left = remove(data, node.left);
         } else if (compareResult > 0) {
-            p.right = remove(data, p.right);
-        } else if (p.left != null && p.right != null) {
+            node.right = remove(data, node.right);
+        } else if (node.left != null && node.right != null) {//有左子节点和右子节点
             //找到需要删除的节点,并且该节点有两个子节点
             //中继替换,找到右子树中最小的元素并替换需要删除的元素值
-            p.data = findMin(p.right);
-//            p.data = findMin(p.right).data;
+            node.data = findMin(node.right);//将当前节点替换成右子树的最大节点
             //移除用于替换的结点
-            p.right = remove(p.data, p.right);
-        } else {
-            p = (p.left != null) ? p.left : p.right;
+            node.right = remove(node.data, node.right);
+
+//            node.data = findMax(node.left);
+//            node.left = remove(node.data, node.left);
+        } else {//只有一个节点,直接替换
+            node = (node.left != null) ? node.left : node.right;
         }
-        return p;//返回该结点
+        return node;//返回该结点
     }
 
     /**
@@ -704,8 +706,6 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
 
     /**
      * 打印空白
-     *
-     * @param length
      */
     private void printBlank(int length) {
         while (length-- > 0) {
@@ -753,8 +753,6 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
 
     /**
      * 测试
-     *
-     * @param args
      */
     public static void main(String args[]) {
         Integer pre[] = {1, 2, 4, 7, 3, 5, 8, 9, 6};

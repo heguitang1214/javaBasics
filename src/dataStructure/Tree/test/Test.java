@@ -20,6 +20,11 @@ public class Test {
         binarySearchTree.insert(110);
         binarySearchTree.insert(120);
         binarySearchTree.insert(130);
+        binarySearchTree.insert(64);
+        binarySearchTree.print();
+
+        binarySearchTree.remove(52);
+
         binarySearchTree.print();
 
         System.out.println("先序遍历" + binarySearchTree.preOrder());
@@ -35,6 +40,9 @@ public class Test {
         System.out.println("最小:" + binarySearchTree.findMin());
         System.out.println("最大:" + binarySearchTree.findMax());
 //        System.out.println("大小:" + binarySearchTree.size1());
+
+
+
 
     }
 }
