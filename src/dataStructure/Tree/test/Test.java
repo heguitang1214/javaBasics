@@ -1,5 +1,6 @@
 package dataStructure.Tree.test;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import dataStructure.Tree.BinaryTree.BinarySearchTree;
 
 /**
@@ -8,40 +9,36 @@ import dataStructure.Tree.BinaryTree.BinarySearchTree;
  */
 public class Test {
     public static void main(String[] args) {
-        BinarySearchTree<Integer> binarySearchTree = new BinarySearchTree<>();
-        binarySearchTree.insert(75);
-        binarySearchTree.insert(5);
-        binarySearchTree.insert(52);
-        binarySearchTree.insert(98);
-        binarySearchTree.insert(54);
-        binarySearchTree.insert(23);
-        binarySearchTree.insert(65);
-        binarySearchTree.insert(100);
-        binarySearchTree.insert(110);
-        binarySearchTree.insert(120);
-        binarySearchTree.insert(130);
-        binarySearchTree.insert(64);
-        binarySearchTree.print();
+        BinarySearchTree<Integer> node = new BinarySearchTree<>();
+        node.insert(75);
+        node.insert(5);
+        node.insert(52);
+        node.insert(98);
+        node.insert(54);
+        node.insert(23);
+        node.insert(65);
+        node.insert(100);
+        node.insert(110);
+        node.insert(120);
+        node.insert(130);
+        node.insert(64);
+        node.print();
+        node.remove(75);
+        System.out.println("=========================================================================================");
+        node.print();
 
-        binarySearchTree.remove(52);
+        System.out.println("先序遍历" + node.preOrder());
+        System.out.println("中序遍历" + node.inOrder());
+        System.out.println("后序遍历" + node.postOrder());
+        System.out.println("层次遍历" + node.levelOrder());
 
-        binarySearchTree.print();
+        System.out.println("深度:" + node.height());
+        System.out.println("大小:" + node.size());
+        System.out.println("最小:" + node.findMin());
+        System.out.println("最大:" + node.findMax());
 
-        System.out.println("先序遍历" + binarySearchTree.preOrder());
-//        System.out.println("先序" + binarySearchTree1.preOrder());
-        System.out.println("中序遍历" + binarySearchTree.inOrder());
-//        System.out.println("中序" + binarySearchTree1.inOrder());
-        System.out.println("后序遍历" + binarySearchTree.postOrder());
-//        System.out.println("后序" + binarySearchTree1.postOrder());
-        System.out.println("层次遍历" + binarySearchTree.levelOrder());
-
-        System.out.println("深度:" + binarySearchTree.height());
-        System.out.println("大小:" + binarySearchTree.size());
-        System.out.println("最小:" + binarySearchTree.findMin());
-        System.out.println("最大:" + binarySearchTree.findMax());
-//        System.out.println("大小:" + binarySearchTree.size1());
-
-
+        System.out.println("是否包含节点:" + node.contains(75));
+        System.out.println("查找数据:" + node.findNode(100).data);
 
 
     }

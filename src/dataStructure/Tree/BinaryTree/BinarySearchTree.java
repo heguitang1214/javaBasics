@@ -429,6 +429,7 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
      * 1.删除叶子结点(也就是该节点没有子结点)
      * 2.删除拥有一个子节点的结点(可能是左子节点也可能是右子节点)
      * 3.删除拥有两个子节点的结点
+     * 替换当前节点node的数据为data
      */
     private BinaryNode<T> remove(T data, BinaryNode<T> node) {
         //没有找到要删除的元素,递归结束
@@ -436,7 +437,6 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
             return null;
         }
         int compareResult = data.compareTo(node.data);
-
         if (compareResult < 0) {//左边查找删除结点
             node.left = remove(data, node.left);
         } else if (compareResult > 0) {
@@ -444,8 +444,8 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
         } else if (node.left != null && node.right != null) {//有左子节点和右子节点
             //找到需要删除的节点,并且该节点有两个子节点
             //中继替换,找到右子树中最小的元素并替换需要删除的元素值
-            node.data = findMin(node.right);//将当前节点替换成右子树的最大节点
-            //移除用于替换的结点
+            node.data = findMin(node.right);//查找当前节点的最小右子节点,将当前节点替换成右子树的最小节点
+            //移除用于替换的结点:替换当前节点的右子节点数据
             node.right = remove(node.data, node.right);
 
 //            node.data = findMax(node.left);
@@ -453,7 +453,7 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
         } else {//只有一个节点,直接替换
             node = (node.left != null) ? node.left : node.right;
         }
-        return node;//返回该结点
+        return node;//返回当前结点,最后返回的就是根节点
     }
 
     /**
@@ -498,6 +498,25 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
     }
 
     /**
+     * 根据data查找结点
+     */
+    private BinaryNode<T> findNode(T data, BinaryNode<T> p) {
+        if (p == null || data == null) {
+            return null;
+        }
+        //计算比较结果
+        int compareResult = data.compareTo(p.data);
+
+        if (compareResult < 0) {//从左子树查找
+            return findNode(data, p.left);
+        } else if (compareResult > 0) {//从右子树查找
+            return findNode(data, p.right);
+        } else {//获取到匹配的数据
+            return p;
+        }
+    }
+
+    /**
      * 判断树T中是否包含data
      */
     @Override
@@ -505,6 +524,25 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
         return contains(data, root);
     }
 
+    private boolean contains(T data, BinaryNode<T> p) {
+        if (p == null || data == null) {
+            return false;
+        }
+        //计算比较结果
+        int compareResult = data.compareTo(p.data);
+        //如果小于0,从左子树遍历
+        if (compareResult < 0) {
+            return contains(data, p.left);
+        } else
+            return compareResult == 0 || contains(data, p.right);
+//        if (compareResult < 0) {
+//            return contains(data, p.left);
+//        } else if (compareResult > 0) {
+//            return contains(data, p.right);
+//        } else { //查找到数据
+//            return true;
+//        }
+    }
 
     /**
      * 非递归删除
@@ -588,15 +626,11 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
 
     /**
      * 查找中继结点--右子树最小值结点
-     *
-     * @param delNode 要删除的结点
-     * @return
      */
     public BinaryNode<T> findSuccessor(BinaryNode<T> delNode) {
         BinaryNode<T> successor = delNode;
         BinaryNode<T> successorParent = delNode;
         BinaryNode<T> current = delNode.right;
-
         //不断查找左结点,直到为空,则successor为最小值结点
         while (current != null) {
             successorParent = successor;
@@ -612,45 +646,6 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
         return successor;
     }
 
-
-    /**
-     * 根据data查找结点
-     */
-    private BinaryNode<T> findNode(T data, BinaryNode<T> p) {
-
-        if (p == null || data == null) {
-            return null;
-        }
-        //计算比较结果
-        int compareResult = data.compareTo(p.data);
-
-        if (compareResult < 0) {//从左子树查找
-            return findNode(data, p.left);
-        } else if (compareResult > 0) {//从右子树查找
-            return findNode(data, p.right);
-        } else {//match
-            return p;
-        }
-    }
-
-
-    private boolean contains(T data, BinaryNode<T> p) {
-
-        if (p == null || data == null) {
-            return false;
-        }
-
-        //计算比较结果
-        int compareResult = data.compareTo(p.data);
-        //如果小于0,从左子树遍历
-        if (compareResult < 0) {
-            return contains(data, p.left);
-        } else if (compareResult > 0) {
-            return contains(data, p.right);
-        } else {
-            return true;   //match
-        }
-    }
 
     @Override
     public void clear() {
