@@ -27,10 +27,15 @@ public class Test {
         System.out.println("=========================================================================================");
         node.print();
 
-        System.out.println("先序遍历" + node.preOrder());
-        System.out.println("中序遍历" + node.inOrder());
-        System.out.println("后序遍历" + node.postOrder());
-        System.out.println("层次遍历" + node.levelOrder());
+        System.out.println("**递归先序遍历" + node.preOrder());
+        System.out.println("**递归中序遍历" + node.inOrder());
+        System.out.println("**递归后序遍历" + node.postOrder());
+        System.out.println("**递归层次遍历" + node.levelOrder());
+
+        System.out.println("非递归先序遍历" + node.preOrderTraverse());
+        System.out.println("非递归中序遍历" + node.inOrderTraverse());
+        System.out.println("非递归后序遍历" + node.postOrderTraverse());
+        System.out.println("非递归后序遍历" + node.postOrderTraverse1());
 
         System.out.println("深度:" + node.height());
         System.out.println("大小:" + node.size());

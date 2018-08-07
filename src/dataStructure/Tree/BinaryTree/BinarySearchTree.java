@@ -7,6 +7,8 @@ import java.util.*;
 
 /**
  * 二叉树的实现操作
+ * 树都具备递归的结构，它们都拥有着一致的原子结构，这也就是为什么树可以使用递归定义的原因，
+ * 即使是一个十分复杂的树，我们也可以简化为原子的结构的求解过程，毕竟它们本质上是同类问题。
  */
 public class BinarySearchTree<T extends Comparable> implements Tree<T> {
 
@@ -14,126 +16,6 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
 
     public BinarySearchTree() {
         root = null;
-    }
-
-    /**
-     * 根据先根和中根遍历算法构造二叉树
-     *
-     * @param pList      先根/后根遍历次序数组
-     * @param inList     中根遍历次序数组
-     * @param isPreOrder 是否为先根遍历次序数组,true:先根,false:后根
-     *                   Blog : http://blog.csdn.net/javazejian [原文地址,请尊重原创]
-     */
-    public BinarySearchTree(T[] pList, T[] inList, boolean isPreOrder) {
-        if (pList == null || inList == null) {
-            throw new RuntimeException("preList or inList can\'t be null");
-        }
-        if (isPreOrder) {
-            //先根/中根次序构建二叉树
-            this.root = createBinarySearchTreeByPreIn(pList, inList, 0, pList.length - 1, 0, inList.length - 1);
-        } else {
-            //后根/中根次序构建二叉树
-            this.root = createBinarySearchTreeByPostIn(pList, inList, 0, pList.length - 1, 0, inList.length - 1);
-        }
-    }
-
-    /**
-     * 根据先根和中根遍历算法构造二叉树
-     *
-     * @param preList  先根遍历次序数组
-     * @param inList   中根遍历次序数组
-     * @param preStart
-     * @param preEnd
-     * @param inStart
-     * @param inEnd    return root 最终返回的根结点
-     */
-    public BinaryNode<T> createBinarySearchTreeByPreIn(T[] preList, T[] inList, int preStart, int preEnd, int inStart, int inEnd) {
-        //preList[preStart]必须根结点数据,创建根结点root
-        BinaryNode<T> p = new BinaryNode<>(preList[preStart]);
-        //如果没有其他元素,就说明结点已构建完成
-        if (preStart == preEnd && inStart == inEnd) {
-            return p;
-        }
-        //找出中根次序的根结点下标root
-        int root = 0;
-
-        for (root = inStart; root < inEnd; root++) {
-            //如果中根次序中的元素值与先根次序的根结点相当,则该下标index即为inList中的根结点下标
-            if (preList[preStart].compareTo(inList[root]) == 0) {
-                break;
-            }
-        }
-
-        //获取左子树的长度
-        int leftLength = root - inStart;
-        //获取右子树的长度
-        int rightLength = inEnd - root;
-
-        //递归构建左子树
-        if (leftLength > 0) {
-            //左子树的先根序列：preList[1] , ... , preList[i]
-            //左子树的中根序列：inList[0] , ... , inList[i-1]
-            p.left = createBinarySearchTreeByPreIn(preList, inList, preStart + 1, preStart + leftLength, inStart, root - 1);
-        }
-
-        //构建右子树
-        if (rightLength > 0) {
-            //右子树的先根序列：preList[i+1] , ... , preList[n-1]
-            //右子树的中根序列：inList[i+1] , ... , inList[n-1]
-            p.right = createBinarySearchTreeByPreIn(preList, inList, preStart + leftLength + 1, preEnd, root + 1, inEnd);
-        }
-
-        return p;
-    }
-
-
-    /**
-     * 后根/中根遍历构建二叉树
-     *
-     * @param postList  后根遍历序列
-     * @param inList    中根遍历序列
-     * @param postStart
-     * @param postEnd
-     * @param inStart
-     * @param inEnd
-     * @return 根结点
-     */
-    public BinaryNode<T> createBinarySearchTreeByPostIn(T[] postList, T[] inList, int postStart, int postEnd, int inStart, int inEnd) {
-
-        //构建根结点
-        BinaryNode<T> p = new BinaryNode<>(postList[postEnd]);
-
-        if (postStart == postEnd && inStart == inEnd) {
-            return p;
-        }
-
-        //查找中根序列的根结点下标root
-        int root = 0;
-
-        for (root = inStart; root < inEnd; root++) {
-            //查找到
-            if (postList[postEnd].compareTo(inList[root]) == 0) {
-                break;
-            }
-        }
-
-        //左子树的长度
-        int leftLenght = root - inStart;
-        //右子树的长度
-        int rightLenght = inEnd - root;
-
-        //递归构建左子树
-        if (leftLenght > 0) {
-            //postStart+leftLenght-1:后根左子树的结束下标
-            p.left = createBinarySearchTreeByPostIn(postList, inList, postStart, postStart + leftLenght - 1, inStart, root - 1);
-        }
-
-        //递归构建右子树
-        if (rightLenght > 0) {
-            p.right = createBinarySearchTreeByPostIn(postList, inList, postStart + leftLenght, postEnd - 1, root + 1, inEnd);
-        }
-
-        return p;
     }
 
 
@@ -176,7 +58,6 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
 //        }
 //    }
 
-
     /**
      * 计算树深度
      */
@@ -202,188 +83,6 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
         }
     }
 
-    /**
-     * 先序遍历
-     */
-    @Override
-    public List<T> preOrder() {
-        List<T> list = new ArrayList<>();
-        preOrder(list, root);
-        return list;
-    }
-
-    private void preOrder(List<T> list, BinaryNode<T> subtree) {
-        if (subtree != null) {//递归结束条件
-            list.add(subtree.data);//当前节点
-            preOrder(list, subtree.left);//遍历左子树
-            preOrder(list, subtree.right);//遍历右子树
-        }
-    }
-
-    /**
-     * 中序遍历
-     */
-    @Override
-    public List<T> inOrder() {
-        List<T> list = new ArrayList<>();
-        inOrder(list, root);
-        return list;
-    }
-
-    private void inOrder(List<T> list, BinaryNode<T> subtree) {
-        if (subtree != null) {//递归结束条件
-            inOrder(list, subtree.left);//遍历左子树
-            list.add(subtree.data);//当前节点
-            inOrder(list, subtree.right);//遍历右子树
-        }
-    }
-
-    /**
-     * 后序遍历
-     */
-    @Override
-    public List<T> postOrder() {
-        List<T> list = new ArrayList<>();
-        postOrder(list, root);
-        return list;
-    }
-
-    private void postOrder(List<T> list, BinaryNode<T> subtree) {
-        if (subtree != null) {//递归结束条件
-            postOrder(list, subtree.left);//遍历左子树
-            postOrder(list, subtree.right);//遍历右子树
-            list.add(subtree.data);//当前节点
-        }
-    }
-
-    /**
-     * 层次遍历
-     */
-    @Override
-    public List<T> levelOrder() {
-        List<T> list = new ArrayList<>();
-        //使用队列进行记录,存放需要遍历的结点,左结点一定优先右节点遍历
-        // //LinkedQueue为自定义的队列
-        LinkedQueue<BinaryNode<T>> queue = new LinkedQueue<>();
-        BinaryNode<T> node = this.root;
-        while (node != null) {
-            //记录经过的结点
-            list.add(node.data);
-            //先按层次遍历结点,左结点一定在右结点之前访问
-            if (node.left != null) {
-                //孩子结点入队
-                queue.add(node.left);
-            }
-            if (node.right != null) {
-                queue.add(node.right);
-            }
-            //访问下一个结点
-            node = queue.poll();
-        }
-        return list;
-    }
-//========================================================================
-    /**
-     * 非递归的先根遍历
-     */
-    public String preOrderTraverse() {
-        StringBuffer sb = new StringBuffer();
-        //构建用于存放结点的栈
-        LinkedStack<BinaryNode<T>> stack = new LinkedStack<>();
-        BinaryNode<T> p = this.root;
-        while (p != null || !stack.isEmpty()) {
-            if (p != null) {
-                //访问该结点
-                sb.append(p.data).append(",");
-                //将已访问过的结点入栈
-                stack.push(p);
-                //继续访问其左孩子
-                p = p.left;
-            } else { //若p=null 栈不为空,则说明已沿左子树访问完一条路径, 从栈中弹出栈顶结点,并访问其右孩子
-                p = stack.pop();
-                p = p.right;
-            }
-        }
-        //去掉最后一个逗号
-        if (sb.length() > 0) {
-            return sb.toString().substring(0, sb.length() - 1);
-        } else {
-            return sb.toString();
-        }
-    }
-
-    /**
-     * 非递归的中根遍历
-     */
-    public String inOrderTraverse() {
-        StringBuffer sb = new StringBuffer();
-        //构建用于存放结点的栈
-        LinkedStack<BinaryNode<T>> stack = new LinkedStack<>();
-        BinaryNode<T> p = this.root;
-        while (p != null || !stack.isEmpty()) {
-            while (p != null) {//把左孩子都入栈,至到左孩子为null
-                stack.push(p);
-                p = p.left;
-            }
-            //如果栈不为空,因为前面左孩子已全部入栈
-            if (!stack.isEmpty()) {
-                p = stack.pop();
-                //访问p结点
-                sb.append(p.data).append(",");
-                //访问p结点的右孩子
-                p = p.right;
-            }
-        }
-        if (sb.length() > 0) {
-            return sb.toString().substring(0, sb.length() - 1);
-        } else {
-            return sb.toString();
-        }
-    }
-
-    /**
-     * 非递归后根遍历
-     */
-    public String postOrderTraverse() {
-        StringBuffer sb = new StringBuffer();
-        //构建用于存放结点的栈
-        LinkedStack<BinaryNode<T>> stack = new LinkedStack<>();
-        BinaryNode<T> currentNode = this.root;
-        BinaryNode<T> prev = this.root;
-        while (currentNode != null || !stack.isEmpty()) {
-            //把左子树加入栈中,直到叶子结点为止
-            while (currentNode != null) {
-                stack.push(currentNode);
-                currentNode = currentNode.left;
-            }
-            //开始访问当前结点的父结点右孩子
-            if (!stack.isEmpty()) {
-                //获取右孩子
-                BinaryNode<T> temp = stack.peek().right;
-                //先判断是否有右孩子或者右孩子是否已被访问过
-                if (temp == null || temp == prev) {//没有右孩子||右孩子已被访问过
-                    //如果没有右孩子或者右孩子已被访问,则弹出父结点并访问
-                    currentNode = stack.pop();
-                    //访问
-                    sb.append(currentNode.data).append(",");
-                    //记录已访问过的结点
-                    prev = currentNode;
-                    //置空当前结点
-                    currentNode = null;
-                } else {
-                    //有右孩子,则开始遍历右子树
-                    currentNode = temp;
-                }
-            }
-        }
-        //去掉最后一个逗号
-        if (sb.length() > 0) {
-            return sb.toString().substring(0, sb.length() - 1);
-        } else {
-            return sb.toString();
-        }
-    }
-//========================================================================
     /**
      * 添加操作
      */
@@ -544,6 +243,350 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
 //        }
     }
 
+    @Override
+    public void clear() {
+        root = null;
+    }
+
+    /**
+     * 先序遍历
+     */
+    @Override
+    public List<T> preOrder() {
+        List<T> list = new ArrayList<>();
+        preOrder(list, root);
+        return list;
+    }
+
+    private void preOrder(List<T> list, BinaryNode<T> subtree) {
+        if (subtree != null) {//递归结束条件
+            list.add(subtree.data);//当前节点
+            preOrder(list, subtree.left);//遍历左子树
+            preOrder(list, subtree.right);//遍历右子树
+        }
+    }
+
+    /**
+     * 中序遍历
+     */
+    @Override
+    public List<T> inOrder() {
+        List<T> list = new ArrayList<>();
+        inOrder(list, root);
+        return list;
+    }
+
+    private void inOrder(List<T> list, BinaryNode<T> subtree) {
+        if (subtree != null) {//递归结束条件
+            inOrder(list, subtree.left);//遍历左子树
+            list.add(subtree.data);//当前节点
+            inOrder(list, subtree.right);//遍历右子树
+        }
+    }
+
+    /**
+     * 后序遍历
+     */
+    @Override
+    public List<T> postOrder() {
+        List<T> list = new ArrayList<>();
+        postOrder(list, root);
+        return list;
+    }
+
+    private void postOrder(List<T> list, BinaryNode<T> subtree) {
+        if (subtree != null) {//递归结束条件
+            postOrder(list, subtree.left);//遍历左子树
+            postOrder(list, subtree.right);//遍历右子树
+            list.add(subtree.data);//当前节点
+        }
+    }
+
+    /**
+     * 层次遍历
+     */
+    @Override
+    public List<T> levelOrder() {
+        List<T> list = new ArrayList<>();
+        //使用队列进行记录,存放需要遍历的结点,左结点一定优先右节点遍历
+        // //LinkedQueue为自定义的队列
+        LinkedQueue<BinaryNode<T>> queue = new LinkedQueue<>();
+        BinaryNode<T> node = this.root;
+        while (node != null) {
+            //记录经过的结点
+            list.add(node.data);
+            //先按层次遍历结点,左结点一定在右结点之前访问
+            if (node.left != null) {
+                //孩子结点入队
+                queue.add(node.left);
+            }
+            if (node.right != null) {
+                queue.add(node.right);
+            }
+            //访问下一个结点
+            node = queue.poll();
+        }
+        return list;
+    }
+//=================================================================================
+    /**
+     * 根据先根和中根遍历算法构造二叉树
+     *
+     * @param pList      先根/后根遍历次序数组
+     * @param inList     中根遍历次序数组
+     * @param isPreOrder 是否为先根遍历次序数组,true:先根,false:后根
+     *                   Blog : http://blog.csdn.net/javazejian [原文地址,请尊重原创]
+     */
+    public BinarySearchTree(T[] pList, T[] inList, boolean isPreOrder) {
+        if (pList == null || inList == null) {
+            throw new RuntimeException("preList or inList can\'t be null");
+        }
+        if (isPreOrder) {
+            //先根/中根次序构建二叉树
+            this.root = createBinarySearchTreeByPreIn(pList, inList, 0, pList.length - 1, 0, inList.length - 1);
+        } else {
+            //后根/中根次序构建二叉树
+            this.root = createBinarySearchTreeByPostIn(pList, inList, 0, pList.length - 1, 0, inList.length - 1);
+        }
+    }
+
+    /**
+     * 根据先根和中根遍历算法构造二叉树
+     *
+     * @param preList  先根遍历次序数组
+     * @param inList   中根遍历次序数组
+     * @param preStart
+     * @param preEnd
+     * @param inStart
+     * @param inEnd    return root 最终返回的根结点
+     */
+    public BinaryNode<T> createBinarySearchTreeByPreIn(T[] preList, T[] inList, int preStart, int preEnd, int inStart, int inEnd) {
+        //preList[preStart]必须根结点数据,创建根结点root
+        BinaryNode<T> p = new BinaryNode<>(preList[preStart]);
+        //如果没有其他元素,就说明结点已构建完成
+        if (preStart == preEnd && inStart == inEnd) {
+            return p;
+        }
+        //找出中根次序的根结点下标root
+        int root = 0;
+
+        for (root = inStart; root < inEnd; root++) {
+            //如果中根次序中的元素值与先根次序的根结点相当,则该下标index即为inList中的根结点下标
+            if (preList[preStart].compareTo(inList[root]) == 0) {
+                break;
+            }
+        }
+
+        //获取左子树的长度
+        int leftLength = root - inStart;
+        //获取右子树的长度
+        int rightLength = inEnd - root;
+
+        //递归构建左子树
+        if (leftLength > 0) {
+            //左子树的先根序列：preList[1] , ... , preList[i]
+            //左子树的中根序列：inList[0] , ... , inList[i-1]
+            p.left = createBinarySearchTreeByPreIn(preList, inList, preStart + 1, preStart + leftLength, inStart, root - 1);
+        }
+
+        //构建右子树
+        if (rightLength > 0) {
+            //右子树的先根序列：preList[i+1] , ... , preList[n-1]
+            //右子树的中根序列：inList[i+1] , ... , inList[n-1]
+            p.right = createBinarySearchTreeByPreIn(preList, inList, preStart + leftLength + 1, preEnd, root + 1, inEnd);
+        }
+
+        return p;
+    }
+
+
+    /**
+     * 后根/中根遍历构建二叉树
+     *
+     * @param postList  后根遍历序列
+     * @param inList    中根遍历序列
+     * @param postStart
+     * @param postEnd
+     * @param inStart
+     * @param inEnd
+     * @return 根结点
+     */
+    public BinaryNode<T> createBinarySearchTreeByPostIn(T[] postList, T[] inList, int postStart, int postEnd, int inStart, int inEnd) {
+
+        //构建根结点
+        BinaryNode<T> p = new BinaryNode<>(postList[postEnd]);
+
+        if (postStart == postEnd && inStart == inEnd) {
+            return p;
+        }
+
+        //查找中根序列的根结点下标root
+        int root = 0;
+
+        for (root = inStart; root < inEnd; root++) {
+            //查找到
+            if (postList[postEnd].compareTo(inList[root]) == 0) {
+                break;
+            }
+        }
+
+        //左子树的长度
+        int leftLenght = root - inStart;
+        //右子树的长度
+        int rightLenght = inEnd - root;
+
+        //递归构建左子树
+        if (leftLenght > 0) {
+            //postStart+leftLenght-1:后根左子树的结束下标
+            p.left = createBinarySearchTreeByPostIn(postList, inList, postStart, postStart + leftLenght - 1, inStart, root - 1);
+        }
+
+        //递归构建右子树
+        if (rightLenght > 0) {
+            p.right = createBinarySearchTreeByPostIn(postList, inList, postStart + leftLenght, postEnd - 1, root + 1, inEnd);
+        }
+
+        return p;
+    }
+
+
+
+/**=================================非递归实现先序/中序/后序遍历=============================================**/
+    /**
+     * 非递归的先序遍历
+     * 使用辅助容器栈,进栈的时候遍历左子树,返回的时候遍历右子树
+     */
+    public List<T> preOrderTraverse() {
+        List<T> result = new ArrayList<>();
+        //构建用于存放结点的栈
+        LinkedStack<BinaryNode<T>> stack = new LinkedStack<>();
+        BinaryNode<T> node = this.root;
+        //判断stack.isEmpty是判断栈顶没有数据,或者说栈顶数据为null
+        while (node != null || !stack.isEmpty()) {
+            if (node != null) {
+                //访问该结点
+                result.add(node.data);
+                //将已访问过的结点入栈
+                stack.push(node);
+                //继续访问其左孩子
+                node = node.left;
+                //若node=null并且栈不为空,则说明已沿左子树访问完一条路径,需要从栈中弹出栈顶结点,并访问其右节点
+            } else {
+                node = stack.pop();
+                //获取当前出栈节点的右子节点,继续循环
+                node = node.right;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 非递归的中序遍历
+     */
+    public List<T> inOrderTraverse() {
+        List<T> result = new ArrayList<>();
+        //构建用于存放结点的栈
+        LinkedStack<BinaryNode<T>> stack = new LinkedStack<>();
+        BinaryNode<T> node = this.root;
+        while (node != null || !stack.isEmpty()){
+            //左子树全部入栈
+            while(node != null){
+                stack.push(node);
+                node = node.left;
+            }
+            if (!stack.isEmpty()){
+                node = stack.pop();//弹出当前节点
+                result.add(node.data);
+                node = node.right;//访问当前节点的右节点
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 非递归后根遍历
+     */
+    public List<T> postOrderTraverse() {
+        List<T> result = new ArrayList<>();
+        //构建用于存放结点的栈
+        LinkedStack<BinaryNode<T>> stack = new LinkedStack<>();
+        //当前节点
+        BinaryNode<T> currentNode = this.root;
+        BinaryNode<T> prev = this.root;
+        while (currentNode != null || !stack.isEmpty()){
+            //把左子树加入栈中,直到叶子结点为止
+            while (currentNode != null){
+                stack.push(currentNode);
+                currentNode = currentNode.left;
+            }
+            if (!stack.isEmpty()){
+                //获取右节点
+                BinaryNode<T> temp = stack.peek().right;//当前节点的右子节点
+                //没有右子节点  因为是同一节点,可直接比较地址值
+                if (temp != null){
+                    System.out.println("11");
+                }
+                if (temp == null || temp == prev){//没有右子节点||右子节点已被访问过
+                    currentNode = stack.pop();
+                    result.add(currentNode.data);
+                    //记录已访问过的结点
+                    prev = currentNode;//
+                    //置空当前结点
+                    currentNode = null;//为了让栈中的数据继续出栈
+                }else {//有右子节点
+                    //将右子节点赋值给当前节点,然后继续去循环查找
+                    currentNode = temp;
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 非递归后根遍历
+     */
+    public String postOrderTraverse1() {
+        StringBuffer sb = new StringBuffer();
+        //构建用于存放结点的栈
+        LinkedStack<BinaryNode<T>> stack = new LinkedStack<>();
+        BinaryNode<T> currentNode = this.root;
+        BinaryNode<T> prev = this.root;
+        while (currentNode != null || !stack.isEmpty()) {
+            //把左子树加入栈中,直到叶子结点为止
+            while (currentNode != null) {
+                stack.push(currentNode);
+                currentNode = currentNode.left;
+            }
+            //开始访问当前结点的父结点右孩子
+            if (!stack.isEmpty()) {
+                //获取右孩子
+                BinaryNode<T> temp = stack.peek().right;
+                //先判断是否有右孩子或者右孩子是否已被访问过
+                if (temp == null || temp == prev) {//没有右孩子||右孩子已被访问过
+                    //如果没有右孩子或者右孩子已被访问,则弹出父结点并访问
+                    currentNode = stack.pop();
+                    //访问
+                    sb.append(currentNode.data).append(",");
+                    //记录已访问过的结点
+                    prev = currentNode;
+                    //置空当前结点
+                    currentNode = null;
+                } else {
+                    //有右孩子,则开始遍历右子树
+                    currentNode = temp;
+                }
+            }
+        }
+        //去掉最后一个逗号
+        if (sb.length() > 0) {
+            return sb.toString().substring(0, sb.length() - 1);
+        } else {
+            return sb.toString();
+        }
+    }
+
+//========================================================================
+
     /**
      * 非递归删除
      */
@@ -645,22 +688,6 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
         }
         return successor;
     }
-
-
-    @Override
-    public void clear() {
-        root = null;
-    }
-
-
-    private void printTree(BinaryNode t) {
-        if (t != null) {
-            printTree(t.left);
-            System.out.println(t.data);
-            printTree(t.right);
-        }
-    }
-
 
     /**
      * 将树转换成字符串并打印在控制台上，用L表示左子数，R表示右子数
