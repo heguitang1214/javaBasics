@@ -1,6 +1,5 @@
 package dataStructure.Tree.test;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
 import dataStructure.Tree.BinaryTree.BinarySearchTree;
 
 /**
@@ -35,7 +34,6 @@ public class Test {
         System.out.println("非递归先序遍历" + node.preOrderTraverse());
         System.out.println("非递归中序遍历" + node.inOrderTraverse());
         System.out.println("非递归后序遍历" + node.postOrderTraverse());
-        System.out.println("非递归后序遍历" + node.postOrderTraverse1());
 
         System.out.println("深度:" + node.height());
         System.out.println("大小:" + node.size());
@@ -44,6 +42,8 @@ public class Test {
 
         System.out.println("是否包含节点:" + node.contains(75));
         System.out.println("查找数据:" + node.findNode(100).data);
+
+
 
 
     }

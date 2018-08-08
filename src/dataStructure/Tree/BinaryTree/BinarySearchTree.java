@@ -505,6 +505,7 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
 
     /**
      * 非递归后根遍历
+     *  链表记录访问路径,利用树来判断是否进行入栈和出栈的操作
      */
     public List<T> postOrderTraverse() {
         List<T> result = new ArrayList<>();
@@ -520,19 +521,17 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
                 currentNode = currentNode.left;
             }
             if (!stack.isEmpty()){
-                //获取右节点
-                BinaryNode<T> temp = stack.peek().right;//当前节点的右子节点
+                // 获取当前节点的右节点:获取的是栈顶的右子节点的指向,如果为空,就表示可以进行出栈操作
+                //如果被访问过也可以进行出栈操作
+                BinaryNode<T> temp = stack.peek().right;
                 //没有右子节点  因为是同一节点,可直接比较地址值
-                if (temp != null){
-                    System.out.println("11");
-                }
                 if (temp == null || temp == prev){//没有右子节点||右子节点已被访问过
-                    currentNode = stack.pop();
+                    currentNode = stack.pop();//记录出栈的元素
                     result.add(currentNode.data);
-                    //记录已访问过的结点
-                    prev = currentNode;//
-                    //置空当前结点
-                    currentNode = null;//为了让栈中的数据继续出栈
+                    //记录已访问过的结点,判断是否访问过,因为置空只是对链表的操作,并不是对树节点的操作,树的原子结构就是数据+左右节点
+                    prev = currentNode;
+                    //置空当前栈顶的结点,让栈中的数据继续出栈
+                    currentNode = null;
                 }else {//有右子节点
                     //将右子节点赋值给当前节点,然后继续去循环查找
                     currentNode = temp;
@@ -540,49 +539,6 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
             }
         }
         return result;
-    }
-
-    /**
-     * 非递归后根遍历
-     */
-    public String postOrderTraverse1() {
-        StringBuffer sb = new StringBuffer();
-        //构建用于存放结点的栈
-        LinkedStack<BinaryNode<T>> stack = new LinkedStack<>();
-        BinaryNode<T> currentNode = this.root;
-        BinaryNode<T> prev = this.root;
-        while (currentNode != null || !stack.isEmpty()) {
-            //把左子树加入栈中,直到叶子结点为止
-            while (currentNode != null) {
-                stack.push(currentNode);
-                currentNode = currentNode.left;
-            }
-            //开始访问当前结点的父结点右孩子
-            if (!stack.isEmpty()) {
-                //获取右孩子
-                BinaryNode<T> temp = stack.peek().right;
-                //先判断是否有右孩子或者右孩子是否已被访问过
-                if (temp == null || temp == prev) {//没有右孩子||右孩子已被访问过
-                    //如果没有右孩子或者右孩子已被访问,则弹出父结点并访问
-                    currentNode = stack.pop();
-                    //访问
-                    sb.append(currentNode.data).append(",");
-                    //记录已访问过的结点
-                    prev = currentNode;
-                    //置空当前结点
-                    currentNode = null;
-                } else {
-                    //有右孩子,则开始遍历右子树
-                    currentNode = temp;
-                }
-            }
-        }
-        //去掉最后一个逗号
-        if (sb.length() > 0) {
-            return sb.toString().substring(0, sb.length() - 1);
-        } else {
-            return sb.toString();
-        }
     }
 
 //========================================================================
