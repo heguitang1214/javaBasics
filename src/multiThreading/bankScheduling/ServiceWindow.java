@@ -13,7 +13,7 @@ public class ServiceWindow {
     private static Logger logger = Logger.getLogger("multiThreading.bankScheduling");
 
     private CustomerType type = CustomerType.COMMON;
-    private int number = 1;
+    private int number = 1; //服务窗口的数量
 
     public CustomerType getType() {
         return type;
@@ -63,6 +63,7 @@ public class ServiceWindow {
         Integer serviceNumber = NumberMachine.getInstance().getCommonManager().fetchNumber();
         if (serviceNumber != null) {
             System.out.println(windowName + "开始为第" + serviceNumber + "号普通客户服务");
+            //生成随机服务时间
             int maxRandom = Constants.MAX_SERVICE_TIME - Constants.MIN_SERVICE_TIME;
             int serviceTime = new Random().nextInt(maxRandom) + 1 + Constants.MIN_SERVICE_TIME;
             try {
@@ -72,9 +73,9 @@ public class ServiceWindow {
             }
             System.out.println(windowName + "完成为第" + serviceNumber + "号普通客户服务，总共耗时" + serviceTime / 1000 + "秒");
         } else {
-            System.out.println(windowName + "没有取到普通任务，正在空闲一秒");
+            System.out.println(windowName + "没有取到普通任务，正在空闲2秒");
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000 * 2);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
