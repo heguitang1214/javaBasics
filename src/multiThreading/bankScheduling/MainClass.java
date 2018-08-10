@@ -47,7 +47,7 @@ public class MainClass {
          *      TimeUnit unit:
          */
 
-        //普通客户拿号
+        //普通客户拿号:生成普通客户
         Executors.newScheduledThreadPool(1).scheduleAtFixedRate(
                 new Runnable() {
                     public void run() {
@@ -65,30 +65,30 @@ public class MainClass {
                 TimeUnit.SECONDS);
 
 
-        //快速客户拿号
-        Executors.newScheduledThreadPool(1).scheduleAtFixedRate(
-                new Runnable() {
-                    public void run() {
-                        Integer serviceNumber = NumberMachine.getInstance().getExpressManager().generateNewNumber();
-                        System.out.println("第" + serviceNumber + "号快速客户正在等待服务！");
-                    }
-                },
-                0,
-                Constants.COMMON_CUSTOMER_INTERVAL_TIME * 2,
-                TimeUnit.SECONDS);
+//        //快速客户拿号
+//        Executors.newScheduledThreadPool(1).scheduleAtFixedRate(
+//                new Runnable() {
+//                    public void run() {
+//                        Integer serviceNumber = NumberMachine.getInstance().getExpressManager().generateNewNumber();
+//                        System.out.println("第" + serviceNumber + "号快速客户正在等待服务！");
+//                    }
+//                },
+//                0,
+//                Constants.COMMON_CUSTOMER_INTERVAL_TIME * 2,
+//                TimeUnit.SECONDS);
 
 
         //VIP客户拿号
-        Executors.newScheduledThreadPool(1).scheduleAtFixedRate(
-                new Runnable() {
-                    public void run() {
-                        Integer serviceNumber = NumberMachine.getInstance().getVipManager().generateNewNumber();
-                        System.out.println("第" + serviceNumber + "号VIP客户正在等待服务！");
-                    }
-                },
-                0,
-                Constants.COMMON_CUSTOMER_INTERVAL_TIME * 6,
-                TimeUnit.SECONDS);
+//        Executors.newScheduledThreadPool(1).scheduleAtFixedRate(
+//                new Runnable() {
+//                    public void run() {
+//                        Integer serviceNumber = NumberMachine.getInstance().getVipManager().generateNewNumber();
+//                        System.out.println("第" + serviceNumber + "号VIP客户正在等待服务！");
+//                    }
+//                },
+//                0,
+//                Constants.COMMON_CUSTOMER_INTERVAL_TIME * 6,
+//                TimeUnit.SECONDS);
 
 
 
