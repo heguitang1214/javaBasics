@@ -16,10 +16,10 @@ public class Resource {
     private boolean flag = false;
 
     //创建锁对象
-    Lock lock = new ReentrantLock();
+    private Lock lock = new ReentrantLock();
     //通过已有的锁获取两组监视器,一组件事生产者,一组监视消费者
-    Condition producer_con = lock.newCondition();
-    Condition consumer_con = lock.newCondition();
+    private Condition producer_con = lock.newCondition();
+    private Condition consumer_con = lock.newCondition();
 
 
     public void set(String name){
