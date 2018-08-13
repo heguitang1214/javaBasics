@@ -17,10 +17,10 @@ public class MyThreadLocal {
 
     public static void main(String[] args) {
 
-        /**
-         * 产生5个线程,然后为每个线程赋值
-         * MyThreadScopeData.getInstace().setAge(data);
-         * 然后再去获取线程中的数据
+        /*
+          产生5个线程,然后为每个线程赋值
+          MyThreadScopeData.getInstace().setAge(data);
+          然后再去获取线程中的数据
          */
         for (int i = 0; i< 5; i++) {
             Thread thread = new Thread(new Runnable() {
