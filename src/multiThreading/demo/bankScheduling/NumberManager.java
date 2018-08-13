@@ -1,4 +1,4 @@
-package multiThreading.bankScheduling;
+package multiThreading.demo.bankScheduling;
 
 import java.util.ArrayList;
 import java.util.List;

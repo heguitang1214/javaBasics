@@ -1,4 +1,4 @@
-package multiThreading.bankScheduling;
+package multiThreading.demo.bankScheduling;
 
 public enum CustomerType {
     COMMON, EXPRESS, VIP;

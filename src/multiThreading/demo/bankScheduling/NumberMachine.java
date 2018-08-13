@@ -1,4 +1,4 @@
-package multiThreading.bankScheduling;
+package multiThreading.demo.bankScheduling;
 
 /**
  * 号码机

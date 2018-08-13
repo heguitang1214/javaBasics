@@ -1,4 +1,4 @@
-package multiThreading.bankScheduling;
+package multiThreading.demo.bankScheduling;
 
 import java.util.Random;
 import java.util.concurrent.Executors;

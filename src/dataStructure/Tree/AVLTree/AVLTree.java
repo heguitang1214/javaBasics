@@ -46,9 +46,7 @@ public class AVLTree<T extends Comparable> implements Tree<T> {
     private int height(AVLNode<T> p) {
         return p == null ? -1 : p.height;
     }
-
-
-
+    
 
     @Override
     public List<T> preOrder() {
@@ -362,19 +360,22 @@ public class AVLTree<T extends Comparable> implements Tree<T> {
     }
 
     /**
-     * 左左单旋转(LL旋转) w变为x的根结点, x变为w的右子树
+     * 左左单旋转(LL旋转)
+     *      记:失衡点为x, 失衡点的左子节点为y
+     * @param x 传入的失衡点
+     * @return 新的根节点
      */
     private AVLNode<T> singleRotateLeft(AVLNode<T> x) {
-        //把w结点旋转为根结点
-        AVLNode<T> w = x.left;
-        //同时w的右子树变为x的左子树
-        x.left = w.right;
-        //x变为w的右子树
-        w.right = x;
+        //失衡点(x)向右旋转
+        AVLNode<T> y = x.left;
+        //同时y的右子树变为失衡点(x)的左子树
+        x.left = y.right;
+        //失衡点(x)变成y的右子树
+        y.right = x;
         //重新计算x/w的高度
         x.height = Math.max(height(x.left), height(x.right)) + 1;
-        w.height = Math.max(height(w.left), x.height) + 1;
-        return w;//返回新的根结点
+        y.height = Math.max(height(y.left), x.height) + 1;
+        return y;//返回新的根结点
     }
 
     /**
