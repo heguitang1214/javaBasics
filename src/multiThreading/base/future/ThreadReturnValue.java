@@ -10,7 +10,7 @@ public class ThreadReturnValue {
 
     public static void main(String[] args) {
 
-        /**
+        /*
          * 1.获取Callable接口的返回值
          */
         ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -30,7 +30,7 @@ public class ThreadReturnValue {
             e.printStackTrace();
         }
 
-        /**
+        /*
          * 2.获取Runnable接口的返回值
          */
         ExecutorService executorService1 = Executors.newSingleThreadExecutor();
@@ -50,7 +50,7 @@ public class ThreadReturnValue {
         }
 
 
-        /**
+        /*
          * 3.获取Runnable接口的返回值
          *      -指定返回值
          */
@@ -71,7 +71,7 @@ public class ThreadReturnValue {
         }
 
 
-        /**
+        /*
          * 4.通过CompletionService获取线程的返回值
          */
         ExecutorService threadPool = Executors.newFixedThreadPool(10);
