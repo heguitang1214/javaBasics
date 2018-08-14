@@ -6,7 +6,7 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * @author he_guitang
  * @version [1.0 , 2018/8/13]
- *  线程任务锁
+ *  线程任务锁:执行的任务需要是线程安全的,不需要线程之间的通讯
  */
 public class ThreadLocak {
 
@@ -48,6 +48,7 @@ public class ThreadLocak {
     }
 }
 
+//输出方法,线程安全
 class Outputer{
 
     private Lock lock = new ReentrantLock();
