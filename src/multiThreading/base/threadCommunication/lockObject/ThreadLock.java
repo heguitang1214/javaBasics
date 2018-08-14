@@ -1,4 +1,4 @@
-package multiThreading.base.threadCommunication.locakObject;
+package multiThreading.base.threadCommunication.lockObject;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -8,10 +8,10 @@ import java.util.concurrent.locks.ReentrantLock;
  * @version [1.0 , 2018/8/13]
  *  线程任务锁:执行的任务需要是线程安全的,不需要线程之间的通讯
  */
-public class ThreadLocak {
+public class ThreadLock {
 
     public static void main(String[] args) {
-        new ThreadLocak().init();
+        new ThreadLock().init();
     }
 
     private void init(){

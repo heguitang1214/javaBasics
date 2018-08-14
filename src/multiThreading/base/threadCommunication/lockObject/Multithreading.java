@@ -1,4 +1,4 @@
-package multiThreading.base.threadCommunication.locakObject;
+package multiThreading.base.threadCommunication.lockObject;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
