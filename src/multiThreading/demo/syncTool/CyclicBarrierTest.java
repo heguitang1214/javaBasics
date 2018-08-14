@@ -4,8 +4,9 @@ import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- *
+/** 栅栏
+ *  CyclicBarrier强调的是n个线程，大家相互等待，
+ *  只要有一个没完成，所有人都得等着
  */
 public class CyclicBarrierTest {
 
