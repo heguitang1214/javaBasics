@@ -30,10 +30,14 @@ class Resource {
 	//通过已有的锁获取两组监视器,一组监视生产,一组监视消费者
 	private Condition producer_con = lock.newCondition();
 	private Condition consumer_con = lock.newCondition();
-	
+
+	/*
+		资源写入方法:首先将该方法上锁,这样就实现了线程写入时的安全.
+		然后,再使用producer_con监视生产者线程
+	 */
 	public void set(String name) {
-	//获取锁,获取锁后,可能会有异常出现,
-	//而锁必须要释放,所以需要try{ }finally{ }
+		//获取锁,获取锁后,可能会有异常出现,
+		//而锁必须要释放,所以需要try{ }finally{ }
 		lock.lock();
 		try {
 			while (flag) {
