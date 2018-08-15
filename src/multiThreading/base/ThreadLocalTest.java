@@ -8,7 +8,7 @@ import java.util.Random;
  * @version [1.0 , 2018/8/13]
  * 本地线程:本地线程和对象绑定
  */
-public class MyThreadLocal {
+public class ThreadLocalTest {
 
     //本地线程Integer数据类型
     static ThreadLocal<Integer> x = new ThreadLocal<>();

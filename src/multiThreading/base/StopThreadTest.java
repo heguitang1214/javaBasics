@@ -6,7 +6,7 @@ package multiThreading.base;
  *  停止线程
  *      主线程结束,其他线程也要结束
  */
-public class MyStopThread {
+public class StopThreadTest {
     public static void main(String[] args) {
         StopThread stopThread = new StopThread();
         Thread t1 = new Thread(stopThread);

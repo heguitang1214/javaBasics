@@ -5,7 +5,7 @@ package multiThreading.base;
  * @version [1.0 , 2018/8/13]
  *          等待某线程的终止
  */
-public class MyThreadJoin {
+public class ThreadJoinTest {
     public static void main(String[] args) throws Exception {
         ThreadJoin t = new ThreadJoin();
         Thread t1 = new Thread(t);
