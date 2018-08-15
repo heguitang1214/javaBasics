@@ -37,15 +37,16 @@ public class Proxy {//本身不需要实现接口
         }
 
         String src =
-                "package proxy.classpath;" + rt +
-                        "import proxy.InvocationHandler;" + rt +
+                "package designPatterns.proxy.javaProxy.classpath;" + rt +
+                        "import designPatterns.proxy.javaProxy.core.InvocationHandler;" + rt +
                         "import java.lang.reflect.Method;" + rt +
                         "public class $Proxy1 implements " + infce.getName() + "{" + rt +
                         "    public $Proxy1(InvocationHandler h) {" + rt +
                         "        this.h = h;" + rt +
                         "    }" + rt +
 
-                        "    proxy.InvocationHandler h;" + rt +
+//                        "    proxy.InvocationHandler h;" + rt +//指定特定的类proxy包下的InvocationHandler
+                        "    InvocationHandler h;" + rt +
                         methodStr +
                         "}";
         String fileName = System.getProperty("user.dir")
@@ -67,7 +68,7 @@ public class Proxy {//本身不需要实现接口
         //load into memory and create an instance
         URL[] urls = new URL[]{new URL("file:/" + System.getProperty("user.dir") + "/src")};
         URLClassLoader ul = new URLClassLoader(urls);
-        Class c = ul.loadClass("proxy.classpath.$Proxy1");
+        Class c = ul.loadClass("designPatterns.proxy.javaProxy.classpath.$Proxy1");
         System.out.println("代理类对象[" + c + "]");
 
         Constructor ctr = c.getConstructor(InvocationHandler.class);

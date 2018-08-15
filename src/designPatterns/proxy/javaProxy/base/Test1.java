@@ -1,12 +1,12 @@
-package designPatterns.proxy.javaProxy;
+package designPatterns.proxy.javaProxy.base;
 
 
 /**
  * @author he_guitang
  * @version [1.0 , 2018/5/24]
+ *  单个对象的事物增强操作
  */
-
-public class Test {
+public class Test1 {
     public static void main(String[] args) {
         // 目标对象
         IUserDao target = new UserDao();
@@ -19,14 +19,15 @@ public class Test {
         // proxy为内存中动态生成的代理对象
         System.out.println(proxy.getClass());
         // 代理对象执行对应的方法,完成增强
-//        proxy.save();
+        proxy.save();
 //        proxy.update();
+
     }
 //打印结果
-//    class proxy.proxy2.UserDao
+//     class designPatterns.proxy.javaProxy.UserDao
 //    class com.sun.proxy.$Proxy0
 //    开始事务......
-//    修改数据操作----
+//    保存数据操作----
 //    提交事务......
 }
 

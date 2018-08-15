@@ -1,4 +1,4 @@
-package designPatterns.proxy.javaProxy;
+package designPatterns.proxy.javaProxy.base;
 
 /**
  * @author he_guitang
