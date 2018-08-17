@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 /**
  * @author he_guitang
  * @version [1.0 , 2018/7/9]
+ * 直接内存
  */
 public class ByteBufferCompare {
 
