@@ -19,7 +19,9 @@ public class FilterChain implements Filter {
 
     @Override
     public void doFilter(Request request, Response response, FilterChain filterChain) {
+        //遍历到最后一个过滤器,然后返回
         if (index == filters.size()) return;
+        //依次获取集合中的过滤器,调用过滤器的方法进行过滤
         Filter f = filters.get(index);
         index ++;
         f.doFilter(request, response, filterChain);

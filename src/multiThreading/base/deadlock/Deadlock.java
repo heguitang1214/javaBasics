@@ -8,7 +8,7 @@ public class Deadlock implements Runnable{
 
     private boolean flag;
 
-    public Deadlock(boolean flag){
+    Deadlock(boolean flag){
         this.flag = flag;
     }
 

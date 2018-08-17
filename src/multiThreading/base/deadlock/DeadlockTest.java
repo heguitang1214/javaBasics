@@ -8,9 +8,9 @@ package multiThreading.base.deadlock;
 public class DeadlockTest {
 
     public static void main(String[] args) {
-        /**
-         * 线程任务的之执行需要具备两把锁,
-         * 当一个线程一把锁的时候,就会出现死锁问题
+        /*
+          线程任务的之执行需要具备两把锁,
+          当一个线程一把锁的时候,就会出现死锁问题
          */
         Deadlock deadlock = new Deadlock(true);
         Deadlock deadlock1 = new Deadlock(false);
