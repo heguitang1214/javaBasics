@@ -1,6 +1,7 @@
 package baseDemo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +30,13 @@ public class DataCombination {
         list.add(info25);
         list.add(info1);
 
+        Collections.sort(list);
+        while(list.size() > 0){
+            List<Distribution> res = new ArrayList<>();
+            distributionMethod(list.get(0), list, res);
+            List<Integer> list1 = res.stream().map(Distribution::getNumber).collect(Collectors.toList());
+            System.out.println(list1);
+        }
 
 
     }
