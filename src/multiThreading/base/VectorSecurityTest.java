@@ -39,7 +39,7 @@ public class VectorSecurityTest {
             printThread.start();
 
             //不要同时产生过多的线程,否则会导致系统假死
-            while (Thread.activeCount() > 50);
+            while (Thread.activeCount() > 500);
 
         }
 
