@@ -93,7 +93,7 @@ public class DataCombination {
         private String purchaseNo;//其他的数据
         private Integer number;
 
-        public Distribution(Integer number) {
+        Distribution(Integer number) {
             this.number = number;
         }
 
