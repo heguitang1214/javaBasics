@@ -85,6 +85,27 @@ public class DataCombination {
         distributionMethod1(infos.get(0), sum, expectedNumber, resource, result);
     }
 
+    /**
+     * 返回最佳组合
+     */
+    private static void distributionMethod2(Distribution max, Integer expectedNumber,
+                                            List<Distribution> resource, List<Distribution> result){
+        result.add(max);
+
+        //返回集合中还差多少数据
+        Integer difference = expectedNumber - max.getNumber();
+
+        resource.remove(max);
+        if (max.getNumber() >= expectedNumber) return;
+
+        if (difference == 0) return;
+        if (resource.size() == 0) return;
+
+        List<Distribution> infos = resource.stream().filter(e -> e.getNumber() <= difference).collect(Collectors.toList());
+        if (infos == null || infos.size() == 0) return;
+        distributionMethod2(infos.get(0), expectedNumber, resource, result);
+    }
+
 
     /**
      * 分配数据实体
