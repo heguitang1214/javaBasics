@@ -12,6 +12,7 @@ import java.util.concurrent.Executors;
  *  当每一个线程完成自己任务后，计数器的值就会减一。
  *  当计数器的值为0时，表示所有的线程都已经完成了任务，
  *  然后在CountDownLatch上等待的线程就可以恢复执行任务。
+ *   测试同一时间的并发(发令枪)
  */
 public class CountdownLatchTest {
 
