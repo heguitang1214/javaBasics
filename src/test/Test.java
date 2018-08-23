@@ -5,6 +5,7 @@ import baseDemo.RMBUppercase;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -42,6 +43,17 @@ public class Test {
             List<Integer> list1 = res.stream().map(Info::getNumber).collect(Collectors.toList());
             System.out.println(list1);
         }
+
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+        System.out.println(localDateTime);
+        //将localDateTime转换成时间戳
+         System.out.println("localDateTime:"+java.sql.Timestamp.valueOf(localDateTime).getTime());
+
+        System.out.println(localDateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli());
+
+        //使用System获取时间戳
+        System.out.println("system:"+System.currentTimeMillis());
 
 
     }

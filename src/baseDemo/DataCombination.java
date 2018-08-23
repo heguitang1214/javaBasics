@@ -21,24 +21,27 @@ public class DataCombination {
         Distribution info1 = new Distribution(1);
         Distribution info25 = new Distribution(25);
         List<Distribution> list = new ArrayList<>();
-        list.add(info40);
-        list.add(info8);
-        list.add(info9);
-        list.add(info8);
-        list.add(info58);
-        list.add(info1);
-        list.add(info25);
-        list.add(info1);
+        for (int i = 0; i < 1000; i++) {
+            list.add(info40);
+            list.add(info8);
+            list.add(info9);
+            list.add(info8);
+            list.add(info58);
+            list.add(info1);
+            list.add(info25);
+            list.add(info1);
+        }
 
         Collections.sort(list);
+        long start = System.currentTimeMillis();
         while(list.size() > 0){
             List<Distribution> res = new ArrayList<>();
+//            distributionMethod1(list.get(0), 0, 50, list, res);
             distributionMethod(list.get(0), list, res);
             List<Integer> list1 = res.stream().map(Distribution::getNumber).collect(Collectors.toList());
             System.out.println(list1);
         }
-
-
+        System.out.println("耗时:" + (System.currentTimeMillis() - start));
     }
 
     /**
@@ -59,6 +62,27 @@ public class DataCombination {
         List<Distribution> infos = resource.stream().filter(e -> e.getNumber() <= difference).collect(Collectors.toList());
         if (infos == null || infos.size() == 0) return;
         distributionMethod(infos.get(0), resource, result);
+    }
+
+
+    /**
+     * 返回最佳组合
+     */
+    private static void distributionMethod1(Distribution max, Integer sum, Integer expectedNumber,
+                                            List<Distribution> resource, List<Distribution> result){
+        result.add(max);
+        sum += max.getNumber();
+        resource.remove(max);
+        if (max.getNumber() >= expectedNumber) return;
+        //返回集合中还差多少数据
+        Integer difference = expectedNumber - sum;
+
+        if (difference == 0) return;
+        if (resource.size() == 0) return;
+
+        List<Distribution> infos = resource.stream().filter(e -> e.getNumber() <= difference).collect(Collectors.toList());
+        if (infos == null || infos.size() == 0) return;
+        distributionMethod1(infos.get(0), sum, expectedNumber, resource, result);
     }
 
 
