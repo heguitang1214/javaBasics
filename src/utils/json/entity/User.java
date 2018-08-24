@@ -1,4 +1,4 @@
-package json.entity;
+package utils.json.entity;
 
 /**
  * @author he_guitang

@@ -1,4 +1,4 @@
-package redis;
+package utils.redis;
 
 /**
  * @author he_guitang

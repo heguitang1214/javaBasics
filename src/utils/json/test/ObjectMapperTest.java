@@ -1,4 +1,4 @@
-package json.test;
+package utils.json.test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

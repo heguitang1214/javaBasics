@@ -1,4 +1,4 @@
-package json.utils;
+package utils.json.utils;
 
 import java.nio.charset.Charset;
 import java.util.*;
@@ -201,7 +201,7 @@ public final class StringUtils {
 	public static String randomCode(int num){
 		String code = "";
 		for(int i = 0 ; i < num ; i++){
-			java.util.Random random=new java.util.Random();// 定义随机类
+			Random random=new Random();// 定义随机类
 			int result=random.nextInt(10);
 			code = code + result;
 		}
