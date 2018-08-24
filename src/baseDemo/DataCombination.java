@@ -21,7 +21,7 @@ public class DataCombination {
         Distribution info1 = new Distribution(1);
         Distribution info25 = new Distribution(25);
         List<Distribution> list = new ArrayList<>();
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 10000; i++) {
             list.add(info40);
             list.add(info8);
             list.add(info9);
@@ -37,7 +37,7 @@ public class DataCombination {
         while(list.size() > 0){
             List<Distribution> res = new ArrayList<>();
 
-            distributionMethod(list.get(0), list, res);
+//            distributionMethod(list.get(0), list, res);
 //            distributionMethod1(list.get(0), 0, 50, list, res);
             distributionMethod2(list.get(0), 50, list, res);
             List<Integer> list1 = res.stream().map(Distribution::getNumber).collect(Collectors.toList());
@@ -93,15 +93,12 @@ public class DataCombination {
     private static void distributionMethod2(Distribution max, Integer expectedNumber,
                                             List<Distribution> resource, List<Distribution> result){
         result.add(max);
+        resource.remove(max);
         if (max.getNumber() >= expectedNumber) return;
-
         //返回集合中还差多少数据
         Integer difference = expectedNumber - max.getNumber();
-        resource.remove(max);
-
         if (difference == 0) return;
         if (resource.size() == 0) return;
-
         List<Distribution> infos = resource.stream().filter(e -> e.getNumber() <= difference).collect(Collectors.toList());
         if (infos == null || infos.size() == 0) return;
         distributionMethod2(infos.get(0), difference, resource, result);
