@@ -12,9 +12,9 @@ public class Test1 {
         IUserDao target = new UserDao();
         //原始的类型
         System.out.println(target.getClass());
-        /**给目标对象，创建代理对象
-         *  -传递给具体的增强代理器操作(将原始对象进行增强)
-         * */
+        /*给目标对象，创建代理对象
+           -传递给具体的增强代理器操作(将原始对象进行增强)
+          */
         IUserDao proxy = (IUserDao) new TransactionProxy(target).getProxyInstance();
         // proxy为内存中动态生成的代理对象
         System.out.println(proxy.getClass());
