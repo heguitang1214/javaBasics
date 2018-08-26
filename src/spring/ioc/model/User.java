@@ -1,4 +1,4 @@
-package spring.model;
+package spring.ioc.model;
 
 public class User {
     private String username;

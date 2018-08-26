@@ -1,8 +1,8 @@
-package spring.dao.impl;
+package spring.ioc.dao.impl;
 
 
-import spring.dao.UserDAO;
-import spring.model.User;
+import spring.ioc.dao.UserDAO;
+import spring.ioc.model.User;
 
 public class UserDAOImpl implements UserDAO {
 

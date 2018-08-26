@@ -1,8 +1,8 @@
-package spring.springTest;
-import spring.model.User;
+package spring.ioc.springTest;
+import spring.ioc.model.User;
+import spring.ioc.service.UserService;
 import spring.mySpring.BeanFactory;
 import spring.mySpring.ClassPathXmlApplicationContext;
-import spring.service.UserService;
 
 
 public class UserServiceTest {

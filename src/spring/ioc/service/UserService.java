@@ -1,8 +1,8 @@
-package spring.service;
+package spring.ioc.service;
 
 
-import spring.dao.UserDAO;
-import spring.model.User;
+import spring.ioc.dao.UserDAO;
+import spring.ioc.model.User;
 
 public class UserService {
     private UserDAO userDAO;
