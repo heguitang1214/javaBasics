@@ -22,7 +22,7 @@ import java.util.List;
 public class JsonUtils {
 
 //    private static final Logger logger = LoggerFactory.getLogger(JsonUtils.class);
-//
+
 //    private static final String INCLUDE = "JSON_INCLUDE";
 //    private static final String EXCEPT = "JSON_EXCEPT";
 //
@@ -47,7 +47,7 @@ public class JsonUtils {
 //        }
 //        return null;
 //    }
-//
+
 //    public static <T> T jsonToObject(String jsonContent, Class<T> classT) {
 //        ObjectMapper objectMapper = new ObjectMapper();
 //        objectMapper.setSerializationInclusion(Include.NON_NULL);
