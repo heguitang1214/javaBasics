@@ -8,7 +8,7 @@ import java.io.InputStream;
 /**
  * @author he_guitang
  * @version [1.0 , 2018/7/24]
- *  类加载器
+ *          自定义的类加载器
  */
 public class MyClassLoader extends ClassLoader {
 
@@ -16,11 +16,11 @@ public class MyClassLoader extends ClassLoader {
     private String path = "d:\\";// 加载类的路径
     private final String fileType = ".class";// class文件的扩展名
 
-
     public MyClassLoader(String name) {
         super();// 让系统类加载器成为该类加载器的父加载器
         this.name = name;
     }
+
     public MyClassLoader(ClassLoader parent, String name) {
         super(parent);// 显示指定该类加载器的父加载器
         this.name = name;
@@ -29,9 +29,11 @@ public class MyClassLoader extends ClassLoader {
     public String toString() {
         return this.name;
     }
+
     public String getPath() {
         return path;
     }
+
     public void setPath(String path) {
         this.path = path;
     }
@@ -91,20 +93,20 @@ public class MyClassLoader extends ClassLoader {
      * java自己实现的是双亲委托机制
      * 重写loadClass,修改其中的逻辑,就会破坏java的双亲委派机制
      */
-    @Override
-    public Class<?> loadClass(String name) throws ClassNotFoundException {
-        Class<?> clazz = null;
-        ClassLoader system = getSystemClassLoader();
-        try {
-            clazz = system.loadClass(name);
-        } catch (Exception e) {
-            // ignore
-        }
-        if (clazz != null)
-            return clazz;
-        clazz = findClass(name);
-        return clazz;
-    }
+//    @Override
+//    public Class<?> loadClass(String name) throws ClassNotFoundException {
+//        Class<?> clazz = null;
+//        ClassLoader system = getSystemClassLoader();
+//        try {
+//            clazz = system.loadClass(name);
+//        } catch (Exception e) {
+//            // ignore
+//        }
+//        if (clazz != null)
+//            return clazz;
+//        clazz = findClass(name);
+//        return clazz;
+//    }
 
 
     /**
@@ -114,11 +116,13 @@ public class MyClassLoader extends ClassLoader {
     public static void main(String[] args) throws Exception {
         //默认的父加载器是系统加载器
         MyClassLoader loader1 = new MyClassLoader("loader1");
-        loader1.setPath("d:\\myapp\\serverlib\\");
-        MyClassLoader loader2 = new MyClassLoader(loader1,"loader2");
-        loader2.setPath("d:\\myapp\\clientlib\\");
-			/*
-			MyClassLoader loader3 = new MyClassLoader(null,"loader3");
+//        loader1.setPath("d:\\myapp\\serverlib\\");
+        loader1.setPath("D:\\myjava\\javaBasics\\out\\production\\javaBasics\\jvm\\");
+        MyClassLoader loader2 = new MyClassLoader(loader1, "loader2");
+//        loader2.setPath("d:\\myapp\\clientlib\\");
+        loader2.setPath("D:\\myjava\\javaBasics\\out\\production\\javaBasics\\jvm\\");
+            /*
+            MyClassLoader loader3 = new MyClassLoader(null,"loader3");
 			loader3.setPath("d:\\myapp\\otherlib\\");
 			test(loader2);
 			System.out.println("------------");
@@ -139,23 +143,20 @@ public class MyClassLoader extends ClassLoader {
         Class clazz = loader1.loadClass("Simple");
         System.out.println(clazz.hashCode());
         Object object = clazz.newInstance();
-        loader1 = null;
-        clazz = null;
-        object = null;
+//        loader1 = null;
+//        clazz = null;
+//        object = null;
         loader1 = new MyClassLoader("loader1");
         loader1.setPath("d:\\myapp\\serverlib\\");
         clazz = loader1.loadClass("Simple");
         System.out.println(clazz.hashCode());
     }
 
-    public static void test(ClassLoader loader) throws Exception{
+    public static void test(ClassLoader loader) throws Exception {
         Class clazz = loader.loadClass("Simple");
         Object object = clazz.newInstance();
 
     }
-
-    
-
 
 
 }
