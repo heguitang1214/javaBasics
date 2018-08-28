@@ -19,6 +19,7 @@ public class LogInterceptor {
 
 
     @Pointcut("execution(public * spring.aspectj.dao..*.*(..))")
+//    @Pointcut("execution(public * spring.aspectj.service..*.add(..))")//没有实现接口,需要使用CGLib
     public void myMethod() {
     }
 
