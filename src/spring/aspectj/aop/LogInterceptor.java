@@ -18,21 +18,20 @@ public class LogInterceptor {
     }*/
 
 
-//    @Pointcut("execution(public void spring.aspectj.service.add(spring.aspectj.model.User))")
     @Pointcut("execution(public * spring.aspectj.dao..*.*(..))")
     public void myMethod() {
     }
 
     @Before("myMethod()")
     public void before() {
-        System.out.println("method before");
+        System.out.println("method before......");
     }
 
     @Around("myMethod()")
     public void aroundMethod(ProceedingJoinPoint pjp) throws Throwable {
-        System.out.println("method around start");
+        System.out.println("method around start......");
         pjp.proceed();
-        System.out.println("method around end");
+        System.out.println("method around end......");
     }
 
 }
