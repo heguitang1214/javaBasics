@@ -15,8 +15,9 @@ public class Test1 {
         //  /D:/myjava/javaBasics/out/production/javaBasics/
         System.out.println(Class.class.getClass().getResource("/").getPath() );
 
-
-
+        String str = "1";
+        System.out.println(str.matches("^//d+(//.//d+)?$"));
+        System.out.println(str.matches("^(-)?[0-9]*$"));
 
 
     }

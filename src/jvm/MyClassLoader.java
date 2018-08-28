@@ -68,6 +68,8 @@ public class MyClassLoader extends ClassLoader {
         try {
             // 将.装换成\
             this.name = this.name.replace(".", "\\");
+            String pathLoader = path + name + fileType;
+            System.out.println(pathLoader);
             is = new FileInputStream(new File(path + name + fileType));
             baos = new ByteArrayOutputStream();
             int ch = 0;
@@ -79,8 +81,8 @@ public class MyClassLoader extends ClassLoader {
             e.printStackTrace();
         } finally {
             try {
-                is.close();
-                baos.close();
+                if (is != null) is.close();
+                if (baos != null) baos.close();
             } catch (Exception e2) {
                 e2.printStackTrace();
             }
@@ -118,6 +120,7 @@ public class MyClassLoader extends ClassLoader {
         MyClassLoader loader1 = new MyClassLoader("loader1");
 //        loader1.setPath("d:\\myapp\\serverlib\\");
         loader1.setPath("D:\\myjava\\javaBasics\\out\\production\\javaBasics\\jvm\\");
+        //D:/myjava/javaBasics/out/production/javaBasics/
         MyClassLoader loader2 = new MyClassLoader(loader1, "loader2");
 //        loader2.setPath("d:\\myapp\\clientlib\\");
         loader2.setPath("D:\\myjava\\javaBasics\\out\\production\\javaBasics\\jvm\\");
@@ -133,12 +136,18 @@ public class MyClassLoader extends ClassLoader {
 			Object object = clazz.newInstance();//创建一个Simple类的对象
 			Simple simple = (Simple)object;*/
 
-			/*反射实现
-			Class clazz = loader1.loadClass("Simple");
+//			反射实现
+			/*Class clazz = loader1.loadClass("Simple");
 			Object object = clazz.newInstance();//创建一个Simple类的对象
 			Field field = clazz.getField("vl");
 			int v1 = field.getInt(object);
 			System.out.println("v1: = "+v1);*/
+
+
+        System.getProperty("java.classpath");
+
+        String path = MyClassLoader.class.getResource("/").toString();
+        System.out.println(path);
 
         Class clazz = loader1.loadClass("Simple");
         System.out.println(clazz.hashCode());
