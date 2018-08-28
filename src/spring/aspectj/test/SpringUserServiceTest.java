@@ -9,7 +9,7 @@ import spring.aspectj.service.UserService;
 public class SpringUserServiceTest {
 
 	public static void main(String[] args) {
-		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml");
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring_beans.xml");
 
 		UserService service = (UserService)ctx.getBean("userService");
 		System.out.println(service.getClass());
