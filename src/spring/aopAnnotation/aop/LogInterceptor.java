@@ -1,4 +1,4 @@
-package spring.aspectj.aop;
+package spring.aopAnnotation.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -12,14 +12,16 @@ import org.springframework.stereotype.Component;
 public class LogInterceptor {
 
 //    前置增强
-   /* @Before("execution(public * spring.aspectj.dao.impl..*.save(..))")
+   /* @Before("execution(public * spring.aopAnnotation.dao.impl..*.save(..))")
     public void before() {
         System.out.println("method before..............");
     }*/
 
-
-    @Pointcut("execution(public * spring.aspectj.dao..*.*(..))")
-//    @Pointcut("execution(public * spring.aspectj.service..*.add(..))")//没有实现接口,需要使用CGLib
+    /**
+     * 指定一个标记  @Pointcut注解要放到方法,类或者属性上,选择了方法
+     */
+    @Pointcut("execution(public * spring.aopAnnotation.dao..*.*(..))")
+//    @Pointcut("execution(public * spring.aopAnnotation.service..*.add(..))")//没有实现接口,需要使用CGLib
     public void myMethod() {
     }
 

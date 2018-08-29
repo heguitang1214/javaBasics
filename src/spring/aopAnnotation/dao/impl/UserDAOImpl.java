@@ -1,8 +1,8 @@
-package spring.aspectj.dao.impl;
+package spring.aopAnnotation.dao.impl;
 
 import org.springframework.stereotype.Component;
-import spring.aspectj.dao.UserDAO;
-import spring.aspectj.model.User;
+import spring.aopAnnotation.dao.UserDAO;
+import spring.aopAnnotation.model.User;
 
 
 @Component("u") 

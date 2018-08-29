@@ -9,11 +9,12 @@
            http://www.springframework.org/schema/context/spring-context-2.5.xsd
            http://www.springframework.org/schema/aop
            http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<!--使用spring注解(@service) -->
 	<context:annotation-config />
-	<context:component-scan base-package="spring.aspectj"/>
+	<!--指定注解需要扫描的包-->
+	<context:component-scan base-package="spring.aopAnnotation"/>
+	<!--使用切面的注解方式-->
  	<aop:aspectj-autoproxy />
- 	
-	
- 
 
 </beans>

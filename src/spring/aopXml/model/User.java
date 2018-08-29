@@ -1,4 +1,4 @@
-package spring.aspectj.model;
+package spring.aopXml.model;
 
 public class User {
     private String username;

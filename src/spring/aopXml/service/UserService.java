@@ -1,10 +1,10 @@
-package spring.aspectj.service;
-
-import javax.annotation.Resource;
+package spring.aopXml.service;
 
 import org.springframework.stereotype.Component;
-import spring.aspectj.dao.UserDAO;
-import spring.aspectj.model.User;
+import spring.aopXml.dao.UserDAO;
+import spring.aopXml.model.User;
+
+import javax.annotation.Resource;
 
 
 @Component("userService")
