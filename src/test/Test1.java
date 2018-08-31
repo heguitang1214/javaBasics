@@ -37,7 +37,7 @@ public class Test1 {
 
 
         Map<String, String> map = new HashMap<>();
-
+        map.put("1", "1");
     }
 
 }

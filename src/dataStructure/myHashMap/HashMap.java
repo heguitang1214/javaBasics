@@ -2,6 +2,8 @@ package dataStructure.myHashMap;
 
 import dataStructure.LinkedList.singleLinked.Node;
 
+import java.util.Hashtable;
+
 /**
  * Created by 11256 on 2018/8/30.
  * HashMap
@@ -20,12 +22,18 @@ public class HashMap<K, V> implements Map<K, V> {
     //阀值
     private int threshold;
 
+//    public HashMap() {
+//
+//    }
+
     /**
      * 减少乘除法的计算,提升性能
      */
-    public HashMap(int threshold) {
+    public HashMap() {
         this.threshold = (int)(defaultCapacity * defaultLoadFactor);
     }
+
+
 
     @Override
     public V put(K key, V value) {
@@ -65,14 +73,18 @@ public class HashMap<K, V> implements Map<K, V> {
         for (int i = 0; i < hashTable.length; i++){
             //循环链表
             Node<K, V> node = hashTable[i];
-            for (; node != null; node = node.next) {
-                //Key在新数组上的下标位置
+            for (; node != null; ) {
+                //Key在新数组上的下标位置(重新hash计算),这个时候,链表上的元素也要重新分配
                 int index = getIndex(node.key, newHashTable.length);
-//                newHashTable[index] =
+                Node<K, V> oldNext = node.next;
+                node.next = newHashTable[index];//修改指向,将定位到index的节点像下链接
+                newHashTable[index] = node;
+                node = oldNext;
             }
-
         }
-
+        hashTable = newHashTable;
+        defaultCapacity = newHashTable.length;
+        threshold = (int)(defaultCapacity * defaultLoadFactor);
     }
 
     /**

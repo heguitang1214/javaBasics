@@ -10,14 +10,14 @@ public class Test {
     public static void main(String[] args) {
 
         Map<String, String> map = new HashMap<>();
-        map.put("1", "数据1");
-        map.put("2", "数据2");
-        map.put("1", "数据1修改");
+        for (int i = 1; i < 600; i++) {
+            map.put(i + "", "数据" + i);
+        }
+
 
         System.out.println(map.size());
 
-        System.out.println(map.get("1"));
-        System.out.println(map.get("2"));
+        System.out.println(map.get("582"));
 
     }
 
