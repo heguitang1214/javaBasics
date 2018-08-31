@@ -47,12 +47,13 @@ public class HashMap<K, V> implements Map<K, V> {
             }
         }
 
-        //扩容
+        //3.扩容
         if (size >= threshold) {
             resize();
         }
 
-        //3.创建Node元素,存放在table中的index上
+        //4.创建Node元素,存放在table中的index上
+        // 头部插入,也就是新的node节点指向hashTable[index]节点
         hashTable[index] = new Node<>(key, value, hashTable[index]);
         ++size;
 
@@ -61,19 +62,22 @@ public class HashMap<K, V> implements Map<K, V> {
 
     /**
      * 扩容,消耗时间和空间
+     *      将原数组中的数据拷贝到新的数组中,需要重新计算每个元素的hashCode值
      */
     private void resize() {
-        System.out.println("扩容操作....");
         Node<K, V> newHashTable[] = new Node[hashTable.length << 1];
         //循环数组
-        for (int i = 0; i < hashTable.length; i++) {
+        for (Node<K, V> aHashTable : hashTable) {
             //循环链表
-            Node<K, V> node = hashTable[i];
+            Node<K, V> node = aHashTable;
             for (; node != null; ) {
                 //Key在新数组上的下标位置(重新hash计算),这个时候,链表上的元素也要重新分配
                 int index = getIndex(node.key, newHashTable.length);
+                //保存该节点的下一个值,下次继续遍历
                 Node<K, V> oldNext = node.next;
-                node.next = newHashTable[index];//修改指向,将定位到index的节点像下链接
+                //拿到当前新数组index对应的数据,因为1.7是头部插入,
+                // 所以需要将node的next指向当前数组的index位置
+                node.next = newHashTable[index];
                 newHashTable[index] = node;
                 node = oldNext;
             }
@@ -81,6 +85,7 @@ public class HashMap<K, V> implements Map<K, V> {
         hashTable = newHashTable;
         defaultCapacity = newHashTable.length;
         threshold = (int) (defaultCapacity * defaultLoadFactor);
+        System.out.println("扩容完成[" + defaultCapacity + "]");
     }
 
     /**
@@ -112,7 +117,7 @@ public class HashMap<K, V> implements Map<K, V> {
 
 
     static class Node<K, V> implements Map.Entry<K, V> {
-        K key;
+        final K key;
         V value;
         Node<K, V> next;
 
