@@ -5,6 +5,7 @@ import net.sf.cglib.proxy.Enhancer;
 /**
  * @author he_guitang
  * @version [1.0 , 2018/8/30]
+ * Dao接口的工厂
  */
 class DaoFactory {
 
