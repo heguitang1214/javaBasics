@@ -27,14 +27,14 @@ public class HashMap<K, V> implements Map<K, V> {
      * 减少乘除法的计算,提升性能
      */
     public HashMap() {
-        this.threshold = (int)(defaultCapacity * defaultLoadFactor);
+        this.threshold = (int) (defaultCapacity * defaultLoadFactor);
     }
 
 
     @Override
     public V put(K key, V value) {
         if (hashTable == null) {
-            hashTable = new Node[this.defaultCapacity];
+            hashTable = new Node[defaultCapacity];
         }
         //1.通过Hash算法,得到index的值
         int index = getIndex(key, this.hashTable.length);
@@ -48,7 +48,7 @@ public class HashMap<K, V> implements Map<K, V> {
         }
 
         //扩容
-        if (size >= threshold){
+        if (size >= threshold) {
             resize();
         }
 
@@ -66,7 +66,7 @@ public class HashMap<K, V> implements Map<K, V> {
         System.out.println("扩容操作....");
         Node<K, V> newHashTable[] = new Node[hashTable.length << 1];
         //循环数组
-        for (int i = 0; i < hashTable.length; i++){
+        for (int i = 0; i < hashTable.length; i++) {
             //循环链表
             Node<K, V> node = hashTable[i];
             for (; node != null; ) {
@@ -80,7 +80,7 @@ public class HashMap<K, V> implements Map<K, V> {
         }
         hashTable = newHashTable;
         defaultCapacity = newHashTable.length;
-        threshold = (int)(defaultCapacity * defaultLoadFactor);
+        threshold = (int) (defaultCapacity * defaultLoadFactor);
     }
 
     /**
