@@ -9,12 +9,15 @@ package designPatterns.singleCase;
  */
 public class Lazy {
 
+    //1.构造器私有化
     private Lazy(){}
 
+    //2.内部创建对象
     private static Lazy single = null;
 
+
     /**
-     * 获取返回的单例对象
+     * 3.获取返回的单例对象
      *      -双重校验锁模式
      */
     public static Lazy getInstance(){

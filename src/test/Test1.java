@@ -1,7 +1,9 @@
 package test;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -32,6 +34,9 @@ public class Test1 {
         ids.removeAll(idss);
 
         System.out.println(ids);
+
+
+        Map<String, String> map = new HashMap<>();
 
     }
 
