@@ -1,12 +1,9 @@
 package dataStructure.myHashMap;
 
-import dataStructure.LinkedList.singleLinked.Node;
-
-import java.util.Hashtable;
 
 /**
  * Created by 11256 on 2018/8/30.
- * HashMap
+ * HashMap:位运算,提高效率
  */
 public class HashMap<K, V> implements Map<K, V> {
 
