@@ -73,7 +73,8 @@ public class HashMap<K, V> implements Map<K, V> {
                 //保存该节点的下一个值,下次继续遍历
                 Node<K, V> oldNext = node.next;
                 //拿到当前新数组index对应的数据,因为1.7是头部插入,
-                // 所以需要将node的next指向当前数组的index位置
+                // 所以需要将node的next指向当前数组的index位置.
+                // Java1.8引入的红黑树,当链表的长度大于8的时候,就将链表转换成红黑树
                 node.next = newHashTable[index];
                 newHashTable[index] = node;
                 node = oldNext;
