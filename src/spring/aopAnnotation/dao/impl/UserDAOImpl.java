@@ -5,7 +5,7 @@ import spring.aopAnnotation.dao.UserDAO;
 import spring.aopAnnotation.model.User;
 
 
-@Component("u") 
+@Component("u")
 public class UserDAOImpl implements UserDAO {
 
 	public void save(User user) {
@@ -13,7 +13,7 @@ public class UserDAOImpl implements UserDAO {
 		//JDBC
 		//XML
 		//NetWork
-		System.out.println("user saved!");
+		System.out.println("UserDAOImpl user saved!");
 		//throw new RuntimeException("exeption!");
 	}
 
