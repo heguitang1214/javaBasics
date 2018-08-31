@@ -10,6 +10,8 @@ public interface Map<K, V> {
 
     V get(K key);
 
+    int size();
+
     interface Entry<K, V> {
         V setValue(V value);
 
