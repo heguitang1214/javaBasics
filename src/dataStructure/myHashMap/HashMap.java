@@ -22,9 +22,6 @@ public class HashMap<K, V> implements Map<K, V> {
     //阀值
     private int threshold;
 
-//    public HashMap() {
-//
-//    }
 
     /**
      * 减少乘除法的计算,提升性能
@@ -32,7 +29,6 @@ public class HashMap<K, V> implements Map<K, V> {
     public HashMap() {
         this.threshold = (int)(defaultCapacity * defaultLoadFactor);
     }
-
 
 
     @Override
