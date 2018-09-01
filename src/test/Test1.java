@@ -36,7 +36,7 @@ public class Test1 {
         System.out.println(ids);
 
 
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>(10);
         map.put("1", "1");
     }
 
