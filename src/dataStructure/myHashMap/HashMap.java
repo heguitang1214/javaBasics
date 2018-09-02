@@ -11,12 +11,11 @@ public class HashMap<K, V> implements Map<K, V> {
     private Node<K, V> hashTable[] = null;
     //集合中元素的个数
     private int size;
-
     //设置集合数组的默认长度
     private static int defaultCapacity = 1 << 4;
     //设置默认的加载因子 ***
     private static float defaultLoadFactor = 0.75f;
-    //阀值
+    //阀值(数组的长度 * 加载因子)
     private int threshold;
 
 
