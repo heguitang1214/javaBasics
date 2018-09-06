@@ -12,7 +12,9 @@ public class ClassLoaderTest {
             System.out.println(c);
             c = c.getParent();
         }
+        //启动加载器
         System.out.println(System.getProperty("java.class.path"));
+        //扩展加载器
         System.out.println(System.getProperty("java.ext.dirs"));
     }
 

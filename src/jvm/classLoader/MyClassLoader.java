@@ -4,6 +4,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.net.URL;
 
 /**
  * @author he_guitang
@@ -29,9 +31,11 @@ public class MyClassLoader extends ClassLoader {
     public String toString() {
         return this.name;
     }
+
     public String getPath() {
         return path;
     }
+
     public void setPath(String path) {
         this.path = path;
     }
@@ -67,7 +71,7 @@ public class MyClassLoader extends ClassLoader {
             // 将.装换成\
             this.name = this.name.replace(".", "\\");
             String pathLoader = path + name + fileType;
-            System.out.println(pathLoader);
+            System.out.println("字节码文件的路径是:" + pathLoader);
             is = new FileInputStream(new File(path + name + fileType));
             baos = new ByteArrayOutputStream();
             int ch = 0;
@@ -89,10 +93,10 @@ public class MyClassLoader extends ClassLoader {
     }
 
 
-    /**
-     * java自己实现的是双亲委托机制
-     * 重写loadClass,修改其中的逻辑,就会破坏java的双亲委派机制
-     */
+//    /**
+//     * java自己实现的是双亲委托机制
+//     * 重写loadClass,修改其中的逻辑,就会破坏java的双亲委派机制
+//     */
 //    @Override
 //    public Class<?> loadClass(String name) throws ClassNotFoundException {
 //        Class<?> clazz = null;
@@ -114,54 +118,57 @@ public class MyClassLoader extends ClassLoader {
      * 会出现java.io.FileNotFoundException的异常,找不到Dog.class
      */
     public static void main(String[] args) throws Exception {
-        //默认的父加载器是系统加载器
-        MyClassLoader loader1 = new MyClassLoader("loader1");
-//        loader1.setPath("d:\\myapp\\serverlib\\");
-        loader1.setPath("D:\\workSoftware\\Java\\gitWorkspace\\javaBasics\\out\\production\\javaBasics\\jvm\\");
-        //D:/myjava/javaBasics/out/production/javaBasics/
-//        MyClassLoader loader2 = new MyClassLoader(loader1, "loader2");
-//        loader2.setPath("d:\\myapp\\clientlib\\");
-//        loader2.setPath("D:\\myjava\\javaBasics\\out\\production\\javaBasics\\jvm\\");
-            /*
-            MyClassLoader loader3 = new MyClassLoader(null,"loader3");
-			loader3.setPath("d:\\myapp\\otherlib\\");
-			test(loader2);
-			System.out.println("------------");
-			test(loader3);*/
-
-			/*强转(失败)
-			Class clazz = loader1.loadClass("Simple");
-			Object object = clazz.newInstance();//创建一个Simple类的对象
-			Simple simple = (Simple)object;*/
-
-//			反射实现
-			/*Class clazz = loader1.loadClass("Simple");
-			Object object = clazz.newInstance();//创建一个Simple类的对象
-			Field field = clazz.getField("vl");
-			int v1 = field.getInt(object);
-			System.out.println("v1: = "+v1);*/
-        System.getProperty("java.classpath");
-
-        String path = MyClassLoader.class.getResource("/").toString();
-        System.out.println(path);
-
-        Class clazz = loader1.loadClass("Simple");
-        System.out.println(clazz.hashCode());
-        Object object = clazz.newInstance();
-//        loader1 = null;
-//        clazz = null;
-//        object = null;
-        loader1 = new MyClassLoader("loader1");
-//        loader1.setPath("d:\\myapp\\serverlib\\");
-        clazz = loader1.loadClass("Simple");
-        System.out.println(clazz.hashCode());
+        onPackageName("d:\\test\\");
+        System.out.println("============================分界线==================================");
+        existPackageName();
     }
 
-//    public static void test(ClassLoader loader) throws Exception {
-//        Class clazz = loader.loadClass("Simple");
-//        Object object = clazz.newInstance();
-//
-//    }
+    /**
+     * 没有包名的情况
+     */
+    private static void onPackageName(String path) throws Exception {
+        //默认的父加载器是系统加载器
+        MyClassLoader loader1 = new MyClassLoader(null, "loader1");
+        loader1.setPath(path);
+        MyClassLoader loader2 = new MyClassLoader(loader1, "loader2");
+        loader2.setPath(path);
+
+        Class clazz1 = loader1.loadClass("Test1");
+        Class clazz2 = loader2.loadClass("Test2");
+        System.out.println("hashCode=" + clazz1.hashCode() + ",name=" + clazz1.getClassLoader());
+        System.out.println("hashCode=" + clazz2.hashCode() + ",name=" + clazz2.getClassLoader());
+        //重新加载,对象地址改变
+        loader1 = null;
+        clazz1 = null;
+        loader1 = new MyClassLoader("loader1");
+        loader1.setPath(path);
+        clazz1 = loader1.loadClass("Test1");
+        System.out.println("hashCode=" + clazz1.hashCode() + ",name=" + clazz1.getClassLoader());
+    }
+
+
+    /**
+     * 有包名的情况
+     */
+    private static void existPackageName() throws Exception {
+        URL url = MyClassLoader.class.getResource("/");
+        //默认的父加载器是系统加载器
+        MyClassLoader loader1 = new MyClassLoader("loader1");
+        loader1.setPath(url.getPath());//有包名
+
+        Class clazz1 = loader1.loadClass("jvm.classLoader.Simple");
+        System.out.println("hashCode=" + clazz1.hashCode() + ",name=" + clazz1.getClassLoader());
+
+        //反射Simple类中的属性
+        Object object = clazz1.newInstance();//创建一个Simple类的对象
+        Field field = clazz1.getField("number");
+        int number = field.getInt(object);
+        System.out.println("反射获取属性number的值= " + number);
+        //强转
+        Simple simple = (Simple)object;
+        System.out.println("强转获取属性number的值=" + simple.number);
+
+    }
 
 
 }
