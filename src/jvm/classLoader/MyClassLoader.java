@@ -155,6 +155,7 @@ public class MyClassLoader extends ClassLoader {
         MyClassLoader loader1 = new MyClassLoader("loader1");
         //这种情况下需要重写loadClass,是因为路径问题.这个时候使用的是自己的加载器,需要写明加载格则(双亲委派还是其他),
         // 有运行时包,自定义的类加载器,没有这个规范,所以你的路径会不对,即重写它的加载规则
+        //完整路径也会报错,是因为里面有包的定义
 //        MyClassLoader loader1 = new MyClassLoader(null,"loader1");
         loader1.setPath(url.getPath());
         Class clazz1 = loader1.loadClass("jvm.classLoader.Simple");
