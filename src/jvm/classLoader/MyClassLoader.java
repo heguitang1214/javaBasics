@@ -1,4 +1,4 @@
-package jvm;
+package jvm.classLoader;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -29,11 +29,9 @@ public class MyClassLoader extends ClassLoader {
     public String toString() {
         return this.name;
     }
-
     public String getPath() {
         return path;
     }
-
     public void setPath(String path) {
         this.path = path;
     }
@@ -119,11 +117,11 @@ public class MyClassLoader extends ClassLoader {
         //默认的父加载器是系统加载器
         MyClassLoader loader1 = new MyClassLoader("loader1");
 //        loader1.setPath("d:\\myapp\\serverlib\\");
-        loader1.setPath("D:\\myjava\\javaBasics\\out\\production\\javaBasics\\jvm\\");
+        loader1.setPath("D:\\workSoftware\\Java\\gitWorkspace\\javaBasics\\out\\production\\javaBasics\\jvm\\");
         //D:/myjava/javaBasics/out/production/javaBasics/
-        MyClassLoader loader2 = new MyClassLoader(loader1, "loader2");
+//        MyClassLoader loader2 = new MyClassLoader(loader1, "loader2");
 //        loader2.setPath("d:\\myapp\\clientlib\\");
-        loader2.setPath("D:\\myjava\\javaBasics\\out\\production\\javaBasics\\jvm\\");
+//        loader2.setPath("D:\\myjava\\javaBasics\\out\\production\\javaBasics\\jvm\\");
             /*
             MyClassLoader loader3 = new MyClassLoader(null,"loader3");
 			loader3.setPath("d:\\myapp\\otherlib\\");
@@ -142,8 +140,6 @@ public class MyClassLoader extends ClassLoader {
 			Field field = clazz.getField("vl");
 			int v1 = field.getInt(object);
 			System.out.println("v1: = "+v1);*/
-
-
         System.getProperty("java.classpath");
 
         String path = MyClassLoader.class.getResource("/").toString();
@@ -156,16 +152,16 @@ public class MyClassLoader extends ClassLoader {
 //        clazz = null;
 //        object = null;
         loader1 = new MyClassLoader("loader1");
-        loader1.setPath("d:\\myapp\\serverlib\\");
+//        loader1.setPath("d:\\myapp\\serverlib\\");
         clazz = loader1.loadClass("Simple");
         System.out.println(clazz.hashCode());
     }
 
-    public static void test(ClassLoader loader) throws Exception {
-        Class clazz = loader.loadClass("Simple");
-        Object object = clazz.newInstance();
-
-    }
+//    public static void test(ClassLoader loader) throws Exception {
+//        Class clazz = loader.loadClass("Simple");
+//        Object object = clazz.newInstance();
+//
+//    }
 
 
 }

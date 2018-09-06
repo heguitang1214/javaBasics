@@ -1,4 +1,4 @@
-package jvm;
+package jvm.classLoader;
 
 public class Simple {
     public int vl = 1;
