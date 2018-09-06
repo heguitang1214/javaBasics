@@ -116,17 +116,6 @@ public class MyClassLoader extends ClassLoader {
 
 
     /**
-     * 该方法在这抛出了异常,如果Simple在loader1加载器的路径下,而Dog在loader2的加载路径下
-     * 会出现java.io.FileNotFoundException的异常,找不到Dog.class
-     */
-    public static void main(String[] args) throws Exception {
-        System.out.println("文件类型是:" + new MyClassLoader("").fileType);
-        noPackageName("d:\\test\\");
-        System.out.println("============================分界线==================================");
-        existPackageName();
-    }
-
-    /**
      * 没有包名的情况
      *      如果指定的路径是系统路径找不到的,那么系统加载器就没什么用了
      */
@@ -163,11 +152,13 @@ public class MyClassLoader extends ClassLoader {
     private static void existPackageName() throws Exception {
         URL url = MyClassLoader.class.getResource("/");
         //默认的父加载器是系统加载器
-//        MyClassLoader loader1 = new MyClassLoader("loader1");
-        //这种情况下需要重写loadClass
-        MyClassLoader loader1 = new MyClassLoader(null,"loader1");
+        MyClassLoader loader1 = new MyClassLoader("loader1");
+        //这种情况下需要重写loadClass,是因为路径问题.这个时候使用的是自己的加载器,需要写明加载格则(双亲委派还是其他),
+        // 有运行时包,自定义的类加载器,没有这个规范,所以你的路径会不对,即重写它的加载规则
+//        MyClassLoader loader1 = new MyClassLoader(null,"loader1");
         loader1.setPath(url.getPath());
         Class clazz1 = loader1.loadClass("jvm.classLoader.Simple");
+
 
         System.out.println("hashCode=" + clazz1.hashCode() + ",当前加载器为:" + clazz1.getClassLoader() +
                 ",父类加载器为:" + clazz1.getClassLoader().getParent());
@@ -179,6 +170,18 @@ public class MyClassLoader extends ClassLoader {
         //强转
         Simple simple = (Simple) object;
         System.out.println("强转获取属性number的值= " + simple.number);
+    }
+
+
+    /**
+     * 该方法在这抛出了异常,如果Simple在loader1加载器的路径下,而Dog在loader2的加载路径下
+     * 会出现java.io.FileNotFoundException的异常,找不到Dog.class
+     */
+    public static void main(String[] args) throws Exception {
+        System.out.println("文件类型是:" + new MyClassLoader("").fileType);
+        noPackageName("d:\\test\\");
+        System.out.println("============================分界线==================================");
+        existPackageName();
     }
 
 
