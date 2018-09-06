@@ -118,6 +118,7 @@ public class MyClassLoader extends ClassLoader {
      * 会出现java.io.FileNotFoundException的异常,找不到Dog.class
      */
     public static void main(String[] args) throws Exception {
+        System.out.println("文件类型是:" + new MyClassLoader("").fileType );
         onPackageName("d:\\test\\");
         System.out.println("============================分界线==================================");
         existPackageName();
@@ -167,7 +168,6 @@ public class MyClassLoader extends ClassLoader {
         //强转
         Simple simple = (Simple)object;
         System.out.println("强转获取属性number的值=" + simple.number);
-
     }
 
 
