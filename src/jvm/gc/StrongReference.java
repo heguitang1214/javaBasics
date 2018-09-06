@@ -26,7 +26,6 @@ public class StrongReference {
 
         //按理说,引用计算器不为0,应该不会回收
         System.gc();
-
     }
 
 
