@@ -72,7 +72,7 @@ public class MyClassLoader extends ClassLoader {
             this.name = this.name.replace(".", "\\");
             String pathLoader = path + name + fileType;
             System.out.println("字节码文件的路径是:" + pathLoader);
-            is = new FileInputStream(new File(path + name + fileType));
+            is = new FileInputStream(new File(pathLoader));
             baos = new ByteArrayOutputStream();
             int ch = 0;
             while (-1 != (ch = is.read())) {
@@ -134,8 +134,10 @@ public class MyClassLoader extends ClassLoader {
         MyClassLoader loader2 = new MyClassLoader(loader1, "loader2");
         loader2.setPath(path);
 
-        Class clazz1 = loader1.loadClass("Test1");
-        Class clazz2 = loader2.loadClass("Test2");
+        Class clazz1 = loader1.loadClass("Dog");
+        Class clazz2 = loader2.loadClass("Simple");
+        clazz1.newInstance();
+        clazz2.newInstance();
         System.out.println("hashCode=" + clazz1.hashCode() + ",name=" + clazz1.getClassLoader());
         System.out.println("hashCode=" + clazz2.hashCode() + ",name=" + clazz2.getClassLoader());
         //重新加载,对象地址改变
@@ -143,7 +145,7 @@ public class MyClassLoader extends ClassLoader {
         clazz1 = null;
         loader1 = new MyClassLoader("loader1");
         loader1.setPath(path);
-        clazz1 = loader1.loadClass("Test1");
+        clazz1 = loader1.loadClass("Dog");
         System.out.println("hashCode=" + clazz1.hashCode() + ",name=" + clazz1.getClassLoader());
     }
 
