@@ -95,12 +95,13 @@ public class ReferenceTest {
         //在栈中创建一个phantomReference来虚引用此对象Obj 不可以获取对象的属性值
         PhantomReference<Person> phantomReference = new PhantomReference<>(p, referenceQueue);
         printdesc(phantomReference, "存在强引用", "虚引用");
-        System.out.println("referenceQueue pull()队列中的元素:" + referenceQueue.poll());//打印输出: null 这个是查询队列中是否有元素.
+        System.out.println("referenceQueue poll()队列中的元素:" + referenceQueue.poll());//打印输出: null 这个是查询队列中是否有元素.
 
         //断开p和Person的强引用
         p = null;
         //p被回收之后,队列referenceQueue中就有值了,给系统通知.
         System.gc();
+        System.out.println("GC后直接检查referenceQueue poll()队列中的元素:" + referenceQueue.poll());
         //过一秒钟之后再查询队列中是否有元素.
         try {
             Thread.sleep(1000);
@@ -110,7 +111,7 @@ public class ReferenceTest {
         //PhantomReference的唯一作用就是能在这个对象被收集器回收时收到一个系统通知,如果这个对象被回收了,
         // 就会把通知放到队列中.回收的标志就是把通知放到队列中
         //如果前面p=null注释掉,再运行打印输出就是null,因为p没有被回收(强引用中),就不会把通知放到队列中,队列中为空 null
-        System.out.println("过一秒检查referenceQueue pull()队列中的元素:" + referenceQueue.poll());
+        System.out.println("过一秒检查referenceQueue poll()队列中的元素:" + referenceQueue.poll());
         //打印输出: java.lang.ref.PhantomReference@77fef1a0
     }
 
