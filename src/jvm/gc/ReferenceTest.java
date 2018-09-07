@@ -136,13 +136,10 @@ public class ReferenceTest {
         Person(Integer id) {
             this.id = id;
         }
-
         private Integer id;
-
         Integer getId() {
             return id;
         }
-
         @Override
         protected void finalize() throws Throwable {
             System.out.println("GC finalized......");
