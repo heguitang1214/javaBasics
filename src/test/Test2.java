@@ -2,7 +2,7 @@ package test;
 
 /**
  * Created by 11256 on 2018/9/6.
- * 测试2
+ * 字符串的测试
  */
 public class Test2 {
 

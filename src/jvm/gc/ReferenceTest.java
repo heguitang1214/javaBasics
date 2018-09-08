@@ -5,6 +5,13 @@ import java.lang.ref.*;
 /**
  * Created by 11256 on 2018/9/7.
  * GC引用测试
+ *
+ * 对象的finalize()方法说明:
+ *      对象执行了finalize(),不一定就会被GC回收,会放到一个叫F-Queue的队列中,
+ *      这个F-Queue是一个低级线程去执行，它不会保证执行完毕
+ *          1.如果对象清理缓慢
+ *          2.清理的时候发生异常了(极端)
+ *          3.cpu切换到其他线程上...
  */
 public class ReferenceTest {
     public static void main(String[] args) {
@@ -13,14 +20,18 @@ public class ReferenceTest {
         当需要使用的时候，调用SoftReference的get()方法来获取。
         当对象未被回收时SoftReference的get()方法会返回该对象的强引用。
          */
-//        softReferenceTest();//软引用
-//        weakReferenceTest();//弱引用
+        System.out.println("===========================[软引用]=====================================");
+        softReferenceTest();//软引用
+        System.out.println("===========================[弱引用]=====================================");
+        weakReferenceTest();//弱引用
+        System.out.println("===========================[虚引用1]=====================================");
         /*
         虚引用主要用于跟踪对象被垃圾回收的状态，虚引用不能单独使用，
         虚引用必须和引用队列（ReferenceQueue）联合使用。
         程序可以通过检查与虚引用关联的引用队列中是否已经包含了该虚引用，从而了解虚引用所引用对象是否即将被回收。
          */
-//        phantomReferenceTest1();//幽灵引用_1
+        phantomReferenceTest1();//幽灵引用_1
+        System.out.println("===========================[虚引用2]=====================================");
         phantomReferenceTest2();//幽灵引用_2
     }
 
@@ -61,7 +72,7 @@ public class ReferenceTest {
         //p=null之后,还是可以正常的打印输出1,这说明断开强引用和其他弱引用,软引用压根没有关系.
         //如果在打印之前 调用gc() 方法之后  就会报错..java.lang.NullPointerException
         //垃圾回收不论内存是否不足都会回收只被弱引用关联的对象。
-        printdesc(weakReference, "强引用被置空,并且发生GC", "弱引用");
+        printdesc(weakReference, "强引用被置空,不管GC有没有发生", "弱引用");
 
     }
 
@@ -112,7 +123,8 @@ public class ReferenceTest {
         // 就会把通知放到队列中.回收的标志就是把通知放到队列中
         //如果前面p=null注释掉,再运行打印输出就是null,因为p没有被回收(强引用中),就不会把通知放到队列中,队列中为空 null
         System.out.println("过一秒获取referenceQueue poll()队列中的元素:" + referenceQueue.poll());
-        //打印输出: java.lang.ref.PhantomReference@77fef1a0
+        //可能性输出:打印输出: java.lang.ref.PhantomReference@4dc63996(对象不能重写final())
+
     }
 
     /**
@@ -140,10 +152,12 @@ public class ReferenceTest {
         Integer getId() {
             return id;
         }
-        @Override
-        protected void finalize() throws Throwable {
-            System.out.println("GC finalized......");
-        }
+
+//        @Override
+//        protected void finalize() throws Throwable {
+//            System.out.println("GC finalized......");
+//            super.finalize();
+//        }
     }
 
 }

@@ -38,6 +38,17 @@ public class Test1 {
 
         Map<String, String> map = new HashMap<>(10);
         map.put("1", "1");
+
+
+        Integer a = 128;
+        Integer b = 128;
+        System.out.println(a == b);
+
+
+
+        int c = 128;
+        int d = 128;
+        System.out.println(c == d);
     }
 
 }
