@@ -1,7 +1,7 @@
 package jvm.classLoader;
 
-public class Dog {
-    public Dog() {
+class Dog {
+    Dog() {
         System.out.println("Dog is loader by : " + this.getClass().getClassLoader());
     }
 }

@@ -168,7 +168,7 @@ public class MyClassLoader extends ClassLoader {
         Field field = clazz1.getField("number");
         int number = field.getInt(object);
         System.out.println("反射获取属性number的值= " + number);
-        //强转
+        //强转:当两个不同命名空间的内的类互相不可见时,可采用java反射机制来访问对方实例的属性和方法.强转是不能实现的.
         Simple simple = (Simple) object;
         System.out.println("强转获取属性number的值= " + simple.number);
     }
