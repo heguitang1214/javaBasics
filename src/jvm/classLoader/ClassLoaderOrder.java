@@ -10,7 +10,7 @@ public class ClassLoaderOrder {
         Child child = new Child();
         System.out.println(child.a);
 //        System.out.println(child.b);//失败
-        //静态代码块:初始化类变量;代码块:初始化实例变量
+        //静态代码块:初始化类变量;构造块:初始化实例变量
         //构造块在创建对象时会被调用，每次创建对象时都会被调用，并且优先于类构造函数执行。构造块中定义的变量是局部变量。
 
 //        打印结果
