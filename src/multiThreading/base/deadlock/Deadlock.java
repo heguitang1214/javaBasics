@@ -8,7 +8,7 @@ public class Deadlock implements Runnable{
 
     private boolean flag;
 
-    Deadlock(boolean flag){
+    public Deadlock(boolean flag){
         this.flag = flag;
     }
 
@@ -36,14 +36,16 @@ public class Deadlock implements Runnable{
             }
         }
     }
+
+    static class MyLock{
+
+        static final Object locka = new Object();
+        static final Object lockb = new Object();
+
+    }
+
 }
 
-class MyLock{
-
-    static final Object locka = new Object();
-    static final Object lockb = new Object();
-
-}
 
 
 
