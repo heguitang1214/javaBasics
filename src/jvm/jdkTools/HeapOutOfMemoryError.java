@@ -19,7 +19,7 @@ public class HeapOutOfMemoryError {
      */
     private static void test(){
         Map<String, Student> map = new HashMap<>();
-        Object[] array = new Object[50000];
+        Object[] array = new Object[500000];
         for (int i = 0; i < array.length; i++){
             Student s = new Student("test" + i, 100);
             map.put("test" + i, s);
