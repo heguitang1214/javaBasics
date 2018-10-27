@@ -50,7 +50,7 @@ public class Proxy {//本身不需要实现接口
                         methodStr +
                         "}";
         String fileName = System.getProperty("user.dir")
-                + "/src/designPatterns/proxy/javaProxy/classpath/$Proxy1.java";
+                + "/src/main/java/designPatterns/proxy/javaProxy/classpath/$Proxy1.java";
         File f = new File(fileName);
         FileWriter fw = new FileWriter(f);
         fw.write(src);
