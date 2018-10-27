@@ -1,5 +1,3 @@
-package test;
-
 /**
  * Created by 11256 on 2018/9/6.
  * 字符串的测试

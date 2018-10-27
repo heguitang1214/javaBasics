@@ -1,5 +1,3 @@
-package test;
-
 import baseDemo.RMBUppercase;
 
 import java.math.BigDecimal;
