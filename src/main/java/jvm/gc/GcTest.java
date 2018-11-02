@@ -8,10 +8,15 @@ public class GcTest {
 
     public static void main(String[] args) {
 //        defaultTest();
+
+        //新生代收集器是parNewGC
 //        parNewGC_ConcMarkSweepGC();
 //        parNewGC_SerialOldGC();//失败
-        parNewGC_ParallelOldGC();//失败
+//        parNewGC_ParallelOldGC();//失败
+
+        //新生代收集器是serialGC
 //        serialGC_CMSGC();//失败
+        serialGC_SerialOldGC();//失败
 
     }
 
@@ -69,11 +74,38 @@ public class GcTest {
     }
 
     /**
-     *  -XX:+PrintGCDetails -XX:+SerialGC -XX:+UseConcMarkSweepGC
+     *  -XX:+PrintGCDetails -XX:+UseSerialGC -XX:+UseConcMarkSweepGC
      */
     private static void serialGC_CMSGC(){
         System.out.println("新生代[SerialGC],老年代[UseConcMarkSweepGC]组合....");
 //
     }
 
+    /**
+     *  -XX:+PrintGCDetails -XX:+UseSerialGC -XX:+UseSerialOldGC
+     */
+    private static void serialGC_SerialOldGC(){
+        System.out.println("新生代[SerialGC],老年代[UseSerialOldGC]组合....");
+        //
+    }
+
+    //ok
+    //-XX:+PrintGCDetails -XX:+UseSerialGC              def new generation + tenured generation
+    //-XX:+PrintGCDetails -XX:+UseParNewGC              par new generation + tenured generation
+    //-XX:+PrintGCDetails -XX:+UseParallelGC            PSYoungGen + ParOldGen
+    //-XX:+PrintGCDetails -XX:+UseConcMarkSweepGC       par new generation + concurrent mark-sweep
+    //-XX:+PrintGCDetails -XX:+UseParallelOldGC         PSYoungGen + ParOldGen
+
+
+
+
+
+
+
 }
+
+
+
+
+
+
