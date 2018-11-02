@@ -7,15 +7,18 @@ package jvm.gc;
 public class GcTest {
 
     public static void main(String[] args) {
-        defaultTest();
-//        test1();
-//        test2();
+//        defaultTest();
+//        parNewGC_ConcMarkSweepGC();
+//        parNewGC_SerialOldGC();//失败
+        parNewGC_ParallelOldGC();//失败
+//        serialGC_CMSGC();//失败
+
     }
 
 
     /**
-     * 1.8默认的垃圾回收器
-     *  Parallel Scavenge + Parallel Old
+     * -XX:+PrintGCDetails
+     * 1.8默认的垃圾回收器Parallel Scavenge + Parallel Old
      */
     private static void defaultTest(){
         System.out.println("默认的垃圾回收....");
@@ -37,7 +40,7 @@ public class GcTest {
      * -XX:+UseParNewGC -XX:+UseParallelOldGC
      * -XX:+UseParNewGC -XX:+UseSerialGC
      */
-    private static void test1(){
+    private static void parNewGC_ConcMarkSweepGC(){
         System.out.println("新生代[UseParNewGC],老年代[UseConcMarkSweepGC]组合....");
 //        Heap
 //        par new generation   total 78016K, used 6942K [0x00000006c3200000, 0x00000006c86a0000, 0x00000006f7200000)
@@ -50,12 +53,27 @@ public class GcTest {
     }
 
     /**
-     *
+     *  -XX:+PrintGCDetails -XX:+UseParNewGC -XX:+UseSerialOldGC
      */
-    private static void test2(){
-        System.out.println("新生代[],老年代[]组合....");
+    private static void parNewGC_SerialOldGC(){
+        System.out.println("新生代[UseParNewGC],老年代[UseSerialOldGC]组合....");
+        //
     }
 
+    /**
+     *  -XX:+PrintGCDetails -XX:+UseParNewGC -XX:+UseParallelOldGC
+     */
+    private static void parNewGC_ParallelOldGC(){
+        System.out.println("新生代[UseParNewGC],老年代[UseParallelOldGC]组合....");
+        //
+    }
 
+    /**
+     *  -XX:+PrintGCDetails -XX:+SerialGC -XX:+UseConcMarkSweepGC
+     */
+    private static void serialGC_CMSGC(){
+        System.out.println("新生代[SerialGC],老年代[UseConcMarkSweepGC]组合....");
+//
+    }
 
 }
