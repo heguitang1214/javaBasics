@@ -9,6 +9,11 @@ public class GcTest {
     public static void main(String[] args) {
 //        defaultTest();
 
+        //单个收集器的使用
+        serialGC();
+
+
+
         //新生代收集器是parNewGC
 //        parNewGC_ConcMarkSweepGC();
 //        parNewGC_SerialOldGC();//失败
@@ -16,7 +21,7 @@ public class GcTest {
 
         //新生代收集器是serialGC
 //        serialGC_CMSGC();//失败
-        serialGC_SerialOldGC();//失败
+//        serialGC_SerialOldGC();//失败
 
     }
 
@@ -90,6 +95,44 @@ public class GcTest {
     }
 
     //ok
+    //=============================================单个GC===============================================
+    /**
+     * -XX:+PrintGCDetails -XX:+UseSerialGC
+     */
+    private static void serialGC(){
+        System.out.println("使用垃圾回收器[SerialGC]......");
+//        Heap
+//        def new generation   total 78016K, used 5554K [0x00000006c3200000, 0x00000006c86a0000, 0x00000007176a0000)
+//        eden space 69376K,   8% used [0x00000006c3200000, 0x00000006c376c9f0, 0x00000006c75c0000)
+//        from space 8640K,   0% used [0x00000006c75c0000, 0x00000006c75c0000, 0x00000006c7e30000)
+//        to   space 8640K,   0% used [0x00000006c7e30000, 0x00000006c7e30000, 0x00000006c86a0000)
+//        tenured generation   total 173440K, used 0K [0x00000007176a0000, 0x0000000722000000, 0x00000007c0000000)
+//        the space 173440K,   0% used [0x00000007176a0000, 0x00000007176a0000, 0x00000007176a0200, 0x0000000722000000)
+//        Metaspace       used 3366K, capacity 4500K, committed 4864K, reserved 1056768K
+//        class space    used 369K, capacity 388K, committed 512K, reserved 1048576K
+    }
+
+
+    /**
+     * -XX:+PrintGCDetails -XX:+UseParNewGC
+     */
+
+
+    /**
+     * -XX:+PrintGCDetails -XX:+UseParallelGC
+     */
+
+
+    /**
+     * -XX:+PrintGCDetails -XX:+UseConcMarkSweepGC
+     */
+
+
+    /**
+     * -XX:+PrintGCDetails -XX:+UseParallelOldGC
+     */
+
+
     //-XX:+PrintGCDetails -XX:+UseSerialGC              def new generation + tenured generation
     //-XX:+PrintGCDetails -XX:+UseParNewGC              par new generation + tenured generation
     //-XX:+PrintGCDetails -XX:+UseParallelGC            PSYoungGen + ParOldGen

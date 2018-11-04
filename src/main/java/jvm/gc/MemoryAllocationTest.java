@@ -9,17 +9,19 @@ public class MemoryAllocationTest {
     private static final int _MB = 1024 * 1024;
 
     public static void main(String[] args) {
-//        test1();
-        test2();
+        test1();
+//        test2();
     }
 
     /**
      * 大对象直接进入老年代
      * 3145728 = 1024 * 1024 *3
-     * 新生代分配:
+     * 对象在新生代中分配时的参数:
      * -verbose:gc -Xms20M -Xmx20M -Xmn10M -XX:+PrintGCDetails -XX:+UseParNewGC -XX:SurvivorRatio=8 -XX:PretenureSizeThreshold=5145728
-     * 老年代分配:
+     * 对象在老年代中分配时的参数:
      * -verbose:gc -Xms20M -Xmx20M -Xmn10M -XX:+PrintGCDetails -XX:+UseParNewGC -XX:SurvivorRatio=8 -XX:PretenureSizeThreshold=3145728
+     *
+     * PretenureSizeThreshold只能在串行GC和ParNewGC中使用
      */
     private static void test1(){
         byte[] allocation = new byte[4 * _MB];//1M
