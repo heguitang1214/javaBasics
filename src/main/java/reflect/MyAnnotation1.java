@@ -1,4 +1,4 @@
-package reflect.annotation;
+package reflect;
 
 /**
  * Created by 11256 on 2018/8/24.
