@@ -12,7 +12,7 @@ public class GcTest {
         //单个收集器的使用
         serialGC();
 
-
+//        concMarkSweepGC();
 
         //新生代收集器是parNewGC
 //        parNewGC_ConcMarkSweepGC();
@@ -45,7 +45,7 @@ public class GcTest {
 
 
     /**
-     * -XX:+PrintGCDetails -XX:+UseParNewGC -XX:+UseConcMarkSweepGC
+     * -XX:+PrintGCDetails -XX:+UseParNewGC -XX:+UseConcMarkSweepGC与参数-XX:+UseConcMarkSweepGC一样
      * 不支持
      * -XX:+UseParNewGC -XX:+UseParallelOldGC
      * -XX:+UseParNewGC -XX:+UseSerialGC
@@ -94,12 +94,11 @@ public class GcTest {
         //
     }
 
-    //ok
-    //=============================================单个GC===============================================
+    //=============================================单个GC配置===============================================
     /**
      * -XX:+PrintGCDetails -XX:+UseSerialGC
      */
-    private static void serialGC(){
+    private static void serialGC() {
         System.out.println("使用垃圾回收器[SerialGC]......");
 //        Heap
 //        def new generation   total 78016K, used 5554K [0x00000006c3200000, 0x00000006c86a0000, 0x00000007176a0000)
@@ -116,21 +115,34 @@ public class GcTest {
     /**
      * -XX:+PrintGCDetails -XX:+UseParNewGC
      */
-
+    private static void parNewGC() {
+        System.out.println("使用垃圾回收器[ParallelOldGC]......");
+        //
+    }
 
     /**
      * -XX:+PrintGCDetails -XX:+UseParallelGC
      */
-
+    private static void parallelGC() {
+        System.out.println("使用垃圾回收器[ParallelOldGC]......");
+        //
+    }
 
     /**
      * -XX:+PrintGCDetails -XX:+UseConcMarkSweepGC
      */
-
+    private static void concMarkSweepGC() {
+        System.out.println("使用垃圾回收器[ParallelOldGC]......");
+        //
+    }
 
     /**
      * -XX:+PrintGCDetails -XX:+UseParallelOldGC
      */
+    private static void parallelOldGC() {
+        System.out.println("使用垃圾回收器[ParallelOldGC]......");
+        //
+    }
 
 
     //-XX:+PrintGCDetails -XX:+UseSerialGC              def new generation + tenured generation
@@ -138,12 +150,6 @@ public class GcTest {
     //-XX:+PrintGCDetails -XX:+UseParallelGC            PSYoungGen + ParOldGen
     //-XX:+PrintGCDetails -XX:+UseConcMarkSweepGC       par new generation + concurrent mark-sweep
     //-XX:+PrintGCDetails -XX:+UseParallelOldGC         PSYoungGen + ParOldGen
-
-
-
-
-
-
 
 }
 

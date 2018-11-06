@@ -11,7 +11,7 @@ import java.util.*;
 /**
  * 比较两个实体属性值，返回一个map以有差异的属性名为key，value为一个list分别存obj1,obj2此属性名的值
  */
-public class CompareFileds {
+public class CompareEntity {
 
     /**
      * 比较两个实体属性值
@@ -21,7 +21,7 @@ public class CompareFileds {
      * @param compareAttr 选择要比较的属性
      * @return 属性差异比较结果map
      */
-    private static Map<String, Map<String, Object>> compareFields(Object obj1, Object obj2, List<String> compareAttr) {
+    private static Map<String, Map<String, Object>> compareEntitys(Object obj1, Object obj2, List<String> compareAttr) {
         //返回值的容器
         Map<String, Map<String, Object>> resultMap = new LinkedHashMap<>();
         entityContrast(obj1, obj2, "E", resultMap, compareAttr);
@@ -303,7 +303,7 @@ public class CompareFileds {
 //        System.out.println(tmp);
 
 
-        Map<String, Map<String, Object>> resultMap = compareFields(test1, test2, column);
+        Map<String, Map<String, Object>> resultMap = compareEntitys(test1, test2, column);
         System.out.println("返回结果:" + resultMap);
         System.out.println("==========================================================================");
         Set<String> keySet = resultMap.keySet();
