@@ -2,15 +2,30 @@ package jvm.gc;
 
 /**
  * Created by 11256 on 2018/9/9.
- *  测试JVM的各种垃圾回收器
+ *  测试JVM的各种垃圾回收器,不同的JDK版本支持的组合可能不一样.
+ *
+ *   uint i = 0;
+ *   if (UseSerialGC)                       i++;
+ *   if (UseConcMarkSweepGC || UseParNewGC) i++;
+ *   if (UseParallelGC || UseParallelOldGC) i++;
+ *   if (UseG1GC)                           i++;
+ *   if (i > 1) {
+ *     jio_fprintf(defaultStream::error_stream(),
+ *                 "Conflicting collector combinations in option list; "
+ *                 "please refer to the release notes for the combinations "
+ *                 "allowed\n");
+ *     status = false;
+ *   }
  */
 public class GcTest {
 
     public static void main(String[] args) {
 //        defaultTest();
+        //新生代是ParallelGC,也就是默认的形式
+        parallelGC_ParallelOldGC();
 
         //单个收集器的使用
-        serialGC();
+//        serialGC();
 
 //        concMarkSweepGC();
 
@@ -22,6 +37,8 @@ public class GcTest {
         //新生代收集器是serialGC
 //        serialGC_CMSGC();//失败
 //        serialGC_SerialOldGC();//失败
+
+
 
     }
 
@@ -42,6 +59,23 @@ public class GcTest {
 //        Metaspace       used 3433K, capacity 4496K, committed 4864K, reserved 1056768K
 //        class space    used 374K, capacity 388K, committed 512K, reserved 1048576K
     }
+
+    /**
+     *  -XX:+PrintGCDetails -XX:+UseParallelGC -XX:+UseParallelOldGC(默认)
+     */
+    private static void parallelGC_ParallelOldGC(){
+        System.out.println("默认:新生代[UseParallelGC],老年代[UseParallelOldGC]组合....");
+//        Heap
+//        PSYoungGen      total 38400K, used 3997K [0x00000000d5d80000, 0x00000000d8800000, 0x0000000100000000)
+//        eden space 33280K, 12% used [0x00000000d5d80000,0x00000000d6167500,0x00000000d7e00000)
+//        from space 5120K, 0% used [0x00000000d8300000,0x00000000d8300000,0x00000000d8800000)
+//        to   space 5120K, 0% used [0x00000000d7e00000,0x00000000d7e00000,0x00000000d8300000)
+//        ParOldGen       total 87552K, used 0K [0x0000000081800000, 0x0000000086d80000, 0x00000000d5d80000)
+//        object space 87552K, 0% used [0x0000000081800000,0x0000000081800000,0x0000000086d80000)
+//        Metaspace       used 3264K, capacity 4500K, committed 4864K, reserved 1056768K
+//        class space    used 355K, capacity 388K, committed 512K, reserved 1048576K
+    }
+
 
 
     /**
@@ -93,6 +127,7 @@ public class GcTest {
         System.out.println("新生代[SerialGC],老年代[UseSerialOldGC]组合....");
         //
     }
+
 
     //=============================================单个GC配置===============================================
     /**
