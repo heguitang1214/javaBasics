@@ -111,6 +111,14 @@ public class CompareEntity {
     }
 
 
+    private Object getObj(Class<Object> clazz, String nodeName, Object source) throws Exception {
+        Method method = clazz.getMethod("get" + Character.toUpperCase(nodeName.substring(0, 1).toCharArray()[0]) + nodeName.substring(1));
+        Object obj = null;
+        //clazz.cast(source) 就是将一个对象装换为类或者接口。
+        obj = method.invoke(clazz.cast(source), new Object[0]);
+        return obj;
+    }
+
     static class Dept {
         private Integer deptId;
         private String deptName;
