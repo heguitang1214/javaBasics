@@ -2,6 +2,8 @@ package baseDemo;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+
+import java.math.BigInteger;
 import java.util.*;
 
 
@@ -36,6 +38,7 @@ public class JsonCompareEntity {
         }
     }
 
+
     /**
      * 解析JSON内容,进行数据的比较
      */
@@ -46,14 +49,25 @@ public class JsonCompareEntity {
         String afterKey = aftLinkedList.getFirst();
         if (beforeData instanceof JSONObject) {
             if (afterData instanceof JSONObject) {
+                //todo 层级不相等的情况
                 befLinkedList.removeFirst();
                 aftLinkedList.removeFirst();
                 if (befLinkedList.size() == 0) {
-                    String str1 = ((JSONObject) beforeData).getString(beforeKey);
-                    String str2 = ((JSONObject) afterData).getString(beforeKey);
-                    if (!str1.equals(str2)) {
-                        resultList.add(relEntity.getPartyADesc() + "是[" + str1 + "]," + relEntity.getPartyBDesc() + "是[" + str2 + "]");
+                    Object beforeObject = ((JSONObject) beforeData).get(beforeKey);
+                    Object o1 = ((JSONObject) afterData).get(afterKey);
+                    if (beforeObject instanceof BigInteger || o1 instanceof BigInteger){
+                        System.out.println("BigInteger" + beforeObject);
+                    }else if (beforeObject instanceof String && o1 instanceof String){
+                        if (!beforeObject.equals(o1)) {
+                            resultList.add(relEntity.getPartyADesc() + "是[" + beforeObject + "]," + relEntity.getPartyBDesc() + "是[" + o1 + "]");
+                        }
+                    }else {
+                        resultList.add(relEntity.getPartyADesc() + "是[" + beforeObject + "]," + relEntity.getPartyBDesc() + "是[" + o1 + "]");
                     }
+//                    System.out.println(beforeData);
+//                    JSONObject jsonObject = ((JSONObject) beforeData).getJSONObject(beforeKey);
+//                    String str1 = ((JSONObject) beforeData).getString(beforeKey);
+//                    String str2 = ((JSONObject) afterData).getString(beforeKey);
                 } else {
                     //todo
                     Object o = ((JSONObject) beforeData).get(beforeKey);
@@ -80,7 +94,6 @@ public class JsonCompareEntity {
         } else if (beforeData instanceof JSONArray) {
             if (afterData instanceof JSONArray) {
                 //todo 数组的处理
-                System.out.println(beforeData);
                 JSONArray jsonArray_b = (JSONArray)beforeData;
                 JSONArray jsonArray_a = (JSONArray)afterData;
                 befLinkedList.removeFirst();
@@ -100,6 +113,10 @@ public class JsonCompareEntity {
             System.out.println("啥玩意儿a?" + afterData);
         }
     }
+
+
+
+
 
     private static LinkedList<String> arrTurnLinkedList(String[] strArr) {
         LinkedList<String> linkedList = new LinkedList<>();
