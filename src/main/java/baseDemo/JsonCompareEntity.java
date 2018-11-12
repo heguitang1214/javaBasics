@@ -130,6 +130,7 @@ public class JsonCompareEntity {
                                       LinkedList<String> beforeLinkedList, LinkedList<String> afterLinkedList,
                                       String beforeKey, String afterKey,
                                       RelEntity relEntity, List<String> resultList) {
+        System.out.println("afterKey的值为：" + afterLinkedList);
         if (beforeLinkedList.size() > 0) {
             beforeKey = beforeLinkedList.getFirst();
         }
@@ -219,53 +220,59 @@ public class JsonCompareEntity {
                                          String beforeSortKey, String afterSortKey) {
         if (beforeLinkedList.size() == 0 && afterLinkedList.size() == 0) {
             String masterKey, slaveKey;
-            for (Object beforeObject : beforeJsonArr) {
-                afterLinkedList.addFirst(afterKey);
-                beforeLinkedList.addFirst(beforeKey);
-                Object afterObject = null;
-                masterKey = ((JSONObject) beforeObject).getString(beforeSortKey);
-                for (Object slaveObject : afterJsonArr) {
-                    slaveKey = ((JSONObject) slaveObject).getString(afterSortKey);
-                    //集合不需要排序，直接顺序比较
-                    if (StringUtils.isNotBlank(masterKey) && StringUtils.isNotBlank(slaveKey)) {
-                        if (masterKey.equals(slaveKey)) {
-                            afterObject = slaveObject;
-                        }
-                    } else {
-                        afterObject = slaveObject;//todo
-                        break;
-                    }
-                }
-                System.out.println("beforeObject:" + beforeObject + "///afterObject:" + afterObject  );
-                analysisJson1(beforeObject, afterObject, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
-            }
+//            for (Object beforeObject : beforeJsonArr) {
+//                afterLinkedList.addFirst(afterKey);
+//                beforeLinkedList.addFirst(beforeKey);
+//                Object afterObject = null;
+//                masterKey = ((JSONObject) beforeObject).getString(beforeSortKey);
+//                for (Object slaveObject : afterJsonArr) {
+//                    slaveKey = ((JSONObject) slaveObject).getString(afterSortKey);
+//                    //集合不需要排序，直接顺序比较
+//                    if (StringUtils.isNotBlank(masterKey) && StringUtils.isNotBlank(slaveKey)) {
+//                        if (masterKey.equals(slaveKey)) {
+//                            afterObject = slaveObject;
+//                        }
+//                    } else {
+//                        afterObject = slaveObject;//todo
+//                        break;
+//                    }
+//                }
+//                System.out.println("beforeObject:" + beforeObject + "///afterObject:" + afterObject  );
+//                analysisJson1(beforeObject, afterObject, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+//            }
 
             //todo  for循环代替
-            for (int i = 0; i < beforeJsonArr.size(); i++){
+            for (int i = 0; i < beforeJsonArr.size(); i++) {
                 afterLinkedList.addFirst(afterKey);
                 beforeLinkedList.addFirst(beforeKey);
                 Object afterObject = null;
-                masterKey = ((JSONObject)beforeJsonArr.get(i)).getString(beforeSortKey);
-
-
-
+                masterKey = ((JSONObject) beforeJsonArr.get(i)).getString(beforeSortKey);
+                for (int j = 0; j < afterJsonArr.size(); j++) {
+                    slaveKey = ((JSONObject) afterJsonArr.get(j)).getString(afterSortKey);
+                    if (StringUtils.isNotBlank(masterKey) && StringUtils.isNotBlank(slaveKey)) {
+                        if (masterKey.equals(slaveKey)) {
+                            afterObject = afterJsonArr.get(j);
+                        }
+                    } else {
+                        if (i < afterJsonArr.size()) {
+                            afterObject = afterJsonArr.get(i);
+                        }
+                    }
+                }
+                System.out.println("beforeObject:" + beforeJsonArr.get(i) + "///afterObject:" + afterObject);
+                System.out.println("beforeKey:" + beforeKey + ",beforeKey:" + beforeKey);
+                analysisJson1(beforeJsonArr.get(i), afterObject, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
             }
-
-
-
-
-
-
-
-        }else {
+        } else {
             if (beforeLinkedList.size() > 0) {
                 afterLinkedList.addFirst(afterKey);
                 for (Object beforeObject : beforeJsonArr) {
                     Object o = ((JSONObject) beforeObject).get(beforeKey);
                     analysisJson1(o, afterJsonArr, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
                 }
-            }else {
+            } else {
                 beforeLinkedList.addFirst(beforeKey);
+                // TODO: 2018/11/12 afterkey
                 for (Object afterObject : afterJsonArr) {
                     Object o = ((JSONObject) afterObject).get(afterKey);
                     analysisJson1(beforeJsonArr, o, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
