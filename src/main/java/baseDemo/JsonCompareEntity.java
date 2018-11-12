@@ -37,7 +37,7 @@ public class JsonCompareEntity {
             String[] afterArr = relEntity.getPartyB().split("\\.");
             LinkedList<String> beforeList = arrTurnLinkedList(beforeArr);
             LinkedList<String> afterList = arrTurnLinkedList(afterArr);
-            analysisJson(beforeSrc, afterSrc, beforeList, afterList, relEntity, resultList);
+            analysisJson1(beforeSrc, afterSrc, beforeList, afterList, null, null, relEntity, resultList);
         }
     }
 
@@ -96,7 +96,6 @@ public class JsonCompareEntity {
             if (afterData instanceof JSONArray) {
                 JSONArray beforeJsonArr = (JSONArray) beforeData;
                 JSONArray afterJsonArr = (JSONArray) afterData;
-                //todo 可以优化
 //                beforeLinkedList.removeFirst();
 //                afterLinkedList.removeFirst();
 
@@ -110,9 +109,6 @@ public class JsonCompareEntity {
                     afterKey = afterKey.split("#")[0];
                 }
 
-
-
-
                 if (afterJsonArr.size() > beforeJsonArr.size()) {
                     jsonArrayHandle(afterJsonArr, beforeJsonArr, beforeLinkedList, afterLinkedList,
                             beforeKey, afterKey, relEntity, resultList, materSortKey, slaveSortKey);
@@ -125,6 +121,156 @@ public class JsonCompareEntity {
             }
         } else {
             resultList.add("类型匹配失败:" + relEntity.getPartyADesc() + "既不是一个对象,也不是一个数组!其内容是:" + beforeData);
+        }
+    }
+
+
+    //=======================================================================================================================================
+    private static void analysisJson1(Object beforeData, Object afterData,
+                                      LinkedList<String> beforeLinkedList, LinkedList<String> afterLinkedList,
+                                      String beforeKey, String afterKey,
+                                      RelEntity relEntity, List<String> resultList) {
+        if (beforeLinkedList.size() > 0) {
+            beforeKey = beforeLinkedList.getFirst();
+        }
+        if (afterLinkedList.size() > 0) {
+            afterKey = afterLinkedList.getFirst();
+        }
+        //对象存在空值
+        if (beforeData == null || afterData == null) {
+            resultList.add(relEntity.getPartyADesc() + "是[" + beforeData + "]," + relEntity.getPartyBDesc() + "是[" + afterData + "]");
+        }
+        if (beforeLinkedList.size() > 0) {
+            beforeLinkedList.removeFirst();
+        }
+        if (afterLinkedList.size() > 0) {
+            afterLinkedList.removeFirst();
+        }
+        if (beforeData instanceof JSONObject) {
+            Object beforeObject = ((JSONObject) beforeData).get(beforeKey);
+            if (afterData instanceof JSONObject) {
+                Object afterObject = ((JSONObject) afterData).get(afterKey);
+                if (beforeLinkedList.size() == 0 && afterLinkedList.size() == 0) {
+                    //对象类型的比较
+                    objectTypeCompare(beforeObject, afterObject, relEntity, resultList);
+                } else if (beforeLinkedList.size() == 0 && afterLinkedList.size() > 0) {
+                    analysisJson1(beforeData, afterObject, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+                } else if (beforeLinkedList.size() > 0 && afterLinkedList.size() == 0) {
+                    analysisJson1(beforeObject, afterData, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+                } else {
+                    analysisJson1(beforeObject, afterObject, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+                }
+            } else if (afterData instanceof JSONArray) {
+                JSONArray afterJsonArr = (JSONArray) afterData;
+                if (afterLinkedList.size() == 0) {
+
+                    if (afterKey != null && afterKey.contains("#")) {
+                        afterKey = afterKey.split("#")[0];
+                    }
+
+                    for (Object object : afterJsonArr) {
+                        analysisJson1(beforeData, object, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+                    }
+                } else {
+                    analysisJson1(beforeObject, afterJsonArr, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+                }
+            } else {
+                resultList.add("优化1:" + "beforeData:" + beforeData + ">>>" + "afterData:" + afterData);
+            }
+        } else if (beforeData instanceof JSONArray) {
+            JSONArray beforeJsonArr = (JSONArray) beforeData;
+            if (afterData instanceof JSONArray) {
+                JSONArray afterJsonArr = (JSONArray) afterData;
+                String materSortKey = null, slaveSortKey = null;
+                if (beforeKey != null && beforeKey.contains("#")) {
+                    materSortKey = getSortKey(beforeKey, "#");
+                    beforeKey = beforeKey.split("#")[0];
+                }
+                if (afterKey != null && afterKey.contains("#")) {
+                    slaveSortKey = getSortKey(afterKey, "#");
+                    afterKey = afterKey.split("#")[0];
+                }
+
+                //todo a集合已经到了最后，b集合还需要继续循环
+                jsonArrayHandle1(beforeJsonArr, afterJsonArr, beforeLinkedList, afterLinkedList,
+                        beforeKey, afterKey, relEntity, resultList, materSortKey, slaveSortKey);
+
+            } else if (afterData instanceof JSONObject) {
+                Object afterObject = ((JSONObject) afterData).get(afterKey);
+                if (beforeLinkedList.size() == 0) {
+                    for (Object object : beforeJsonArr) {
+                        analysisJson1(object, afterObject, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+                    }
+                } else {
+                    analysisJson1(beforeJsonArr, afterObject, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+                }
+            } else {
+                resultList.add("优化");
+            }
+        } else {
+            resultList.add("类型匹配失败:" + relEntity.getPartyADesc() + "既不是一个对象,也不是一个数组!其内容是:" + beforeData);
+        }
+    }
+
+
+    private static void jsonArrayHandle1(JSONArray beforeJsonArr, JSONArray afterJsonArr,
+                                         LinkedList<String> beforeLinkedList, LinkedList<String> afterLinkedList,
+                                         String beforeKey, String afterKey, RelEntity relEntity, List<String> resultList,
+                                         String beforeSortKey, String afterSortKey) {
+        if (beforeLinkedList.size() == 0 && afterLinkedList.size() == 0) {
+            String masterKey, slaveKey;
+            for (Object beforeObject : beforeJsonArr) {
+                afterLinkedList.addFirst(afterKey);
+                beforeLinkedList.addFirst(beforeKey);
+                Object afterObject = null;
+                masterKey = ((JSONObject) beforeObject).getString(beforeSortKey);
+                for (Object slaveObject : afterJsonArr) {
+                    slaveKey = ((JSONObject) slaveObject).getString(afterSortKey);
+                    //集合不需要排序，直接顺序比较
+                    if (StringUtils.isNotBlank(masterKey) && StringUtils.isNotBlank(slaveKey)) {
+                        if (masterKey.equals(slaveKey)) {
+                            afterObject = slaveObject;
+                        }
+                    } else {
+                        afterObject = slaveObject;//todo
+                        break;
+                    }
+                }
+                System.out.println("beforeObject:" + beforeObject + "///afterObject:" + afterObject  );
+                analysisJson1(beforeObject, afterObject, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+            }
+
+            //todo  for循环代替
+            for (int i = 0; i < beforeJsonArr.size(); i++){
+                afterLinkedList.addFirst(afterKey);
+                beforeLinkedList.addFirst(beforeKey);
+                Object afterObject = null;
+                masterKey = ((JSONObject)beforeJsonArr.get(i)).getString(beforeSortKey);
+
+
+
+            }
+
+
+
+
+
+
+
+        }else {
+            if (beforeLinkedList.size() > 0) {
+                afterLinkedList.addFirst(afterKey);
+                for (Object beforeObject : beforeJsonArr) {
+                    Object o = ((JSONObject) beforeObject).get(beforeKey);
+                    analysisJson1(o, afterJsonArr, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+                }
+            }else {
+                beforeLinkedList.addFirst(beforeKey);
+                for (Object afterObject : afterJsonArr) {
+                    Object o = ((JSONObject) afterObject).get(afterKey);
+                    analysisJson1(beforeJsonArr, o, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+                }
+            }
         }
     }
 
@@ -148,11 +294,11 @@ public class JsonCompareEntity {
 
     private static void handleSortKey(String key, String sortKey, String strKey) {
         if (StringUtils.isNotBlank(strKey)) {
-            if (strKey.contains("#")){
+            if (strKey.contains("#")) {
                 String[] arr = strKey.split("#");
                 key = arr[0];
                 sortKey = arr[1];
-            }else {
+            } else {
                 key = strKey;
             }
         }
@@ -377,7 +523,7 @@ public class JsonCompareEntity {
         RelEntity relEntity1 = new RelEntity("001001.line1.reportno", "a的名字", "001001.line1.reportno", "b的名字");
         RelEntity relEntity2 = new RelEntity("002006.line3.dataorg#orderno", "line3名称", "002006.line3.dataorg#orderno", "line3名称2");
         RelEntity relEntity3 = new RelEntity("002006.line3.dataorg", "名称", "002006.line1.employer", "数据");
-        RelEntity relEntity4 = new RelEntity("002006.line3.dataorg#orderno", "名称", "002006.test.line1.dataorg#orderno", "数据");
+        RelEntity relEntity4 = new RelEntity("002006.line3.dataorg#orderno", "名称", "002006.test.line1#name.dataorg#orderno", "数据");//#name
 
 
         String str1 = "{\"002006\":{\"line3\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"3\",\"dataorg\":\"华夏银行\"},{\"orderno\":\"4\",\"dataorg\":\"兴业银行\"},{\"orderno\":\"5\",\"dataorg\":\"广发银行南京分行营业部\"}],\"line1\":[{\"orderno\":\"1\",\"employeraddress\":\"江苏省南京市玄武区孝陵卫街道顾家营公交场站（已详）\",\"employer\":\"南京江南公交客运有限公司\"},{\"orderno\":\"2\",\"employeraddress\":\"江苏省南京玄武区中央路258号江南大厦\",\"employer\":\"南京江南公交客运有限公司\"},{\"orderno\":\"3\",\"employeraddress\":\"江苏省南京市玄武区顾家营公交场厂站\",\"employer\":\"南京公交总公司\"},{\"orderno\":\"4\",\"employeraddress\":\"--\",\"employer\":\"南京市公共交通总公司\"},{\"orderno\":\"5\",\"employeraddress\":\"南京马群第四修理厂南京公交总公司第四修理厂\",\"employer\":\"南京公交总公司第四修理厂\"}]}}";
@@ -386,14 +532,21 @@ public class JsonCompareEntity {
 
         String str3 = "{\"002006\":{\"line3\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"3\",\"dataorg\":\"华夏银行\"},{\"orderno\":\"4\",\"dataorg\":\"兴业银行\"},{\"orderno\":\"5\",\"dataorg\":\"广发银行南京分行营业部\"}]}}";
 
-        String str4 = "{\"002006\":{\"test\":[{\"line1\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"3\",\"dataorg\":\"华夏银行VIP\"},{\"orderno\":\"4\",\"dataorg\":\"兴业银行\"},{\"orderno\":\"5\",\"dataorg\":\"广发银行南京分行营业部\"}],\"line2\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"3\",\"dataorg\":\"华夏银行\"},{\"orderno\":\"4\",\"dataorg\":\"兴业银行\"},{\"orderno\":\"5\",\"dataorg\":\"广发银行南京分行营业部\"}]}]}}";
+        String str4 = "{\"002006\":{\"test\":[{\"name\":\"bbb\",\"line1\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行_bbb\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行_bbb\"},{\"orderno\":\"3\",\"dataorg\":\"华夏银行_bbb\"},{\"orderno\":\"4\",\"dataorg\":\"兴业银行_bbb\"},{\"orderno\":\"5\",\"dataorg\":\"广发银行南京分行营业部_bbb\"}],\"line2\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行_bbb_line2\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行_bbb_line2\"},{\"orderno\":\"3\",\"dataorg\":\"华夏银行_bbb_line2\"},{\"orderno\":\"4\",\"dataorg\":\"兴业银行_bbb_line2\"},{\"orderno\":\"5\",\"dataorg\":\"广发银行南京分行营业部_bbb_line2\"}]},{\"name\":\"aaa\",\"line1\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行_aaa\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行_aaa\"},{\"orderno\":\"3\",\"dataorg\":\"华夏银行_aaa\"},{\"orderno\":\"4\",\"dataorg\":\"兴业银行_aaa\"},{\"orderno\":\"5\",\"dataorg\":\"广发银行南京分行营业部_aaa\"}],\"line2\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行_aaa_line2\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行_aaa_line2\"},{\"orderno\":\"3\",\"dataorg\":\"华夏银行_aaa_line2\"},{\"orderno\":\"4\",\"dataorg\":\"兴业银行_aaa_line2\"},{\"orderno\":\"5\",\"dataorg\":\"广发银行南京分行营业部_aaa_line2\"}]}]}}";
+
+        String str5 = "{\"002006\":{\"line3\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"}]}}";
+
+        String str6 = "{\"002006\":{\"test\":[{\"name\":\"bbb\",\"line1\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行_bbb\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行_bbb\"}]},{\"name\":\"aaa\",\"line1\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行_aaa\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行_aaa\"}]}]}}";
+
 
 //        List<String> list = compareEntitys(str1, str2, Arrays.asList(relEntity2));
-        List<String> list = compareEntitys(str3, str4, Arrays.asList(relEntity4));
+        List<String> list = compareEntitys(str5, str6, Arrays.asList(relEntity4));
+        System.out.println("一共" + list.size() + "条差异！");
         for (String str : list) {
             System.out.println("结果:" + str);
         }
 
+        //保存最后的key值就好
 
         /**
          * 1.实体长度不一致
