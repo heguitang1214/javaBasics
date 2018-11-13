@@ -15,16 +15,17 @@ import java.util.*;
 public class JsonCompareEntity {
 
     /**
-     *  比较json内容，提供给对外调用
-     * @param beforeJson json1
-     * @param afterJson json2
+     * 比较json内容，提供给对外调用
+     *
+     * @param beforeJson  json1
+     * @param afterJson   json2
      * @param relEntities 对应字段映射关系
      * @return 返回List描述结果
      */
     private static List<String> compareEntitys(String beforeJson, String afterJson, List<RelEntity> relEntities) {
         //返回值的容器
         List<String> resultList = new ArrayList<>();
-        if (relEntities == null || relEntities.size() == 0){
+        if (relEntities == null || relEntities.size() == 0) {
             return resultList;
         }
         JSONObject beforeObject;
@@ -32,14 +33,14 @@ public class JsonCompareEntity {
         try {
             beforeObject = JSONArray.parseObject(beforeJson);
             afterObject = JSONArray.parseObject(afterJson);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("JSON数据格式异常，转换失败！");
             resultList.add("JSON数据格式异常，转换失败");
             return resultList;
         }
         try {
             entityContrast(beforeObject, afterObject, relEntities, resultList);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("JSON数据对比出现未知异常！");
             resultList.clear();
             resultList.add("JSON数据对比出现未知异常");
@@ -49,11 +50,12 @@ public class JsonCompareEntity {
     }
 
     /**
-     *  对象的对比方法
-     * @param beforeSrc 对象1
-     * @param afterSrc 对象2
+     * 对象的对比方法
+     *
+     * @param beforeSrc   对象1
+     * @param afterSrc    对象2
      * @param relEntities 映射关系
-     * @param resultList 返回容器
+     * @param resultList  返回容器
      */
     private static void entityContrast(Object beforeSrc, Object afterSrc, List<RelEntity> relEntities, List<String> resultList) {
         //映射关系字段
@@ -202,7 +204,7 @@ public class JsonCompareEntity {
                     }
 
                     Object o = ((JSONObject) afterJsonArr.get(i)).get(afterKey);
-                    analysisJson(beforeJsonArr, o, beforeLinkedList, afterLinkedList, beforeKey , afterKey, relEntity, resultList);
+                    analysisJson(beforeJsonArr, o, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
                 }
             }
         }
@@ -211,6 +213,7 @@ public class JsonCompareEntity {
 
     /**
      * 获取排序的key
+     *
      * @param str 参数字符
      * @return 排序的key
      */
@@ -396,11 +399,13 @@ public class JsonCompareEntity {
 
         String str5 = "{\"002006\":{\"line3\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"}]}}";
 
-        String str6 = "{\"002006\":{\"test\":[{\"name\":\"bbb\",\"line1\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行_bbb\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行_bbb\"}]},{\"name\":\"aaa\",\"line1\":[{\"orderno\":\"3\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行_aaa\"}]}]}}";
+        String str6 = "{\"002006\":{\"test\":[{\"name\":\"bbb\",\"line1\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行_bbb\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行_bbb\"}]},{\"name\":\"aaa\",\"line1\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行1\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行_aaa\"}]}]}}";
 
 
 //        List<String> list = compareEntitys(str1, str2, Arrays.asList(relEntity2));
+        long start = System.currentTimeMillis();
         List<String> list = compareEntitys(str5, str6, Arrays.asList(relEntity4));
+        System.out.println("耗时:" + (System.currentTimeMillis() - start));
         System.out.println("一共" + list.size() + "条差异！");
         for (String str : list) {
             System.out.println("结果:" + str);
