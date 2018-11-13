@@ -15,21 +15,46 @@ import java.util.*;
 public class JsonCompareEntity {
 
     /**
-     * 比较json内容
-     *
-     * @param beforeJson  json1
-     * @param afterJson   json1
-     * @param relEntities 对应字段映射关系,建立字段的映射关系即可
+     *  比较json内容，提供给对外调用
+     * @param beforeJson json1
+     * @param afterJson json2
+     * @param relEntities 对应字段映射关系
+     * @return 返回List描述结果
      */
     private static List<String> compareEntitys(String beforeJson, String afterJson, List<RelEntity> relEntities) {
         //返回值的容器
         List<String> resultList = new ArrayList<>();
-        JSONObject beforeObject = JSONArray.parseObject(beforeJson);
-        JSONObject afterObject = JSONArray.parseObject(afterJson);
-        entityContrast(beforeObject, afterObject, relEntities, resultList);
+        if (relEntities == null || relEntities.size() == 0){
+            return resultList;
+        }
+        JSONObject beforeObject;
+        JSONObject afterObject;
+        try {
+            beforeObject = JSONArray.parseObject(beforeJson);
+            afterObject = JSONArray.parseObject(afterJson);
+        }catch (Exception e){
+            System.out.println("JSON数据格式异常，转换失败！");
+            resultList.add("JSON数据格式异常，转换失败");
+            return resultList;
+        }
+        try {
+            entityContrast(beforeObject, afterObject, relEntities, resultList);
+        }catch (Exception e){
+            System.out.println("JSON数据对比出现未知异常！");
+            resultList.clear();
+            resultList.add("JSON数据对比出现未知异常");
+            return resultList;
+        }
         return resultList;
     }
 
+    /**
+     *  对象的对比方法
+     * @param beforeSrc 对象1
+     * @param afterSrc 对象2
+     * @param relEntities 映射关系
+     * @param resultList 返回容器
+     */
     private static void entityContrast(Object beforeSrc, Object afterSrc, List<RelEntity> relEntities, List<String> resultList) {
         //映射关系字段
         for (RelEntity relEntity : relEntities) {
@@ -37,109 +62,26 @@ public class JsonCompareEntity {
             String[] afterArr = relEntity.getPartyB().split("\\.");
             LinkedList<String> beforeList = arrTurnLinkedList(beforeArr);
             LinkedList<String> afterList = arrTurnLinkedList(afterArr);
-            analysisJson1(beforeSrc, afterSrc, beforeList, afterList, null, null, relEntity, resultList);
+            analysisJson(beforeSrc, afterSrc, beforeList, afterList, null, null, relEntity, resultList);
         }
     }
 
-
     /**
-     * 解析JSON内容,进行数据的比较
+     * 处理JSON数据对比
      */
     private static void analysisJson(Object beforeData, Object afterData,
                                      LinkedList<String> beforeLinkedList, LinkedList<String> afterLinkedList,
+                                     String beforeKey, String afterKey,
                                      RelEntity relEntity, List<String> resultList) {
-        String beforeKey = "", afterKey = "";
         if (beforeLinkedList.size() > 0) {
             beforeKey = beforeLinkedList.getFirst();
         }
         if (afterLinkedList.size() > 0) {
             afterKey = afterLinkedList.getFirst();
         }
-        //对象存在空值
         if (beforeData == null || afterData == null) {
             resultList.add(relEntity.getPartyADesc() + "是[" + beforeData + "]," + relEntity.getPartyBDesc() + "是[" + afterData + "]");
-        }
-        if (beforeLinkedList.size() > 0) {
-            beforeLinkedList.removeFirst();
-        }
-        if (afterLinkedList.size() > 0) {
-            afterLinkedList.removeFirst();
-        }
-        if (beforeData instanceof JSONObject) {
-            if (afterData instanceof JSONObject) {
-//                if (beforeLinkedList.size() > 0) {
-//                    beforeLinkedList.removeFirst();
-//                }
-//                if (afterLinkedList.size() > 0) {
-//                    afterLinkedList.removeFirst();
-//                }
-                if (beforeLinkedList.size() == 0 && afterLinkedList.size() == 0) {
-                    Object beforeObject = ((JSONObject) beforeData).get(beforeKey);
-                    Object afterObject = ((JSONObject) afterData).get(afterKey);
-                    //对象类型的比较
-                    objectTypeCompare(beforeObject, afterObject, relEntity, resultList);
-                } else if (beforeLinkedList.size() == 0 && afterLinkedList.size() > 0) {
-                    Object afterObject = ((JSONObject) afterData).get(afterKey);
-                    analysisJson(beforeData, afterObject, beforeLinkedList, afterLinkedList, relEntity, resultList);
-                } else if (beforeLinkedList.size() > 0 && afterLinkedList.size() == 0) {
-                    Object beforeObject = ((JSONObject) beforeData).get(beforeKey);
-                    analysisJson(beforeObject, afterData, beforeLinkedList, afterLinkedList, relEntity, resultList);
-                } else {
-                    Object beforeObject = ((JSONObject) beforeData).get(beforeKey);
-                    Object afterObject = ((JSONObject) afterData).get(afterKey);
-                    analysisJson(beforeObject, afterObject, beforeLinkedList, afterLinkedList, relEntity, resultList);
-                }
-            } else {
-                resultList.add("类型不匹配:" + relEntity.getPartyADesc() + "是[JSONObject]," + relEntity.getPartyBDesc() + "非[JSONObject]");
-            }
-        } else if (beforeData instanceof JSONArray) {
-            if (afterData instanceof JSONArray) {
-                JSONArray beforeJsonArr = (JSONArray) beforeData;
-                JSONArray afterJsonArr = (JSONArray) afterData;
-//                beforeLinkedList.removeFirst();
-//                afterLinkedList.removeFirst();
-
-                String materSortKey = null, slaveSortKey = null;
-                if (beforeKey.contains("#")) {
-                    materSortKey = getSortKey(beforeKey, "#");
-                    beforeKey = beforeKey.split("#")[0];
-                }
-                if (afterKey.contains("#")) {
-                    slaveSortKey = getSortKey(afterKey, "#");
-                    afterKey = afterKey.split("#")[0];
-                }
-
-                if (afterJsonArr.size() > beforeJsonArr.size()) {
-                    jsonArrayHandle(afterJsonArr, beforeJsonArr, beforeLinkedList, afterLinkedList,
-                            beforeKey, afterKey, relEntity, resultList, materSortKey, slaveSortKey);
-                } else {
-                    jsonArrayHandle(beforeJsonArr, afterJsonArr, beforeLinkedList, afterLinkedList,
-                            beforeKey, afterKey, relEntity, resultList, materSortKey, slaveSortKey);
-                }
-            } else {
-                resultList.add("类型不匹配:" + relEntity.getPartyADesc() + "是[JSONArray]," + relEntity.getPartyBDesc() + "非[JSONArray]");
-            }
-        } else {
-            resultList.add("类型匹配失败:" + relEntity.getPartyADesc() + "既不是一个对象,也不是一个数组!其内容是:" + beforeData);
-        }
-    }
-
-
-    //=======================================================================================================================================
-    private static void analysisJson1(Object beforeData, Object afterData,
-                                      LinkedList<String> beforeLinkedList, LinkedList<String> afterLinkedList,
-                                      String beforeKey, String afterKey,
-                                      RelEntity relEntity, List<String> resultList) {
-        System.out.println("afterKey的值为：" + afterLinkedList);
-        if (beforeLinkedList.size() > 0) {
-            beforeKey = beforeLinkedList.getFirst();
-        }
-        if (afterLinkedList.size() > 0) {
-            afterKey = afterLinkedList.getFirst();
-        }
-        //对象存在空值
-        if (beforeData == null || afterData == null) {
-            resultList.add(relEntity.getPartyADesc() + "是[" + beforeData + "]," + relEntity.getPartyBDesc() + "是[" + afterData + "]");
+            return;
         }
         if (beforeLinkedList.size() > 0) {
             beforeLinkedList.removeFirst();
@@ -151,100 +93,76 @@ public class JsonCompareEntity {
             Object beforeObject = ((JSONObject) beforeData).get(beforeKey);
             if (afterData instanceof JSONObject) {
                 Object afterObject = ((JSONObject) afterData).get(afterKey);
+                //实现不同深度对象的比较
                 if (beforeLinkedList.size() == 0 && afterLinkedList.size() == 0) {
-                    //对象类型的比较
+                    //对象类型的比较  todo 获取值的时候,进行拆分
                     objectTypeCompare(beforeObject, afterObject, relEntity, resultList);
                 } else if (beforeLinkedList.size() == 0 && afterLinkedList.size() > 0) {
-                    analysisJson1(beforeData, afterObject, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+                    analysisJson(beforeData, afterObject, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
                 } else if (beforeLinkedList.size() > 0 && afterLinkedList.size() == 0) {
-                    analysisJson1(beforeObject, afterData, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+                    analysisJson(beforeObject, afterData, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
                 } else {
-                    analysisJson1(beforeObject, afterObject, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+                    analysisJson(beforeObject, afterObject, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
                 }
             } else if (afterData instanceof JSONArray) {
                 JSONArray afterJsonArr = (JSONArray) afterData;
-                if (afterLinkedList.size() == 0) {
-
-                    if (afterKey != null && afterKey.contains("#")) {
-                        afterKey = afterKey.split("#")[0];
-                    }
-
-                    for (Object object : afterJsonArr) {
-                        analysisJson1(beforeData, object, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
-                    }
-                } else {
-                    analysisJson1(beforeObject, afterJsonArr, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+//                直接跳到末尾节点,对象和数组的对比
+                String lastNode = afterLinkedList.getLast();
+                afterLinkedList.clear();
+                if (lastNode.contains("#")) {
+                    afterKey = lastNode.split("#")[0];
+                }
+                for (Object object : afterJsonArr) {
+                    analysisJson(beforeData, object, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
                 }
             } else {
-                resultList.add("优化1:" + "beforeData:" + beforeData + ">>>" + "afterData:" + afterData);
+                resultList.add("类型匹配失败:" + relEntity.getPartyADesc() + "属于JSONObject类型，" + relEntity.getPartyBDesc() + "未匹配到合适的类型,既不是JSONObject,也不是JSONArray,它的值是:" + afterData);
             }
         } else if (beforeData instanceof JSONArray) {
             JSONArray beforeJsonArr = (JSONArray) beforeData;
             if (afterData instanceof JSONArray) {
                 JSONArray afterJsonArr = (JSONArray) afterData;
-                String materSortKey = null, slaveSortKey = null;
-                if (beforeKey != null && beforeKey.contains("#")) {
-                    materSortKey = getSortKey(beforeKey, "#");
-                    beforeKey = beforeKey.split("#")[0];
-                }
-                if (afterKey != null && afterKey.contains("#")) {
-                    slaveSortKey = getSortKey(afterKey, "#");
-                    afterKey = afterKey.split("#")[0];
-                }
-
-                //todo a集合已经到了最后，b集合还需要继续循环
-                jsonArrayHandle1(beforeJsonArr, afterJsonArr, beforeLinkedList, afterLinkedList,
-                        beforeKey, afterKey, relEntity, resultList, materSortKey, slaveSortKey);
-
+                //todo 数组的排序比较
+                System.out.println("要进行数组数据对比,beforeKey=" + beforeKey + ",afterKey=" + afterKey);
+                jsonArrayHandle(beforeJsonArr, afterJsonArr, beforeLinkedList, afterLinkedList,
+                        beforeKey, afterKey, relEntity, resultList);
             } else if (afterData instanceof JSONObject) {
-                Object afterObject = ((JSONObject) afterData).get(afterKey);
-                if (beforeLinkedList.size() == 0) {
-                    for (Object object : beforeJsonArr) {
-                        analysisJson1(object, afterObject, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
-                    }
-                } else {
-                    analysisJson1(beforeJsonArr, afterObject, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+//                数组和对象的对比
+                String lastNode = beforeLinkedList.getLast();
+                beforeLinkedList.clear();
+                if (lastNode.contains("#")) {
+                    beforeKey = lastNode.split("#")[0];
+                }
+                //数据循环对比
+                for (Object object : beforeJsonArr) {
+                    analysisJson(object, afterData, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
                 }
             } else {
-                resultList.add("优化");
+                resultList.add("类型匹配失败:" + relEntity.getPartyADesc() + "属于JSONObject类型，" + relEntity.getPartyBDesc() + "未匹配到合适的类型,既不是JSONObject,也不是JSONArray,它的值是:" + afterData);
             }
         } else {
             resultList.add("类型匹配失败:" + relEntity.getPartyADesc() + "既不是一个对象,也不是一个数组!其内容是:" + beforeData);
         }
     }
 
-
-    private static void jsonArrayHandle1(JSONArray beforeJsonArr, JSONArray afterJsonArr,
-                                         LinkedList<String> beforeLinkedList, LinkedList<String> afterLinkedList,
-                                         String beforeKey, String afterKey, RelEntity relEntity, List<String> resultList,
-                                         String beforeSortKey, String afterSortKey) {
+    //todo 需要排序的
+    private static void jsonArrayHandle(JSONArray beforeJsonArr, JSONArray afterJsonArr,
+                                        LinkedList<String> beforeLinkedList, LinkedList<String> afterLinkedList,
+                                        String beforeKey, String afterKey, RelEntity relEntity, List<String> resultList) {
+        String beforeSortKey = null, afterSortKey = null, beforeSrc = beforeKey, afterSrc = afterKey;
+        if (beforeKey != null && beforeKey.contains("#")) {
+            beforeSortKey = getSortKey(beforeKey);
+            beforeKey = beforeKey.split("#")[0];
+        }
+        if (afterKey != null && afterKey.contains("#")) {
+            afterSortKey = getSortKey(afterKey);
+            afterKey = afterKey.split("#")[0];
+        }
         if (beforeLinkedList.size() == 0 && afterLinkedList.size() == 0) {
             String masterKey, slaveKey;
-//            for (Object beforeObject : beforeJsonArr) {
-//                afterLinkedList.addFirst(afterKey);
-//                beforeLinkedList.addFirst(beforeKey);
-//                Object afterObject = null;
-//                masterKey = ((JSONObject) beforeObject).getString(beforeSortKey);
-//                for (Object slaveObject : afterJsonArr) {
-//                    slaveKey = ((JSONObject) slaveObject).getString(afterSortKey);
-//                    //集合不需要排序，直接顺序比较
-//                    if (StringUtils.isNotBlank(masterKey) && StringUtils.isNotBlank(slaveKey)) {
-//                        if (masterKey.equals(slaveKey)) {
-//                            afterObject = slaveObject;
-//                        }
-//                    } else {
-//                        afterObject = slaveObject;//todo
-//                        break;
-//                    }
-//                }
-//                System.out.println("beforeObject:" + beforeObject + "///afterObject:" + afterObject  );
-//                analysisJson1(beforeObject, afterObject, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
-//            }
-
-            //todo  for循环代替
             for (int i = 0; i < beforeJsonArr.size(); i++) {
-                afterLinkedList.addFirst(afterKey);
                 beforeLinkedList.addFirst(beforeKey);
+                afterLinkedList.addFirst(afterKey);
                 Object afterObject = null;
                 masterKey = ((JSONObject) beforeJsonArr.get(i)).getString(beforeSortKey);
                 for (int j = 0; j < afterJsonArr.size(); j++) {
@@ -259,23 +177,33 @@ public class JsonCompareEntity {
                         }
                     }
                 }
-                System.out.println("beforeObject:" + beforeJsonArr.get(i) + "///afterObject:" + afterObject);
-                System.out.println("beforeKey:" + beforeKey + ",beforeKey:" + beforeKey);
-                analysisJson1(beforeJsonArr.get(i), afterObject, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+                analysisJson(beforeJsonArr.get(i), afterObject, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
             }
         } else {
+            String lastNode = "";
+            //层级不同的时候,需要进行排序操作
             if (beforeLinkedList.size() > 0) {
                 afterLinkedList.addFirst(afterKey);
-                for (Object beforeObject : beforeJsonArr) {
-                    Object o = ((JSONObject) beforeObject).get(beforeKey);
-                    analysisJson1(o, afterJsonArr, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+                for (int i = 0; i < beforeJsonArr.size(); i++) {
+                    if (i == 0) {
+                        lastNode = beforeLinkedList.getFirst();
+                    } else {
+                        beforeLinkedList.addFirst(lastNode);
+                    }
+                    Object o = ((JSONObject) beforeJsonArr.get(i)).get(beforeKey);
+                    analysisJson(o, afterJsonArr, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
                 }
             } else {
-                beforeLinkedList.addFirst(beforeKey);
-                // TODO: 2018/11/12 afterkey
-                for (Object afterObject : afterJsonArr) {
-                    Object o = ((JSONObject) afterObject).get(afterKey);
-                    analysisJson1(beforeJsonArr, o, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+//                beforeLinkedList.addFirst(beforeSrc);
+                for (int i = 0; i < afterJsonArr.size(); i++) {
+                    beforeLinkedList.addFirst(beforeSrc);
+                    if (i == 0) {
+                        lastNode = afterLinkedList.getFirst();
+                    } else {
+                        afterLinkedList.addFirst(lastNode);
+                    }
+                    Object o = ((JSONObject) afterJsonArr.get(i)).get(afterKey);
+                    analysisJson(beforeJsonArr, o, beforeLinkedList, afterLinkedList, beforeKey , afterKey, relEntity, resultList);
                 }
             }
         }
@@ -284,12 +212,10 @@ public class JsonCompareEntity {
 
     /**
      * 获取排序的key
-     *
-     * @param str            参数字符
-     * @param splitCharacter 拆分符号
+     * @param str 参数字符
      * @return 排序的key
      */
-    private static String getSortKey(String str, String splitCharacter) {
+    private static String getSortKey(String str) {
         if (StringUtils.isNotBlank(str)) {
             String[] arr = str.split("#");
             if (arr.length > 1) {
@@ -299,74 +225,14 @@ public class JsonCompareEntity {
         return null;
     }
 
-    private static void handleSortKey(String key, String sortKey, String strKey) {
-        if (StringUtils.isNotBlank(strKey)) {
-            if (strKey.contains("#")) {
-                String[] arr = strKey.split("#");
-                key = arr[0];
-                sortKey = arr[1];
-            } else {
-                key = strKey;
-            }
-        }
-    }
-
-
-    /**
-     * JsonArray类型的处理
-     * todo 处理集合嵌套的问题
-     */
-    private static void jsonArrayHandle(JSONArray materJsonArr, JSONArray slaveJsonArr,
-                                        LinkedList<String> beforeLinkedList, LinkedList<String> afterLinkedList,
-                                        String beforeKey, String afterKey, RelEntity relEntity, List<String> resultList,
-                                        String materSortKey, String slaveSortKey) {
-        if (StringUtils.isNotBlank(materSortKey) && StringUtils.isNotBlank(slaveSortKey)) {
-            for (Object beforeObject : materJsonArr) {
-                beforeLinkedList.addFirst(beforeKey);
-                afterLinkedList.addFirst(afterKey);
-                Object afterObject = null;
-                String masterKey, slaveKey;
-                if (beforeObject instanceof JSONObject) {
-                    masterKey = ((JSONObject) beforeObject).getString(materSortKey);
-                } else {
-                    resultList.add("数组比对失败,获取类型不成功,不是一个JSONObject类型!");
-                    continue;
-                }
-                for (Object slaveObject : slaveJsonArr) {
-                    //标记
-                    if (slaveObject instanceof JSONObject) {
-                        slaveKey = ((JSONObject) slaveObject).getString(slaveSortKey);
-                    } else {
-                        resultList.add("数组比对失败,获取类型不成功,不是一个JSONObject类型!");
-                        continue;
-                    }
-                    if (masterKey.equals(slaveKey)) {
-                        afterObject = slaveObject;
-                    }
-                }
-                analysisJson(beforeObject, afterObject, beforeLinkedList, afterLinkedList, relEntity, resultList);
-            }
-        } else {
-            for (int i = 0; i < materJsonArr.size(); i++) {
-                beforeLinkedList.addFirst(beforeKey);
-                afterLinkedList.addFirst(afterKey);
-                Object masterObject = materJsonArr.get(i);
-                Object beforeObject = null;
-                if (i < slaveJsonArr.size()) {
-                    beforeObject = slaveJsonArr.get(i);
-                }
-                analysisJson(masterObject, beforeObject, beforeLinkedList, afterLinkedList, relEntity, resultList);
-            }
-        }
-    }
-
-
     /**
      * 对象类型匹配比对
      */
     private static void objectTypeCompare(Object beforeObject, Object afterObject, RelEntity relEntity, List<String> resultList) {
         if (beforeObject instanceof BigInteger && afterObject instanceof BigInteger) {
-            System.out.println("BigInteger" + beforeObject);
+            if (!beforeObject.equals(afterObject)) {
+                resultList.add(relEntity.getPartyADesc() + "是[" + beforeObject + "]," + relEntity.getPartyBDesc() + "是[" + afterObject + "]");
+            }
         } else if (beforeObject instanceof String && afterObject instanceof String) {
             if (!beforeObject.equals(afterObject)) {
                 resultList.add(relEntity.getPartyADesc() + "是[" + beforeObject + "]," + relEntity.getPartyBDesc() + "是[" + afterObject + "]");
@@ -377,10 +243,12 @@ public class JsonCompareEntity {
                 resultList.add(relEntity.getPartyADesc() + "是[" + beforeObject + "]," + relEntity.getPartyBDesc() + "是[" + afterObject + "]");
             }
         } else {
-            resultList.add(relEntity.getPartyADesc() + "是[" + beforeObject + "]," + relEntity.getPartyBDesc() + "是[" + afterObject + "]");
+            //未判断的类型，直接使用equals比较
+            if (!beforeObject.equals(afterObject)) {
+                resultList.add(relEntity.getPartyADesc() + "是[" + beforeObject + "]," + relEntity.getPartyBDesc() + "是[" + afterObject + "]");
+            }
         }
     }
-
 
     private static LinkedList<String> arrTurnLinkedList(String[] strArr) {
         LinkedList<String> linkedList = new LinkedList<>();
@@ -389,20 +257,6 @@ public class JsonCompareEntity {
         }
         for (String str : strArr) {
             linkedList.addLast(str);
-        }
-        return linkedList;
-    }
-
-    private static LinkedList<String> arrTurnLinkedList2(String[] strArr) {
-        LinkedList<String> linkedList = new LinkedList<>();
-        if (strArr == null || strArr.length == 0) {
-            return linkedList;
-        }
-        for (String str : strArr) {
-            String[] arr = str.split("\\.");
-            for (String s : arr) {
-                linkedList.addLast(s);
-            }
         }
         return linkedList;
     }
@@ -543,7 +397,7 @@ public class JsonCompareEntity {
 
         String str5 = "{\"002006\":{\"line3\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"}]}}";
 
-        String str6 = "{\"002006\":{\"test\":[{\"name\":\"bbb\",\"line1\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行_bbb\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行_bbb\"}]},{\"name\":\"aaa\",\"line1\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行_aaa\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行_aaa\"}]}]}}";
+        String str6 = "{\"002006\":{\"test\":[{\"name\":\"bbb\",\"line1\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行_bbb\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行_bbb\"}]},{\"name\":\"aaa\",\"line1\":[{\"orderno\":\"3\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行_aaa\"}]}]}}";
 
 
 //        List<String> list = compareEntitys(str1, str2, Arrays.asList(relEntity2));
