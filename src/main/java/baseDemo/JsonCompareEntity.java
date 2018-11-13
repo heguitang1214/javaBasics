@@ -79,15 +79,15 @@ public class JsonCompareEntity {
         if (afterLinkedList.size() > 0) {
             afterKey = afterLinkedList.getFirst();
         }
-        if (beforeData == null || afterData == null) {
-            resultList.add(relEntity.getPartyADesc() + "是[" + beforeData + "]," + relEntity.getPartyBDesc() + "是[" + afterData + "]");
-            return;
-        }
         if (beforeLinkedList.size() > 0) {
             beforeLinkedList.removeFirst();
         }
         if (afterLinkedList.size() > 0) {
             afterLinkedList.removeFirst();
+        }
+        if (beforeData == null || afterData == null) {
+            resultList.add(relEntity.getPartyADesc() + "是[" + beforeData + "]," + relEntity.getPartyBDesc() + "是[" + afterData + "]");
+            return;
         }
         if (beforeData instanceof JSONObject) {
             Object beforeObject = ((JSONObject) beforeData).get(beforeKey);
@@ -95,7 +95,7 @@ public class JsonCompareEntity {
                 Object afterObject = ((JSONObject) afterData).get(afterKey);
                 //实现不同深度对象的比较
                 if (beforeLinkedList.size() == 0 && afterLinkedList.size() == 0) {
-                    //对象类型的比较  todo 获取值的时候,进行拆分
+                    //对象类型的比较
                     objectTypeCompare(beforeObject, afterObject, relEntity, resultList);
                 } else if (beforeLinkedList.size() == 0 && afterLinkedList.size() > 0) {
                     analysisJson(beforeData, afterObject, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
@@ -122,8 +122,6 @@ public class JsonCompareEntity {
             JSONArray beforeJsonArr = (JSONArray) beforeData;
             if (afterData instanceof JSONArray) {
                 JSONArray afterJsonArr = (JSONArray) afterData;
-                //todo 数组的排序比较
-                System.out.println("要进行数组数据对比,beforeKey=" + beforeKey + ",afterKey=" + afterKey);
                 jsonArrayHandle(beforeJsonArr, afterJsonArr, beforeLinkedList, afterLinkedList,
                         beforeKey, afterKey, relEntity, resultList);
             } else if (afterData instanceof JSONObject) {
@@ -145,7 +143,6 @@ public class JsonCompareEntity {
         }
     }
 
-    //todo 需要排序的
     private static void jsonArrayHandle(JSONArray beforeJsonArr, JSONArray afterJsonArr,
                                         LinkedList<String> beforeLinkedList, LinkedList<String> afterLinkedList,
                                         String beforeKey, String afterKey, RelEntity relEntity, List<String> resultList) {
@@ -183,8 +180,9 @@ public class JsonCompareEntity {
             String lastNode = "";
             //层级不同的时候,需要进行排序操作
             if (beforeLinkedList.size() > 0) {
-                afterLinkedList.addFirst(afterKey);
+//                afterLinkedList.addFirst(afterKey);
                 for (int i = 0; i < beforeJsonArr.size(); i++) {
+                    afterLinkedList.addFirst(afterSrc);
                     if (i == 0) {
                         lastNode = beforeLinkedList.getFirst();
                     } else {
@@ -202,6 +200,7 @@ public class JsonCompareEntity {
                     } else {
                         afterLinkedList.addFirst(lastNode);
                     }
+
                     Object o = ((JSONObject) afterJsonArr.get(i)).get(afterKey);
                     analysisJson(beforeJsonArr, o, beforeLinkedList, afterLinkedList, beforeKey , afterKey, relEntity, resultList);
                 }
