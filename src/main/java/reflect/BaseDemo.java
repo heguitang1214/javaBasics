@@ -11,18 +11,20 @@ public class BaseDemo {
         /*
         反射执行方法
          */
-//        handleMethodParam();
-//        System.out.println("==============================华丽分割线==================================");
-//        handleMethod();
-//        for (int i = 0; i < 5; i++) {
-//            System.out.println();
-//        }
-//
-//        /*
-//        反射获取属性值
-//         */
-//        getAttributes();
+        handleMethodParam();
+        System.out.println("==============================华丽分割线==================================");
+        handleMethod();
+        for (int i = 0; i < 5; i++) {
+            System.out.println();
+        }
 
+        /*
+        反射获取属性值
+         */
+        getAttributes();
+        for (int i = 0; i < 5; i++) {
+            System.out.println();
+        }
         /*
         获取类信息
          */
