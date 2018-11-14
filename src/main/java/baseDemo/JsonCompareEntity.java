@@ -187,7 +187,9 @@ public class JsonCompareEntity {
                     Object o = ((JSONObject) beforeJsonArr.get(i)).get(beforeKey);
                     System.out.println(beforeJsonArr);
                     System.out.println("通过["+beforeKey+"]获取值,为" + o); //todo line3_2的问题
-                    analysisJson(o, afterJsonArr, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+                    if (o != null) {
+                        analysisJson(o, afterJsonArr, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+                    }
                 }
             } else {
 //                beforeLinkedList.addFirst(beforeSrc);
@@ -198,9 +200,10 @@ public class JsonCompareEntity {
                     } else {
                         afterLinkedList.addFirst(lastNode);
                     }
-
                     Object o = ((JSONObject) afterJsonArr.get(i)).get(afterKey);
-                    analysisJson(beforeJsonArr, o, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+                    if (o != null) {
+                        analysisJson(beforeJsonArr, o, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+                    }
                 }
             }
         }
