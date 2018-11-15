@@ -92,7 +92,7 @@ public class JsonCompareEntity {
             if (afterData instanceof JSONObject){
                 afterData = ((JSONObject) afterData).get(afterKey);
             }
-            System.out.println(relEntity.getPartyADesc() + "是[" + beforeData + "]," + relEntity.getPartyBDesc() + "是[" + afterData + "]");
+//            System.out.println(relEntity.getPartyADesc() + "是[" + beforeData + "]," + relEntity.getPartyBDesc() + "是[" + afterData + "]");
             resultList.add(relEntity.getPartyADesc() + "是[" + beforeData + "]," + relEntity.getPartyBDesc() + "是[" + afterData + "]");
             return;
         }
@@ -116,7 +116,7 @@ public class JsonCompareEntity {
 //                对象和数组的对比
                 analysisJson(beforeObject, afterJsonArr, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
             } else {
-                System.out.println("类型匹配失败:" + relEntity.getPartyADesc() + "属于JSONObject类型，" + relEntity.getPartyBDesc() + "未匹配到合适的类型,既不是JSONObject,也不是JSONArray,它的值是:" + afterData);
+//                System.out.println("类型匹配失败:" + relEntity.getPartyADesc() + "属于JSONObject类型，" + relEntity.getPartyBDesc() + "未匹配到合适的类型,既不是JSONObject,也不是JSONArray,它的值是:" + afterData);
                 resultList.add("类型匹配失败:" + relEntity.getPartyADesc() + "属于JSONObject类型，" + relEntity.getPartyBDesc() + "未匹配到合适的类型,既不是JSONObject,也不是JSONArray,它的值是:" + afterData);
             }
         } else if (beforeData instanceof JSONArray) {
@@ -130,11 +130,11 @@ public class JsonCompareEntity {
                 Object afterObject = ((JSONObject) afterData).get(afterKey);
                 analysisJson(beforeData, afterObject, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
             } else {
-                System.out.println("类型匹配失败:" + relEntity.getPartyADesc() + "属于JSONObject类型，" + relEntity.getPartyBDesc() + "未匹配到合适的类型,既不是JSONObject,也不是JSONArray,它的值是:" + afterData);
+//                System.out.println("类型匹配失败:" + relEntity.getPartyADesc() + "属于JSONObject类型，" + relEntity.getPartyBDesc() + "未匹配到合适的类型,既不是JSONObject,也不是JSONArray,它的值是:" + afterData);
                 resultList.add("类型匹配失败:" + relEntity.getPartyADesc() + "属于JSONObject类型，" + relEntity.getPartyBDesc() + "未匹配到合适的类型,既不是JSONObject,也不是JSONArray,它的值是:" + afterData);
             }
         } else {
-            System.out.println("类型匹配失败:" + relEntity.getPartyADesc() + "既不是一个对象,也不是一个数组!其内容是:" + beforeData);
+//            System.out.println("类型匹配失败:" + relEntity.getPartyADesc() + "既不是一个对象,也不是一个数组!其内容是:" + beforeData);
             resultList.add("类型匹配失败:" + relEntity.getPartyADesc() + "既不是一个对象,也不是一个数组!其内容是:" + beforeData);
         }
     }
@@ -186,7 +186,7 @@ public class JsonCompareEntity {
                     }
                     Object o = ((JSONObject) beforeJsonArr.get(i)).get(beforeKey);
                     System.out.println(beforeJsonArr);
-                    System.out.println("通过["+beforeKey+"]获取值,为" + o); //todo line3_2的问题
+//                    System.out.println("通过["+beforeKey+"]获取值,为" + o); //todo line3_2的问题
                     if (o != null) {
                         analysisJson(o, afterJsonArr, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
                     }
@@ -379,7 +379,7 @@ public class JsonCompareEntity {
 
     public static void main(String[] args) {
         //大道数据模拟
-        String str1 = "{\"icrCreditDTO\":{\"reportBaseInfo\":{\"reportNo\":\"2015061000001934756505\",\"name\":\"张李五\",\"reportCreateTime\":\"2015/06/11 02:38:41\"},\"line1\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"3\",\"dataorg\":\"华夏银行\"}],\"line2\":[{\"orderno\":\"3\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"1\",\"dataorg\":\"华夏银行\"}],\"line3\":[{\"name\":\"300\",\"age\":\"50\",\"line3_1\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"3\",\"dataorg\":\"华夏银行\"}]},{\"name\":\"100\",\"age\":\"60\",\"line3_2\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"3\",\"dataorg\":\"华夏银行\"}]}]}}";
+        String str1 = "{\"icrCreditDTO\":{\"reportBaseInfo\":{\"reportNo\":\"2015061000001934756505\",\"name\":\"张李五\",\"reportCreateTime\":\"2015/06/11 02:38:41\"},\"line1\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"3\",\"dataorg\":\"华夏银行\"}],\"line2\":[{\"orderno\":\"3\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"1\",\"dataorg\":\"华夏银行\"}],\"line3\":[{\"name\":\"300\",\"age\":\"50\",\"line3_1\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行_hgt\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"3\",\"dataorg\":\"华夏银行\"}]},{\"name\":\"100\",\"age\":\"60\",\"line3_2\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"3\",\"dataorg\":\"华夏银行\"}]}]}}";
         //半刻数据结构
         String str2 = "{\"001001\":{\"reportNo\":\"2015061000001934756505_hgt\",\"name\":\"张李五_hgt\",\"queryTime\":\"2015/06/11 02:38:40\",\"line1\":[{\"orderno\":\"3\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"1\",\"dataorg\":\"华夏银行\"}],\"line2\":{\"line2_1\":[{\"orderno\":\"31\",\"dataorg\":\"广州银行_hgt\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"1\",\"dataorg\":\"华夏银行\"}]},\"line3\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"3\",\"dataorg\":\"华夏银行\"}]}}";
 
