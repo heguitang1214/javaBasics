@@ -11,10 +11,11 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 /**
+ * 动态生成代理对象,主要依靠JavaCompiler,和URLClassLoader
+ *
  * @author he_guitang
  * @version [1.0 , 2018/5/22]
  */
-
 public class Proxy {//本身不需要实现接口
 
     //JDK6 Complier API, CGLib, ASM
