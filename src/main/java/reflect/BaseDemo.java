@@ -35,6 +35,7 @@ public class BaseDemo {
 
     /**
      * 执行有参数的方法
+     * method.invoke(catalinaDaemon, (Object [])null);
      */
     private static void handleMethodParam() throws Exception {
         String str = "heguitang";
