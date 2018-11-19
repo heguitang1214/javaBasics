@@ -5,6 +5,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URL;
 
+/**
+ * 反射基础使用
+ */
 public class BaseDemo {
 
     public static void main(String[] args) throws Exception {
