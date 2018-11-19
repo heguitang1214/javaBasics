@@ -4,7 +4,6 @@ import java.lang.reflect.Method;
 
 @MyAnnotation1(age = 100, name = "注解1")
 @MyAnnotation2(name = "注解2")
-@MyAnnotation3(30)
 /**
  * 注解的属性类型:
  * 8种基本数据类型,String,Enum,Class,注解类型
@@ -36,7 +35,7 @@ public class AnnotationTest {
 
     @MyAnnotation2(name = "注解2")
     public void annotationTest(){
-
+        System.out.println("这是注解的方法!");
     }
 
 
