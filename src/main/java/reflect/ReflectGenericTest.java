@@ -5,10 +5,13 @@ import java.lang.reflect.Type;
 
 /**
  * 反射泛型
+ * super表示调用父类的方法，不是获取父类的对象。因此谁调用了这个方法，getClass就会返回调用者这个对象的类型
+ * 子类有一个引用指向父类，在方法调用时,会通过这个引用找到父类的方法,从而进行方法调用
  */
 public class ReflectGenericTest {
 
     public static void main(String[] args) {
+
 //        new B();
 //        new C();
         new B("字符串");
@@ -51,9 +54,20 @@ public class ReflectGenericTest {
         public B() {
             System.out.println("这个super()中的super代表的是:" + super.getClass());
         }
+
+        /**
+         *如果B当中有两个同名的方法，一个是父类集成的，一个是B类自己的，这时候才能体现super的作用。
+         */
         public B(String name) {
             super(name);
+            //在B类有个方法引用指向A，super强调的是指定调用A中的方法。因为当前对象是B对象，
+            // 因此相当于是this.super.getClass，得到的是B对象
             System.out.println("这个super(name)中的super代表的是:" + super.getClass());
+            publicMethod();
+        }
+
+        public void publicMethod() {
+            System.out.println("这是子类公有的方法:" + this.getClass());
         }
     }
 
