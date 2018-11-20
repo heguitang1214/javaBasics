@@ -76,13 +76,9 @@ public class JsonCompareEntity {
                                      String beforeKey, String afterKey,
                                      RelEntity relEntity, List<String> resultList) {
         if (beforeLinkedList.size() > 0) {
-//            beforeKey = beforeLinkedList.getFirst();
-//            beforeLinkedList.removeFirst();
             beforeKey = beforeLinkedList.removeFirst();
         }
         if (afterLinkedList.size() > 0) {
-//            afterKey = afterLinkedList.getFirst();
-//            afterLinkedList.removeFirst();
             afterKey = afterLinkedList.removeFirst();
         }
         if (beforeData == null || afterData == null) {
@@ -92,7 +88,6 @@ public class JsonCompareEntity {
             if (afterData instanceof JSONObject) {
                 afterData = ((JSONObject) afterData).get(afterKey);
             }
-//            System.out.println(relEntity.getPartyADesc() + "是[" + beforeData + "]," + relEntity.getPartyBDesc() + "是[" + afterData + "]");
             resultList.add(relEntity.getPartyADesc() + "是[" + beforeData + "]," + relEntity.getPartyBDesc() + "是[" + afterData + "]");
             return;
         }
@@ -116,7 +111,6 @@ public class JsonCompareEntity {
 //                对象和数组的对比
                 analysisJson(beforeObject, afterJsonArr, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
             } else {
-//                System.out.println("类型匹配失败:" + relEntity.getPartyADesc() + "属于JSONObject类型，" + relEntity.getPartyBDesc() + "未匹配到合适的类型,既不是JSONObject,也不是JSONArray,它的值是:" + afterData);
                 resultList.add("类型匹配失败:" + relEntity.getPartyADesc() + "属于JSONObject类型，" + relEntity.getPartyBDesc() + "未匹配到合适的类型,既不是JSONObject,也不是JSONArray,它的值是:" + afterData);
             }
         } else if (beforeData instanceof JSONArray) {
@@ -130,11 +124,9 @@ public class JsonCompareEntity {
                 Object afterObject = ((JSONObject) afterData).get(afterKey);
                 analysisJson(beforeData, afterObject, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
             } else {
-//                System.out.println("类型匹配失败:" + relEntity.getPartyADesc() + "属于JSONObject类型，" + relEntity.getPartyBDesc() + "未匹配到合适的类型,既不是JSONObject,也不是JSONArray,它的值是:" + afterData);
                 resultList.add("类型匹配失败:" + relEntity.getPartyADesc() + "属于JSONObject类型，" + relEntity.getPartyBDesc() + "未匹配到合适的类型,既不是JSONObject,也不是JSONArray,它的值是:" + afterData);
             }
         } else {
-//            System.out.println("类型匹配失败:" + relEntity.getPartyADesc() + "既不是一个对象,也不是一个数组!其内容是:" + beforeData);
             resultList.add("类型匹配失败:" + relEntity.getPartyADesc() + "既不是一个对象,也不是一个数组!其内容是:" + beforeData);
         }
     }
