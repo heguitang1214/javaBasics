@@ -36,7 +36,6 @@ public class JsonCompareEntity {
             beforeObject = JSONArray.parseObject(beforeJson);
             afterObject = JSONArray.parseObject(afterJson);
         } catch (Exception e) {
-            System.out.println("JSON数据格式异常，转换失败！");
             resultList.add("JSON数据格式异常，转换失败");
             return resultList;
         }
@@ -89,7 +88,7 @@ public class JsonCompareEntity {
             if (beforeData instanceof JSONObject) {
                 beforeData = ((JSONObject) beforeData).get(beforeKey);
             }
-            if (afterData instanceof JSONObject){
+            if (afterData instanceof JSONObject) {
                 afterData = ((JSONObject) afterData).get(afterKey);
             }
 //            System.out.println(relEntity.getPartyADesc() + "是[" + beforeData + "]," + relEntity.getPartyBDesc() + "是[" + afterData + "]");
@@ -173,36 +172,35 @@ public class JsonCompareEntity {
                 analysisJson(beforeJsonArr.get(i), afterObject, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
             }
         } else {
-            String lastNode = "";
+            String lastNode;
             //层级不同的时候,需要进行排序操作
             if (beforeLinkedList.size() > 0) {
-//                afterLinkedList.addFirst(afterKey);
-                for (int i = 0; i < beforeJsonArr.size(); i++) {
-                    afterLinkedList.addFirst(afterSrc);
-                    if (i == 0) {
-                        lastNode = beforeLinkedList.getFirst();
-                    } else {
+                lastNode = beforeLinkedList.removeFirst();
+//                for (int i = 0; i < beforeJsonArr.size(); i++) {
+//                    Object o = ((JSONObject) beforeJsonArr.get(i)).get(beforeKey);
+//                    System.out.println(beforeJsonArr);
+//                    if (o != null) {//todo line3_2的问题
+//                        afterLinkedList.addFirst(afterSrc);
+//                        beforeLinkedList.addFirst(lastNode);
+//                        analysisJson(o, afterJsonArr, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+//                    }
+//                }
+                for (Object object : beforeJsonArr) {
+                    Object obj = ((JSONObject) object).get(beforeKey);
+                    if (obj != null) {
+                        afterLinkedList.addFirst(afterSrc);
                         beforeLinkedList.addFirst(lastNode);
-                    }
-                    Object o = ((JSONObject) beforeJsonArr.get(i)).get(beforeKey);
-                    System.out.println(beforeJsonArr);
-//                    System.out.println("通过["+beforeKey+"]获取值,为" + o); //todo line3_2的问题
-                    if (o != null) {
-                        analysisJson(o, afterJsonArr, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+                        analysisJson(obj, afterJsonArr, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
                     }
                 }
             } else {
-//                beforeLinkedList.addFirst(beforeSrc);
-                for (int i = 0; i < afterJsonArr.size(); i++) {
-                    beforeLinkedList.addFirst(beforeSrc);
-                    if (i == 0) {
-                        lastNode = afterLinkedList.getFirst();
-                    } else {
+                lastNode = afterLinkedList.removeFirst();
+                for (Object object : afterJsonArr){
+                    Object obj = ((JSONObject)object).get(afterKey);
+                    if (obj != null) {
+                        beforeLinkedList.addFirst(beforeSrc);
                         afterLinkedList.addFirst(lastNode);
-                    }
-                    Object o = ((JSONObject) afterJsonArr.get(i)).get(afterKey);
-                    if (o != null) {
-                        analysisJson(beforeJsonArr, o, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
+                        analysisJson(beforeJsonArr, obj, beforeLinkedList, afterLinkedList, beforeKey, afterKey, relEntity, resultList);
                     }
                 }
             }
@@ -210,8 +208,8 @@ public class JsonCompareEntity {
     }
 
     private static void jsonArrayHandle1(JSONArray beforeJsonArr, JSONArray afterJsonArr,
-                                        LinkedList<String> beforeLinkedList, LinkedList<String> afterLinkedList,
-                                        String beforeKey, String afterKey, RelEntity relEntity, List<String> resultList) {
+                                         LinkedList<String> beforeLinkedList, LinkedList<String> afterLinkedList,
+                                         String beforeKey, String afterKey, RelEntity relEntity, List<String> resultList) {
         String beforeSortKey = null, afterSortKey = null, beforeSrc = beforeKey, afterSrc = afterKey;
         if (beforeKey != null && beforeKey.contains("#")) {
             beforeSortKey = getSortKey(beforeKey);
@@ -328,7 +326,6 @@ public class JsonCompareEntity {
     }
 
 
-
     static class RelEntity {
         private String partyA;
         private String partyADesc;
@@ -376,10 +373,9 @@ public class JsonCompareEntity {
     }
 
 
-
     public static void main(String[] args) {
         //大道数据模拟
-        String str1 = "{\"icrCreditDTO\":{\"reportBaseInfo\":{\"reportNo\":\"2015061000001934756505\",\"name\":\"张李五\",\"reportCreateTime\":\"2015/06/11 02:38:41\"},\"line1\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"3\",\"dataorg\":\"华夏银行\"}],\"line2\":[{\"orderno\":\"3\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"1\",\"dataorg\":\"华夏银行\"}],\"line3\":[{\"name\":\"300\",\"age\":\"50\",\"line3_1\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行_hgt\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"3\",\"dataorg\":\"华夏银行\"}]},{\"name\":\"100\",\"age\":\"60\",\"line3_2\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"3\",\"dataorg\":\"华夏银行\"}]}]}}";
+        String str1 = "{\"icrCreditDTO\":{\"reportBaseInfo\":{\"reportNo\":\"2015061000001934756505\",\"name\":\"张李五\",\"reportCreateTime\":\"2015/06/11 02:38:41\"},\"line1\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"3\",\"dataorg\":\"华夏银行\"}],\"line2\":[{\"orderno\":\"3\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"1\",\"dataorg\":\"华夏银行\"}],\"line3\":[{\"name\":\"300\",\"age\":\"50\",\"line3_1\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行_hgt\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"3\",\"dataorg\":\"华夏银行\"}]},{\"name\":\"100\",\"age\":\"60\",\"line3_2\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行_hgt\"},{\"orderno\":\"3\",\"dataorg\":\"华夏银行\"}]}]}}";
         //半刻数据结构
         String str2 = "{\"001001\":{\"reportNo\":\"2015061000001934756505_hgt\",\"name\":\"张李五_hgt\",\"queryTime\":\"2015/06/11 02:38:40\",\"line1\":[{\"orderno\":\"3\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"1\",\"dataorg\":\"华夏银行\"}],\"line2\":{\"line2_1\":[{\"orderno\":\"31\",\"dataorg\":\"广州银行_hgt\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"1\",\"dataorg\":\"华夏银行\"}]},\"line3\":[{\"orderno\":\"1\",\"dataorg\":\"广州银行\"},{\"orderno\":\"2\",\"dataorg\":\"平安银行南京城中支行\"},{\"orderno\":\"3\",\"dataorg\":\"华夏银行\"}]}}";
 
@@ -393,33 +389,18 @@ public class JsonCompareEntity {
         //4.相同结构数组对比,要求字段排序
         RelEntity relEntity4 = new RelEntity("icrCreditDTO.line2.dataorg#orderno", "大道银行名2:", "001001.line2.line2_1.dataorg#orderno", "半刻银行名2:");
         RelEntity relEntity5 = new RelEntity("icrCreditDTO.line3.line3_1.dataorg#orderno", "大道银行名3:", "001001.line3.dataorg#orderno", "半刻银行名3:");
-
+        RelEntity relEntity6 = new RelEntity("icrCreditDTO.line3.line3_2.dataorg#orderno", "大道银行名4:", "001001.line3.dataorg#orderno", "半刻银行名4:");
 
 
         //5.不同数组深度对比
         //6.不同数组深度对比,要求字段排序
         long start = System.currentTimeMillis();
-        List<String> list = compareEntitys(str1, str2, Arrays.asList(relEntity5));
+        List<String> list = compareEntitys(str1, str2, Arrays.asList(relEntity5, relEntity6));
         System.out.println("耗时:" + (System.currentTimeMillis() - start));
         System.out.println("一共" + list.size() + "条差异！");
         for (String str : list) {
             System.out.println("结果:" + str);
         }
-
-
-
-
-
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-//        LocalDate localDate = LocalDate.parse("2018/11/13", formatter);
-//        System.out.println(localDate);
-
-
-//        String str = "1986-04-08 12:30";
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-//        LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
-
-
 
     }
 
