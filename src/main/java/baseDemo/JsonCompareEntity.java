@@ -325,36 +325,16 @@ public class JsonCompareEntity {
 //            System.out.println("结果:" + str);
 //        }
 
-
-
         RelEntity relEntity_01 = new RelEntity("001001.line1.reportno", "报告编号:", "reportBaseInfo.reportNo", "报告的基本信息.报告编号:");
         RelEntity relEntity_02 = new RelEntity("001001.line1.querytime", "查询请求时间:", "reportBaseInfo.queryTime", "报告的基本信息.查询请求时间:");
         RelEntity relEntity_03 = new RelEntity("002005.line1.orderno#orderno", "编号:", "icrProfessional.serialNo#serialNo", "职业信息.流水号:");
         RelEntity relEntity_04 = new RelEntity("002005.line1.address#orderno", "居住地址:", "icrProfessional.employer#serialNo", "居住信息.居住地址:");
         RelEntity relEntity_05 = new RelEntity("005004.line1.money#orderno", "处罚金额:", "icrAdminPunishment.money#serialNo", "行政处罚记录.处罚金额:");
-        RelEntity relEntity_06 = new RelEntity("icrCreditDTO.line3.line3_2.dataorg#orderno", "大道银行名4:", "001001.line3.dataorg#orderno", "半刻银行名4:");
-        RelEntity relEntity_07 = new RelEntity("icrCreditDTO.line3.line3_2.dataorg#orderno", "大道银行名4:", "001001.line3.dataorg#orderno", "半刻银行名4:");
-        RelEntity relEntity_08 = new RelEntity("icrCreditDTO.line3.line3_2.dataorg#orderno", "大道银行名4:", "001001.line3.dataorg#orderno", "半刻银行名4:");
-        RelEntity relEntity_09 = new RelEntity("icrCreditDTO.line3.line3_2.dataorg#orderno", "大道银行名4:", "001001.line3.dataorg#orderno", "半刻银行名4:");
-        RelEntity relEntity_10 = new RelEntity("icrCreditDTO.line3.line3_2.dataorg#orderno", "大道银行名4:", "001001.line3.dataorg#orderno", "半刻银行名4:");
-        RelEntity relEntity_11 = new RelEntity("icrCreditDTO.line3.line3_2.dataorg#orderno", "大道银行名4:", "001001.line3.dataorg#orderno", "半刻银行名4:");
-        RelEntity relEntity_12 = new RelEntity("icrCreditDTO.line3.line3_2.dataorg#orderno", "大道银行名4:", "001001.line3.dataorg#orderno", "半刻银行名4:");
-        RelEntity relEntity_13 = new RelEntity("icrCreditDTO.line3.line3_2.dataorg#orderno", "大道银行名4:", "001001.line3.dataorg#orderno", "半刻银行名4:");
-        RelEntity relEntity_14 = new RelEntity("icrCreditDTO.line3.line3_2.dataorg#orderno", "大道银行名4:", "001001.line3.dataorg#orderno", "半刻银行名4:");
-        RelEntity relEntity_15 = new RelEntity("icrCreditDTO.line3.line3_2.dataorg#orderno", "大道银行名4:", "001001.line3.dataorg#orderno", "半刻银行名4:");
-        RelEntity relEntity_16 = new RelEntity("icrCreditDTO.line3.line3_2.dataorg#orderno", "大道银行名4:", "001001.line3.dataorg#orderno", "半刻银行名4:");
-        RelEntity relEntity_17 = new RelEntity("icrCreditDTO.line3.line3_2.dataorg#orderno", "大道银行名4:", "001001.line3.dataorg#orderno", "半刻银行名4:");
-        RelEntity relEntity_18 = new RelEntity("icrCreditDTO.line3.line3_2.dataorg#orderno", "大道银行名4:", "001001.line3.dataorg#orderno", "半刻银行名4:");
-        RelEntity relEntity_19 = new RelEntity("icrCreditDTO.line3.line3_2.dataorg#orderno", "大道银行名4:", "001001.line3.dataorg#orderno", "半刻银行名4:");
-        RelEntity relEntity_20 = new RelEntity("icrCreditDTO.line3.line3_2.dataorg#orderno", "大道银行名4:", "001001.line3.dataorg#orderno", "半刻银行名4:");
-        RelEntity relEntity_21 = new RelEntity("icrCreditDTO.line3.line3_2.dataorg#orderno", "大道银行名4:", "001001.line3.dataorg#orderno", "半刻银行名4:");
-        RelEntity relEntity_22 = new RelEntity("icrCreditDTO.line3.line3_2.dataorg#orderno", "大道银行名4:", "001001.line3.dataorg#orderno", "半刻银行名4:");
-        RelEntity relEntity_23 = new RelEntity("icrCreditDTO.line3.line3_2.dataorg#orderno", "大道银行名4:", "001001.line3.dataorg#orderno", "半刻银行名4:");
 
         //5.不同数组深度对比
         //6.不同数组深度对比,要求字段排序
         long start = System.currentTimeMillis();
-        List<String> list = compareEntitys(str3, str4, Arrays.asList(relEntity_01 ,relEntity_02 ,relEntity_03 ,relEntity_04 ,relEntity_05 ,relEntity_06 ,relEntity_07 ,relEntity_08 ,relEntity_09 ,relEntity_10 ,relEntity_11 ,relEntity_12 ,relEntity_13 ,relEntity_14 ,relEntity_15 ,relEntity_16 ,relEntity_17 ,relEntity_18 ,relEntity_19 ,relEntity_20 ,relEntity_21 ,relEntity_22 ,relEntity_23));
+        List<String> list = compareEntitys(str3, str4, Arrays.asList(relEntity_01 ,relEntity_02 ,relEntity_03 ,relEntity_04 ,relEntity_05 ));
         System.out.println("耗时:" + (System.currentTimeMillis() - start));
         System.out.println("一共" + list.size() + "条差异！");
         for (String str : list) {
