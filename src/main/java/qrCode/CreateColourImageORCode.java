@@ -6,7 +6,6 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -18,11 +17,11 @@ import java.io.UnsupportedEncodingException;
 import java.util.Hashtable;
 import java.util.Map;
 
+
 /**
  * 使用zxing生成彩色带图片的二维码
  */
 public class CreateColourImageORCode {
-
 
     // 图片宽度的一半
     private static final int IMAGE_WIDTH = 100;
@@ -32,14 +31,13 @@ public class CreateColourImageORCode {
     // 二维码写码器
     private static MultiFormatWriter mutiWriter = new MultiFormatWriter();
 
+
     public static void encode(String content, int width, int height, String srcImagePath, String destImagePath) {
         try {
             //生成图片文件
             ImageIO.write(genBarcode(content, width, height, srcImagePath), "jpg", new File(destImagePath));
             System.out.println("二维码生成成功！");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (WriterException e) {
+        } catch (IOException | WriterException e) {
             e.printStackTrace();
         }
     }
@@ -49,9 +47,6 @@ public class CreateColourImageORCode {
      * @param content 二维码显示的文本
      * @param width   二维码的宽度
      * @param height  二维码的高度
-     * @return
-     * @throws WriterException
-     * @throws IOException
      */
     private static BufferedImage genBarcode(String content, int width,
                                             int height, String srcImagePath) throws WriterException,
@@ -66,7 +61,7 @@ public class CreateColourImageORCode {
             }
         }
         //编码
-        Map hints = new Hashtable<EncodeHintType, String>();
+        Map<EncodeHintType, Object> hints = new Hashtable<>();
         hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
         //设置容错等级，在这里我们使用M级别
         hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);
@@ -132,7 +127,6 @@ public class CreateColourImageORCode {
         BufferedImage image = new BufferedImage(width, height,
                 BufferedImage.TYPE_INT_RGB);
         image.getRaster().setDataElements(0, 0, width, height, pixels);
-
         return image;
     }
 
@@ -143,7 +137,7 @@ public class CreateColourImageORCode {
      * @param height       目标高度
      * @param width        目标宽度
      * @param hasFiller    比例不对时是否需要补白：true为补白; false为不补白;
-     * @throws IOException
+     * @throws IOException IO异常
      */
     private static BufferedImage scale(String srcImageFile, int height, int width, boolean hasFiller) throws IOException {
         double ratio = 0.0; // 缩放比例
@@ -170,16 +164,17 @@ public class CreateColourImageORCode {
             Graphics2D graphic = image.createGraphics();
             graphic.setColor(Color.white);
             graphic.fillRect(0, 0, width, height);
-            if (width == destImage.getWidth(null))
+            if (width == destImage.getWidth(null)) {
                 graphic.drawImage(destImage, 0,
                         (height - destImage.getHeight(null)) / 2,
                         destImage.getWidth(null), destImage.getHeight(null),
                         Color.white, null);//画图片
-            else
+            }else {
                 graphic.drawImage(destImage,
                         (width - destImage.getWidth(null)) / 2, 0,
                         destImage.getWidth(null), destImage.getHeight(null),
                         Color.white, null);
+            }
             graphic.dispose();
             destImage = image;
         }

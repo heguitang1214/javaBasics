@@ -32,7 +32,6 @@ public class ParseQRCode {
             hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
             Result result = formatReader.decode(binaryBitmap, hints);
 
-
             System.out.println("二维码格式类型：" + result.getBarcodeFormat());
             System.out.println("二维码文本内容：" + result.getText());
         } catch (Exception e) {
