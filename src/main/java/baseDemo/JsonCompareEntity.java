@@ -2,6 +2,9 @@ package baseDemo;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import utils.ReflectionsUtils;
 import utils.json.utils.StringUtils;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -14,6 +17,8 @@ import java.util.*;
  * 利用Json比较实体的内容
  */
 public class JsonCompareEntity {
+
+    private static Logger logger = LoggerFactory.getLogger(ReflectionsUtils.class);
 
     /**
      * 比较json内容，提供给对外调用
@@ -252,44 +257,31 @@ public class JsonCompareEntity {
         private String partyB;
         private String partyBDesc;
 
-        public RelEntity(String partyA, String partyADesc, String partyB, String partyBDesc) {
+        RelEntity(String partyA, String partyADesc, String partyB, String partyBDesc) {
             this.partyA = partyA;
             this.partyADesc = partyADesc;
             this.partyB = partyB;
             this.partyBDesc = partyBDesc;
         }
 
-        public String getPartyA() {
+        String getPartyA() {
             return partyA;
         }
 
-        public void setPartyA(String partyA) {
-            this.partyA = partyA;
-        }
-
-        public String getPartyADesc() {
+        String getPartyADesc() {
             return partyADesc;
         }
 
-        public void setPartyADesc(String partyADesc) {
-            this.partyADesc = partyADesc;
-        }
 
-        public String getPartyB() {
+        String getPartyB() {
             return partyB;
         }
 
-        public void setPartyB(String partyB) {
-            this.partyB = partyB;
-        }
 
-        public String getPartyBDesc() {
+        String getPartyBDesc() {
             return partyBDesc;
         }
 
-        public void setPartyBDesc(String partyBDesc) {
-            this.partyBDesc = partyBDesc;
-        }
     }
 
 
@@ -340,7 +332,11 @@ public class JsonCompareEntity {
         for (String str : list) {
             System.out.println("结果:" + str);
         }
-
     }
+
+
+    //todo 1.时间的对比
+
+
 
 }

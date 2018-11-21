@@ -1,8 +1,8 @@
 //package excel.fieldtype;
 //
-//import com.cuckoo.erp.common.utils.StringUtils;
-//import com.cuckoo.erp.modules.sys.entity.Area;
-//import com.cuckoo.erp.modules.sys.utils.UserUtils;
+//import com.thinkgem.jeesite.common.utils.StringUtils;
+//import com.thinkgem.jeesite.modules.sys.entity.Area;
+//import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 //
 ///**
 // * 字段类型转换
