@@ -63,8 +63,8 @@ public class CreateColourImageORCode {
         //编码
         Map<EncodeHintType, Object> hints = new Hashtable<>();
         hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
-        //设置容错等级，在这里我们使用M级别
-        hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);
+        //设置容错等级，在这里我们使用H级别
+        hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
         // 生成二维码
         BitMatrix matrix = mutiWriter.encode(content, BarcodeFormat.QR_CODE, width, height, hints);
 
@@ -76,7 +76,7 @@ public class CreateColourImageORCode {
         for (int y = 0; y < matrix.getHeight(); y++) {
             for (int x = 0; x < matrix.getWidth(); x++) {
                 // 左上角颜色,根据自己需要调整颜色范围和颜色
-                /*if (x > 0 && x < 170 && y > 0 && y < 170) {
+               /* if (x > 0 && x < 170 && y > 0 && y < 170) {
                     Color color = new Color(231, 144, 56);
                     int colorInt = color.getRGB();
                     pixels[y * width + x] = matrix.get(x, y) ? colorInt
@@ -117,13 +117,13 @@ public class CreateColourImageORCode {
                     int num3 = (int) (162 - (162.0 - 107.0)
                             / matrix.getHeight() * (y + 1));
                     Color color = new Color(num1, num2, num3);
+//                    Color color = new Color(0, 0, 0);
                     int colorInt = color.getRGB();
                     // 此处可以修改二维码的颜色，可以分别制定二维码和背景的颜色；
                     pixels[y * width + x] = matrix.get(x, y) ? colorInt : 16777215;// 0x000000:0xffffff
                 }
             }
         }
-
         BufferedImage image = new BufferedImage(width, height,
                 BufferedImage.TYPE_INT_RGB);
         image.getRaster().setDataElements(0, 0, width, height, pixels);
@@ -181,11 +181,11 @@ public class CreateColourImageORCode {
         return (BufferedImage) destImage;
     }
 
-    public static void main(String[] args) throws UnsupportedEncodingException {
+    public static void main(String[] args) {
         // 依次为内容,宽,长,logo图标路径,储存路径
 //        CreateColourImageORCode.encode("https://www.baidu.com/", 500, 500, "C:\\Users\\Alexs\\Desktop\\blogimages\\huge.jpg",
 //                "C:\\Users\\Alexs\\Desktop\\blogimages\\qrcode.jpg");
-        CreateColourImageORCode.encode("空空如也", 500, 500, "D:\\15f093b643.jpg",
+        CreateColourImageORCode.encode("空空如也", 300, 300, "D:\\15f093b643.jpg",
                 "D:\\imageQRcode.jpg");
     }
 

@@ -30,9 +30,7 @@ public class CreateColourORCode {
             //生成图片文件
             ImageIO.write(genBarcode(content, width, height), "jpg", new File(destImagePath));
             System.out.println("二维码生成成功！");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (WriterException e) {
+        } catch (IOException | WriterException e) {
             e.printStackTrace();
         }
     }
@@ -43,9 +41,6 @@ public class CreateColourORCode {
      * @param content 二维码显示的文本
      * @param width   二维码的宽度
      * @param height  二维码的高度
-     * @return
-     * @throws WriterException
-     * @throws IOException
      */
     private static RenderedImage genBarcode(String content, int width, int height) throws WriterException, IOException {
         //定义二维码内容参数
@@ -53,7 +48,7 @@ public class CreateColourORCode {
         //设置字符集编码格式
         hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
         //设置容错等级，在这里我们使用M级别
-        hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);
+        hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
         // 生成二维码，参数顺序分别为：编码内容，编码类型，生成图片宽度，生成图片高度，设置参数
         BitMatrix matrix = mutiWriter.encode(content, BarcodeFormat.QR_CODE, width, height, hints);
 
