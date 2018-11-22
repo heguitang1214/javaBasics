@@ -84,7 +84,6 @@ public class CreateColourORCode {
         // 依次为内容(不支持中文),宽,长,logo图标路径,储存路径
 //        CreateColourORCode.encode("https://www.baidu.com/", 300, 300, "C:\\Users\\Alexs\\Desktop\\blogimages\\qrcode.jpg");
         CreateColourORCode.encode("这是一个彩色的二维码", 300, 300, "D:\\colourQRcode.jpg");
-        System.out.println("完成!");
     }
 
 }

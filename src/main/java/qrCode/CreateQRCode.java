@@ -30,7 +30,7 @@ public class CreateQRCode {
         String format = "jpg";
         //二维码内容（支持中文），使用微信扫描后可直接跳转到百度
 //        String content = "https://www.baidu.com/";
-        String content = "内容:这是一个二维码";
+        String content = "这是一个普通的二维码";
 
         //定义二维码内容参数
         Map<EncodeHintType, Object> hints = new HashMap<>();
