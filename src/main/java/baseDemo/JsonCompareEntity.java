@@ -8,8 +8,8 @@ import utils.ReflectionsUtils;
 import utils.json.utils.StringUtils;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 
@@ -322,17 +322,43 @@ public class JsonCompareEntity {
         RelEntity relEntity_03 = new RelEntity("002005.line1.orderno#orderno", "编号:", "icrProfessional.serialNo#serialNo", "职业信息.流水号:");
         RelEntity relEntity_04 = new RelEntity("002005.line1.address#orderno", "居住地址:", "icrProfessional.employer#serialNo", "居住信息.居住地址:");
         RelEntity relEntity_05 = new RelEntity("005004.line1.money#orderno", "处罚金额:", "icrAdminPunishment.money#serialNo", "行政处罚记录.处罚金额:");
+        RelEntity relEntity_06 = new RelEntity("005004.line1.organname#orderno", "处罚机构:", "icrAdminPunishment.organName#serialNo", "行政处罚记录.处罚机构:");
+        RelEntity relEntity_07 = new RelEntity("005004.line1.money#orderno", "处罚金额:", "icrAdminPunishment.money#serialNo", "行政处罚记录.处罚金额:");
+        RelEntity relEntity_08 = new RelEntity("005004.line1.money#orderno", "处罚金额:", "icrAdminPunishment.money#serialNo", "行政处罚记录.处罚金额:");
+        RelEntity relEntity_09 = new RelEntity("005004.line1.money#orderno", "处罚金额:", "icrAdminPunishment.money#serialNo", "行政处罚记录.处罚金额:");
+        RelEntity relEntity_10 = new RelEntity("005004.line1.money#orderno", "处罚金额:", "icrAdminPunishment.money#serialNo", "行政处罚记录.处罚金额:");
+        RelEntity relEntity_11 = new RelEntity("005004.line1.money#orderno", "处罚金额:", "icrAdminPunishment.money#serialNo", "行政处罚记录.处罚金额:");
+        RelEntity relEntity_12 = new RelEntity("005004.line1.money#orderno", "处罚金额:", "icrAdminPunishment.money#serialNo", "行政处罚记录.处罚金额:");
+        RelEntity relEntity_13 = new RelEntity("005004.line1.money#orderno", "处罚金额:", "icrAdminPunishment.money#serialNo", "行政处罚记录.处罚金额:");
+        RelEntity relEntity_14 = new RelEntity("005004.line1.money#orderno", "处罚金额:", "icrAdminPunishment.money#serialNo", "行政处罚记录.处罚金额:");
+
 
         //5.不同数组深度对比
         //6.不同数组深度对比,要求字段排序
         long start = System.currentTimeMillis();
-        List<String> list = compareEntitys(str3, str4, Arrays.asList(relEntity_01 ,relEntity_02 ,relEntity_03 ,relEntity_04 ,relEntity_05 ));
+        List<String> list = compareEntitys(str3, str4, Arrays.asList(relEntity_01 ,relEntity_02 ,relEntity_03 ,relEntity_04 ,relEntity_05 ,relEntity_06));
         System.out.println("耗时:" + (System.currentTimeMillis() - start));
         System.out.println("一共" + list.size() + "条差异！");
         for (String str : list) {
             System.out.println("结果:" + str);
         }
+//        yyyy-MM-dd HH:mm:ss
+        LocalDateTime localDateTime =
+                LocalDateTime.parse("2018/10/1111:54:00", DateTimeFormatter.ofPattern("yyyy/MM/ddHH:mm:ss"));//授信时间
+
+
+        LocalDateTime localDateTime1 =
+                LocalDateTime.parse("2018-10-11 11:54:00",DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));//授信时间
+        System.out.println(localDateTime);
+        System.out.println(localDateTime1);
+        if (localDateTime.equals(localDateTime1)){
+            System.out.println("=====");
+        }
+
+//        String regex = "[1-9]{4}([-./])\\d{1,2}\\1\\d{1,2}";
+
     }
+
 
 
     //todo 1.时间的对比
