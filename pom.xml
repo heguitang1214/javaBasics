@@ -88,7 +88,12 @@
             <artifactId>javase</artifactId>
             <version>3.3.0</version>
         </dependency>
-
+        <!--rabbitmq-->
+        <dependency>
+            <groupId>com.rabbitmq</groupId>
+            <artifactId>amqp-client</artifactId>
+            <version>4.2.1</version>
+        </dependency>
     </dependencies>
 
 
