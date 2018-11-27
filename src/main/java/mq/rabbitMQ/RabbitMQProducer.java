@@ -8,7 +8,7 @@ import com.rabbitmq.client.MessageProperties;
 /**
  * 生产者 向RabbitMQ发送消息
  */
-public class RabbitMQProduct {
+public class RabbitMQProducer {
     private static final String QUEUE_NAME = "demo.queue";
     private static final String EXCHANGE_NAME = "demo.exchange";
 
