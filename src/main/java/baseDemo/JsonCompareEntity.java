@@ -2,6 +2,7 @@ package baseDemo;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.ReflectionsUtils;
@@ -85,7 +86,7 @@ public class JsonCompareEntity {
      * @param isSort     是否排序
      * @return 获取的数据
      */
-    //todo 在isSort为true的条件下，不能保证排序链条的顺序没有发生改变
+    //todo 在isSort为true的条件下，不能保证排序链条的顺序没有发生改变，可以在调用这个方法的时候，进行处理,通过变量来记录循环的次数
     private static Object getDataByLinkedList(Object object, LinkedList<String> linkedList, boolean isSort) {
         if (linkedList == null || linkedList.size() == 0) {
             return object;
@@ -96,6 +97,7 @@ public class JsonCompareEntity {
             if (isSort) {
                 if (linkedList.size() > 1) {
                     linkedList.addLast(linkedList.removeFirst());
+//                    ++number;
                 }
             } else {
                 linkedList.removeFirst();
@@ -107,11 +109,15 @@ public class JsonCompareEntity {
                 Object obj = array.get(0);
                 Object o = ((JSONObject) obj).get(key);
                 linkedList.addLast(linkedList.removeFirst());
+//                ++number;
                 object = getDataByLinkedList(o, linkedList, isSort);
             } else {
                 return object;
             }
         }
+//        if (number != linkedList.size()){
+//
+//        }
         return object;
     }
 
@@ -128,17 +134,18 @@ public class JsonCompareEntity {
         if (beforeObj instanceof JSONArray) {
             for (int i = 0; i < ((JSONArray) beforeObj).size(); i++) {
                 Object beforeObject = ((JSONArray) beforeObj).get(i);
-                Object o1 = getDataByLinkedList(beforeObject, beforeLinkedList, true);
+                Object o1 = getDataByLinkedList(beforeObject, beforeLinkedList, true);//todo 获取的依旧是数组，O1需要是一个具体的值
+                Object sort1 = getDataByLinkedList(beforeObject, beforeSort, true);
 //                1.前一个是数组，后一个也是数组
                 if (afterObj instanceof JSONArray) {
 //                    看是否有排序字段
-                    Object sort1 = getDataByLinkedList(beforeObject, beforeSort, true);
+//                    Object sort1 = getDataByLinkedList(beforeObject, beforeSort, true);
                     Object obj = null;
                     for (int j = 0; j < ((JSONArray) afterObj).size(); j++) {
                         Object afterObject = ((JSONArray) afterObj).get(j);
                         Object sort2 = getDataByLinkedList(afterObject, afterSort, true);
 //                        sort2 = getNumberByRegd(sort2.toString());//大道字段处理
-//                        sort2 = getNumber(sort2.toString());//大道字段处理
+                        sort2 = getNumber(sort2.toString());//大道字段处理
                         if (sort1 != null && sort2 != null) {
                             if (sort1.equals(sort2)) {
                                 obj = afterObject;
@@ -157,7 +164,7 @@ public class JsonCompareEntity {
                     }
                 } else {
 //                    2.前一个是数组，后一个数对象
-                    objectTypeCompare(null, o1, afterObj, relEntity, resultList);
+                    objectTypeCompare(sort1 == null ? null : sort1.toString(), o1, afterObj, relEntity, resultList);
                 }
             }
             return;
@@ -166,7 +173,7 @@ public class JsonCompareEntity {
             for (int i = 0; i < ((JSONArray) afterObj).size(); i++) {
                 Object afterObject = ((JSONArray) afterObj).get(i);
                 Object o1 = getDataByLinkedList(afterObject, beforeLinkedList, true);
-                objectTypeCompare(null, beforeObj, o1, relEntity, resultList);
+                objectTypeCompare("[1]", beforeObj, o1, relEntity, resultList);
             }
             return;
         }
@@ -180,7 +187,7 @@ public class JsonCompareEntity {
      */
     private static void objectTypeCompare(String number, Object beforeObject, Object afterObject,
                                           RelEntity relEntity, List<String> resultList) {
-        if (org.apache.commons.lang3.StringUtils.isBlank(number)){
+        if (StringUtils.isBlank(number)){
             number = relEntity.getPartyBDesc().split("\\.")[0];
         }else {
             number = relEntity.getPartyBDesc().split("\\.")[0] + number;
@@ -227,6 +234,21 @@ public class JsonCompareEntity {
     }
 
     /**
+     * 复制LinkedList数据
+     * @return 新的LinkedList
+     */
+    private static LinkedList<String> copyLinkedList(LinkedList<String> srcLinkedList){
+        LinkedList<String> newLinkedList = new LinkedList<>();
+        if (srcLinkedList == null || srcLinkedList.size() == 0){
+            return newLinkedList;
+        }
+        for (String str : srcLinkedList){
+            newLinkedList.addFirst(str);
+        }
+        return newLinkedList;
+    }
+
+    /**
      * 将字符串转为LinkedList，根据.拆分
      */
     private static LinkedList<String> strTurnLinkedList(String str) {
@@ -239,6 +261,37 @@ public class JsonCompareEntity {
             linkedList.addLast(arr);
         }
         return linkedList;
+    }
+
+    /**
+     * 特殊业务处理:
+     *  获取当前字符串中的数字，然后加1
+     */
+    private static Object getNumber(String str){
+        if (str.matches("[\\d]+")){
+            Integer result = Integer.valueOf(str) + 1;
+            return result.toString();
+        }else {
+            String number = str.replaceAll("[^(0-9)]", "");
+            if (StringUtils.isNotBlank(number)){
+                Integer result = Integer.valueOf(number) + 1;
+                return result.toString();
+            }else {
+                return str;
+            }
+        }
+    }
+
+    /**
+     * 特殊业务处理:然后加1
+     */
+    private static Object getNumberByRegd(String str){
+        if (str.matches("[\\d]+")){
+            Integer result = Integer.valueOf(str) + 1;
+            return result.toString();
+        }else {
+            return str;
+        }
     }
 
 
@@ -274,6 +327,7 @@ public class JsonCompareEntity {
         }
 
     }
+
 
     public static void main(String[] args) {
 
