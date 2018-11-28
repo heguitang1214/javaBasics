@@ -17,7 +17,7 @@ public class RabbitMQProducer {
         // 配置连接参数信息
         factory.setUsername("rabbitstudy");
         factory.setPassword("123456");
-        factory.setHost("192.168.110.130");
+        factory.setHost("47.93.194.11");
         factory.setPort(5672);
         Connection connection = factory.newConnection(); //创建连接
         Channel channel = connection.createChannel(); //创建信道 在信道上传递消息
@@ -27,9 +27,10 @@ public class RabbitMQProducer {
         //发送消息给RabbitMO
         channel.basicPublish(EXCHANGE_NAME, "ai.yunxi.Five",
                 MessageProperties.PERSISTENT_TEXT_PLAIN,
-                "Hello小五!".getBytes());
+                "Hello 何贵堂!".getBytes());
         //关闭资源
         channel.close();
         connection.close();
+        System.out.println("消息发送完成......");
     }
 }

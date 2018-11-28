@@ -1,6 +1,7 @@
 package mq.rabbitMQ;
 
 import com.rabbitmq.client.*;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -16,14 +17,14 @@ public class RabbitMQConsumer {
         // 配置连接参数信息
         factory.setUsername("rabbitstudy");
         factory.setPassword("123456");
-        factory.setHost("192.168.110.130");
+        factory.setHost("47.93.194.11");
         factory.setPort(5672);
         Connection connection = factory.newConnection(); //创建连接
         final Channel channel = connection.createChannel(); //创建信道在信道上传递消息
         //告诉RabbitMQ我可以接收消息了
-//        @Override
         channel.basicConsume(QUEUE_NAME, new DefaultConsumer(channel) {
-            public void handleDelivery(String consumerTag, Envelope envelope, BasicProperties properties, byte[] body)
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body)
                     throws IOException {
                 System.out.println("消费者接收到: " + new String(body));
                 //告诉服务器,我收到消息了
@@ -33,6 +34,7 @@ public class RabbitMQConsumer {
         TimeUnit.SECONDS.sleep(1);//关闭
         channel.close();
         connection.close();
+
     }
 
 }
