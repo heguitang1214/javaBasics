@@ -93,16 +93,9 @@ public class JsonCompareEntity {
                 if (sort1 == null) {
                     sort1 = sort;
                 }
-//                if (objEntry instanceof JSONArray){
-//                    String firstKey = beforeLinkedList.removeFirst();//todo afterObj传啥
-//                    analysisJson(objEntry, afterObj, beforeLinkedList, afterLinkedList, beforeSort, afterSort, relEntity, resultList, sort1);
-//                    beforeLinkedList.addFirst(firstKey);
-//                    continue;
-//                }
                 //1.前一个是数组，后一个也是数组
                 Object obj = null;
                 if (afterObj instanceof JSONArray) {//todo 后一个也是数组的情况
-//                    Object obj = null;
                     for (int j = 0; j < ((JSONArray) afterObj).size(); j++) {
                         Object afterObject = ((JSONArray) afterObj).get(j);
                         Object sort2 = getDataByLinkedList(afterObject, afterSort, true, 0);
@@ -114,30 +107,15 @@ public class JsonCompareEntity {
                             }
                         } else {
                             if (i == j) {
-                                obj = ((JSONArray) beforeObj).get(i);//todo 获取的是数组
+                                obj = ((JSONArray) afterObj).get(i);//todo 获取的是数组
+                                break;
                             }
                         }
                     }
-//                    if (obj == null) {
-//                        objectTypeCompare(sort1 == null ? null : sort1.toString(), objEntry, null, relEntity, resultList);
-//                    } else {
-//                        Object o = getDataByLinkedList(obj, afterLinkedList, true, 0);
-//                        objectTypeCompare(sort1 == null ? null : sort1.toString(), objEntry, o, relEntity, resultList);
-//                    }
                     if (obj != null){
                         obj = getDataByLinkedList(obj, afterLinkedList, true, 0);
                     }
-                } /*else {
-                    //2.前一个是数组，后一个数对象
-                    objectTypeCompare(sort1 == null ? null : sort1.toString(), objEntry, afterObj, relEntity, resultList);
-                }*/
-
-//                if (objEntry instanceof JSONArray){
-//                    String firstKey = beforeLinkedList.removeFirst();//todo afterObj传啥
-//                    analysisJson(objEntry, obj, beforeLinkedList, afterLinkedList, beforeSort, afterSort, relEntity, resultList, sort1);
-//                    beforeLinkedList.addFirst(firstKey);
-//                    continue;
-//                }
+                }
                 if (objEntry instanceof JSONArray || obj instanceof JSONArray){
                     String beforeFirstKey = null, afterFirstKey = null;
                     if (objEntry instanceof JSONArray){
@@ -638,14 +616,12 @@ public class JsonCompareEntity {
         List<String> list1 = ReadFile.readLineData("src/main/resources/test1.txt");
         //大道
         List<String> list2 = ReadFile.readLineData("src/main/resources/test2.txt");
-        RelEntity relEntity_141_  = new RelEntity("004003.line7.amount#line1.orderno", "逾期记录明细.逾期金额", "004003.line7.amount#line1.orderno", "逾期金额");
         for (int i = 0; i< list1.size(); i++) {
-            if (i != 17){
-                continue;
-            }
-//            List<String> list = compareEntitys(list1.get(i), list2.get(i), Arrays.asList(relEntity_1 ,relEntity_2 ,relEntity_3 ,relEntity_4 ,relEntity_5 ,relEntity_6 ,relEntity_7 ,relEntity_8 ,relEntity_9 ,relEntity_10 ,relEntity_11 ,relEntity_12 ,relEntity_13 ,relEntity_14 ,relEntity_15 ,relEntity_16 ,relEntity_17 ,relEntity_18 ,relEntity_19 ,relEntity_20 ,relEntity_21 ,relEntity_22 ,relEntity_23 ,relEntity_24 ,relEntity_25 ,relEntity_26 ,relEntity_27 ,relEntity_28 ,relEntity_29 ,relEntity_30 ,relEntity_31 ,relEntity_32 ,relEntity_33 ,relEntity_34 ,relEntity_35 ,relEntity_36 ,relEntity_37 ,relEntity_38 ,relEntity_39 ,relEntity_40 ,relEntity_41 ,relEntity_42 ,relEntity_43 ,relEntity_44 ,relEntity_45 ,relEntity_46 ,relEntity_47 ,relEntity_48 ,relEntity_49 ,relEntity_50 ,relEntity_51 ,relEntity_52 ,relEntity_53 ,relEntity_54 ,relEntity_55 ,relEntity_56 ,relEntity_57 ,relEntity_58 ,relEntity_59 ,relEntity_60 ,relEntity_61 ,relEntity_62 ,relEntity_63 ,relEntity_64 ,relEntity_65 ,relEntity_66 ,relEntity_67 ,relEntity_68 ,relEntity_69 ,relEntity_70 ,relEntity_71 ,relEntity_72 ,relEntity_73 ,relEntity_74 ,relEntity_75 ,relEntity_76 ,relEntity_77 ,relEntity_78 ,relEntity_79 ,relEntity_80 ,relEntity_81 ,relEntity_82 ,relEntity_83 ,relEntity_84 ,relEntity_85 ,relEntity_86 ,relEntity_87 ,relEntity_88 ,relEntity_89 ,relEntity_90 ,relEntity_91 ,relEntity_92 ,relEntity_93 ,relEntity_94 ,relEntity_95 ,relEntity_96 ,relEntity_97 ,relEntity_98 ,relEntity_99 ,relEntity_100 ,relEntity_101 ,relEntity_102 ,relEntity_103 ,relEntity_104 ,relEntity_105 ,relEntity_106 ,relEntity_107 ,relEntity_108 ,relEntity_109 ,relEntity_110 ,relEntity_111 ,relEntity_112 ,relEntity_113 ,relEntity_114 ,relEntity_115 ,relEntity_116 ,relEntity_117 ,relEntity_118 ,relEntity_119 ,relEntity_120 ,relEntity_121 ,relEntity_122 ,relEntity_123 ,relEntity_124 ,relEntity_125 ,relEntity_126 ,relEntity_127 ,relEntity_128 ,relEntity_129 ,relEntity_130 ,relEntity_131 ,relEntity_132 ,relEntity_133 ,relEntity_134 ,relEntity_135 ,relEntity_136 ,relEntity_137 ,relEntity_138 ,relEntity_139 ,relEntity_140 ,relEntity_141 ,relEntity_142 ,relEntity_143 ,relEntity_144 ,relEntity_145 ,relEntity_146 ,relEntity_147 ,relEntity_148 ,relEntity_149 ,relEntity_150 ,relEntity_151 ,relEntity_152 ,relEntity_153 ,relEntity_154 ,relEntity_155 ,relEntity_156 ,relEntity_157 ,relEntity_158 ,relEntity_159 ,relEntity_160 ,relEntity_161 ,relEntity_162 ,relEntity_163 ,relEntity_164 ,relEntity_165 ,relEntity_166 ,relEntity_167 ,relEntity_168 ,relEntity_169 ,relEntity_170 ,relEntity_171 ,relEntity_172 ,relEntity_173 ,relEntity_174 ,relEntity_175 ,relEntity_176 ,relEntity_177 ,relEntity_178 ,relEntity_179 ,relEntity_180 ,relEntity_181 ,relEntity_182 ,relEntity_183 ,relEntity_184 ,relEntity_185 ,relEntity_186 ,relEntity_187 ,relEntity_188 ,relEntity_189 ,relEntity_190 ,relEntity_191 ,relEntity_192 ,relEntity_193 ,relEntity_194 ,relEntity_195 ,relEntity_196 ,relEntity_197 ,relEntity_198 ,relEntity_199 ,relEntity_200 ,relEntity_201 ,relEntity_202 ,relEntity_203 ,relEntity_204 ,relEntity_205 ,relEntity_206 ,relEntity_207 ,relEntity_208 ,relEntity_209 ,relEntity_210 ,relEntity_211 ,relEntity_212 ,relEntity_213 ,relEntity_214 ,relEntity_215 ,relEntity_216 ,relEntity_217 ,relEntity_218 ,relEntity_219 ,relEntity_220 ,relEntity_221 ,relEntity_222 ,relEntity_223 ,relEntity_224 ,relEntity_225 ,relEntity_226 ,relEntity_227 ,relEntity_228 ,relEntity_229 ,relEntity_230 ,relEntity_231 ,relEntity_232 ,relEntity_233 ,relEntity_234 ,relEntity_235 ,relEntity_236 ,relEntity_237 ,relEntity_238 ,relEntity_239 ,relEntity_240 ,relEntity_241 ,relEntity_242 ,relEntity_243 ,relEntity_244 ,relEntity_245 ,relEntity_246 ,relEntity_247 ,relEntity_248 ,relEntity_249 ,relEntity_250 ,relEntity_251 ,relEntity_252 ,relEntity_253 ,relEntity_254 ,relEntity_255 ,relEntity_256 ,relEntity_257 ,relEntity_258 ,relEntity_259 ,relEntity_260 ,relEntity_261 ,relEntity_262 ,relEntity_263 ,relEntity_264 ));
+//            if (i != 21){
+//                continue;
+//            }
+            List<String> list = compareEntitys(list1.get(i), list2.get(i), Arrays.asList(relEntity_1 ,relEntity_2 ,relEntity_3 ,relEntity_4 ,relEntity_5 ,relEntity_6 ,relEntity_7 ,relEntity_8 ,relEntity_9 ,relEntity_10 ,relEntity_11 ,relEntity_12 ,relEntity_13 ,relEntity_14 ,relEntity_15 ,relEntity_16 ,relEntity_17 ,relEntity_18 ,relEntity_19 ,relEntity_20 ,relEntity_21 ,relEntity_22 ,relEntity_23 ,relEntity_24 ,relEntity_25 ,relEntity_26 ,relEntity_27 ,relEntity_28 ,relEntity_29 ,relEntity_30 ,relEntity_31 ,relEntity_32 ,relEntity_33 ,relEntity_34 ,relEntity_35 ,relEntity_36 ,relEntity_37 ,relEntity_38 ,relEntity_39 ,relEntity_40 ,relEntity_41 ,relEntity_42 ,relEntity_43 ,relEntity_44 ,relEntity_45 ,relEntity_46 ,relEntity_47 ,relEntity_48 ,relEntity_49 ,relEntity_50 ,relEntity_51 ,relEntity_52 ,relEntity_53 ,relEntity_54 ,relEntity_55 ,relEntity_56 ,relEntity_57 ,relEntity_58 ,relEntity_59 ,relEntity_60 ,relEntity_61 ,relEntity_62 ,relEntity_63 ,relEntity_64 ,relEntity_65 ,relEntity_66 ,relEntity_67 ,relEntity_68 ,relEntity_69 ,relEntity_70 ,relEntity_71 ,relEntity_72 ,relEntity_73 ,relEntity_74 ,relEntity_75 ,relEntity_76 ,relEntity_77 ,relEntity_78 ,relEntity_79 ,relEntity_80 ,relEntity_81 ,relEntity_82 ,relEntity_83 ,relEntity_84 ,relEntity_85 ,relEntity_86 ,relEntity_87 ,relEntity_88 ,relEntity_89 ,relEntity_90 ,relEntity_91 ,relEntity_92 ,relEntity_93 ,relEntity_94 ,relEntity_95 ,relEntity_96 ,relEntity_97 ,relEntity_98 ,relEntity_99 ,relEntity_100 ,relEntity_101 ,relEntity_102 ,relEntity_103 ,relEntity_104 ,relEntity_105 ,relEntity_106 ,relEntity_107 ,relEntity_108 ,relEntity_109 ,relEntity_110 ,relEntity_111 ,relEntity_112 ,relEntity_113 ,relEntity_114 ,relEntity_115 ,relEntity_116 ,relEntity_117 ,relEntity_118 ,relEntity_119 ,relEntity_120 ,relEntity_121 ,relEntity_122 ,relEntity_123 ,relEntity_124 ,relEntity_125 ,relEntity_126 ,relEntity_127 ,relEntity_128 ,relEntity_129 ,relEntity_130 ,relEntity_131 ,relEntity_132 ,relEntity_133 ,relEntity_134 ,relEntity_135 ,relEntity_136 ,relEntity_137 ,relEntity_138 ,relEntity_139 ,relEntity_140 ,relEntity_141 ,relEntity_142 ,relEntity_143 ,relEntity_144 ,relEntity_145 ,relEntity_146 ,relEntity_147 ,relEntity_148 ,relEntity_149 ,relEntity_150 ,relEntity_151 ,relEntity_152 ,relEntity_153 ,relEntity_154 ,relEntity_155 ,relEntity_156 ,relEntity_157 ,relEntity_158 ,relEntity_159 ,relEntity_160 ,relEntity_161 ,relEntity_162 ,relEntity_163 ,relEntity_164 ,relEntity_165 ,relEntity_166 ,relEntity_167 ,relEntity_168 ,relEntity_169 ,relEntity_170 ,relEntity_171 ,relEntity_172 ,relEntity_173 ,relEntity_174 ,relEntity_175 ,relEntity_176 ,relEntity_177 ,relEntity_178 ,relEntity_179 ,relEntity_180 ,relEntity_181 ,relEntity_182 ,relEntity_183 ,relEntity_184 ,relEntity_185 ,relEntity_186 ,relEntity_187 ,relEntity_188 ,relEntity_189 ,relEntity_190 ,relEntity_191 ,relEntity_192 ,relEntity_193 ,relEntity_194 ,relEntity_195 ,relEntity_196 ,relEntity_197 ,relEntity_198 ,relEntity_199 ,relEntity_200 ,relEntity_201 ,relEntity_202 ,relEntity_203 ,relEntity_204 ,relEntity_205 ,relEntity_206 ,relEntity_207 ,relEntity_208 ,relEntity_209 ,relEntity_210 ,relEntity_211 ,relEntity_212 ,relEntity_213 ,relEntity_214 ,relEntity_215 ,relEntity_216 ,relEntity_217 ,relEntity_218 ,relEntity_219 ,relEntity_220 ,relEntity_221 ,relEntity_222 ,relEntity_223 ,relEntity_224 ,relEntity_225 ,relEntity_226 ,relEntity_227 ,relEntity_228 ,relEntity_229 ,relEntity_230 ,relEntity_231 ,relEntity_232 ,relEntity_233 ,relEntity_234 ,relEntity_235 ,relEntity_236 ,relEntity_237 ,relEntity_238 ,relEntity_239 ,relEntity_240 ,relEntity_241 ,relEntity_242 ,relEntity_243 ,relEntity_244 ,relEntity_245 ,relEntity_246 ,relEntity_247 ,relEntity_248 ,relEntity_249 ,relEntity_250 ,relEntity_251 ,relEntity_252 ,relEntity_253 ,relEntity_254 ,relEntity_255 ,relEntity_256 ,relEntity_257 ,relEntity_258 ,relEntity_259 ,relEntity_260 ,relEntity_261 ,relEntity_262 ,relEntity_263 ,relEntity_264 ));
 //            List<String> list = compareEntitys(list1.get(i), list2.get(i), Arrays.asList(relEntity_141));
-            List<String> list = compareEntitys(list1.get(i), list1.get(i), Arrays.asList(relEntity_141_));
             for (String str : list) {
                 System.out.println(str);
             }
@@ -655,19 +631,5 @@ public class JsonCompareEntity {
         }
 
     }
-
-//    逾期记录明细1	逾期金额		逾期记录明细.逾期金额	5654
-//    逾期记录明细2	逾期金额		逾期记录明细.逾期金额	5654
-//    逾期记录明细3	逾期金额		逾期记录明细.逾期金额	5654
-//    逾期记录明细4	逾期金额		逾期记录明细.逾期金额	5654
-//    逾期记录明细5	逾期金额		逾期记录明细.逾期金额	5654
-//    逾期记录明细6	逾期金额		逾期记录明细.逾期金额	5654
-//    逾期记录明细7	逾期金额		逾期记录明细.逾期金额	5654
-//    逾期记录明细8	逾期金额	--	逾期记录明细.逾期金额	5654
-//    逾期记录明细9	逾期金额		逾期记录明细.逾期金额	5654
-//    逾期记录明细10	逾期金额		逾期记录明细.逾期金额	5654
-
-
-
 
 }
