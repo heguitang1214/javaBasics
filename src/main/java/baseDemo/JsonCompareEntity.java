@@ -95,11 +95,11 @@ public class JsonCompareEntity {
                 }
                 //1.前一个是数组，后一个也是数组
                 Object obj = null;
-                if (afterObj instanceof JSONArray) {//todo 后一个也是数组的情况
+                if (afterObj instanceof JSONArray) {
                     for (int j = 0; j < ((JSONArray) afterObj).size(); j++) {
                         Object afterObject = ((JSONArray) afterObj).get(j);
                         Object sort2 = getDataByLinkedList(afterObject, afterSort, true, 0);
-//                        sort2 = getNumber(sort2.toString());//大道字段特殊处理
+                        sort2 = getNumber(sort2.toString());//大道字段特殊处理
                         if (sort1 != null && sort2 != null) {
                             if (sort1.equals(sort2)) {
                                 obj = afterObject;
@@ -107,7 +107,7 @@ public class JsonCompareEntity {
                             }
                         } else {
                             if (i == j) {
-                                obj = ((JSONArray) afterObj).get(i);//todo 获取的是数组
+                                obj = ((JSONArray) afterObj).get(i);
                                 break;
                             }
                         }
