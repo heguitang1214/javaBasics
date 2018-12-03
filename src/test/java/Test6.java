@@ -10,6 +10,17 @@ public class Test6 {
 
 
     public static void main(String[] args) {
+        int timeOut = 120 / 60;
+        int hour = LocalDateTime.now().getHour();
+        if (hour >= 12 + timeOut && hour < 14 + timeOut){
+//            查询可能超时的情况
+            System.out.println(1111);
+        }else if (hour >= 18 + timeOut && hour < 20 + timeOut){
+            System.out.println(222222222);
+        }
+
+
+
 
 
 

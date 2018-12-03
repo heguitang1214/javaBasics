@@ -1,4 +1,4 @@
-///**
+//package utils.excel;///**
 // * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
 // */
 //package excel;
@@ -448,41 +448,41 @@
 //		return this;
 //	}
 //
-////	/**
-////	 * 导出测试
-////	 */
-////	public static void main(String[] args) throws Throwable {
-////
-////		List<String> headerList = Lists.newArrayList();
-////		for (int i = 1; i <= 10; i++) {
-////			headerList.add("表头"+i);
-////		}
-////
-////		List<String> dataRowList = Lists.newArrayList();
-////		for (int i = 1; i <= headerList.size(); i++) {
-////			dataRowList.add("数据"+i);
-////		}
-////
-////		List<List<String>> dataList = Lists.newArrayList();
-////		for (int i = 1; i <=1000000; i++) {
-////			dataList.add(dataRowList);
-////		}
-////
-////		ExportExcel ee = new ExportExcel("表格标题", headerList);
-////
-////		for (int i = 0; i < dataList.size(); i++) {
-////			Row row = ee.addRow();
-////			for (int j = 0; j < dataList.get(i).size(); j++) {
-////				ee.addCell(row, j, dataList.get(i).get(j));
-////			}
-////		}
-////
-////		ee.writeFile("target/export.xlsx");
-////
-////		ee.dispose();
-////
-////		log.debug("Export success.");
-////
-////	}
+//	/**
+//	 * 导出测试
+//	 */
+//	public static void main(String[] args) throws Throwable {
+//
+//		List<String> headerList = Lists.newArrayList();
+//		for (int i = 1; i <= 10; i++) {
+//			headerList.add("表头"+i);
+//		}
+//
+//		List<String> dataRowList = Lists.newArrayList();
+//		for (int i = 1; i <= headerList.size(); i++) {
+//			dataRowList.add("数据"+i);
+//		}
+//
+//		List<List<String>> dataList = Lists.newArrayList();
+//		for (int i = 1; i <=1000000; i++) {
+//			dataList.add(dataRowList);
+//		}
+//
+//		ExportExcel ee = new ExportExcel("表格标题", headerList);
+//
+//		for (int i = 0; i < dataList.size(); i++) {
+//			Row row = ee.addRow();
+//			for (int j = 0; j < dataList.get(i).size(); j++) {
+//				ee.addCell(row, j, dataList.get(i).get(j));
+//			}
+//		}
+//
+//		ee.writeFile("target/export.xlsx");
+//
+//		ee.dispose();
+//
+//		log.debug("Export success.");
+//
+//	}
 //
 //}
