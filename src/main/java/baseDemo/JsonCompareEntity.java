@@ -82,14 +82,14 @@ public class JsonCompareEntity {
                                      LinkedList<String> beforeSort, LinkedList<String> afterSort,
                                      RelEntity relEntity, List<String> resultList, Object sort) {
 
-        Object beforeObj = getDataByLinkedList(beforeData, beforeLinkedList, false, 0);
-        Object afterObj = getDataByLinkedList(afterData, afterLinkedList, false, 0);
+        Object beforeObj = getTargetDataByLinkedList(beforeData, beforeLinkedList, false, 0);
+        Object afterObj = getTargetDataByLinkedList(afterData, afterLinkedList, false, 0);
         if (beforeObj instanceof JSONArray) {
             for (int i = 0; i < ((JSONArray) beforeObj).size(); i++) {
                 Object beforeObject = ((JSONArray) beforeObj).get(i);
-                Object objEntry = getDataByLinkedList(beforeObject, beforeLinkedList, true, 0);
+                Object objEntry = getTargetDataByLinkedList(beforeObject, beforeLinkedList, true, 0);
                 //获取排序字段
-                Object sort1 = getDataByLinkedList(beforeObject, beforeSort, true, 0);
+                Object sort1 = getTargetDataByLinkedList(beforeObject, beforeSort, true, 0);
                 if (sort1 == null) {
                     sort1 = sort;
                 }
@@ -98,7 +98,7 @@ public class JsonCompareEntity {
                 if (afterObj instanceof JSONArray) {
                     for (int j = 0; j < ((JSONArray) afterObj).size(); j++) {
                         Object afterObject = ((JSONArray) afterObj).get(j);
-                        Object sort2 = getDataByLinkedList(afterObject, afterSort, true, 0);
+                        Object sort2 = getTargetDataByLinkedList(afterObject, afterSort, true, 0);
 //                        sort2 = getNumber(sort2.toString());//大道字段特殊处理
                         if (sort1 != null && sort2 != null) {
                             if (sort1.toString().equals(sort2.toString())) {
@@ -113,7 +113,7 @@ public class JsonCompareEntity {
                         }
                     }
                     if (obj != null){
-                        obj = getDataByLinkedList(obj, afterLinkedList, true, 0);
+                        obj = getTargetDataByLinkedList(obj, afterLinkedList, true, 0);
                     }
                 }
                 if (objEntry instanceof JSONArray || obj instanceof JSONArray){
@@ -140,7 +140,7 @@ public class JsonCompareEntity {
             //3.前一个是对象，后一个是集合，直接循环比较
             for (int i = 0; i < ((JSONArray) afterObj).size(); i++) {
                 Object afterObject = ((JSONArray) afterObj).get(i);
-                Object objEntry = getDataByLinkedList(afterObject, afterLinkedList, true, 0);
+                Object objEntry = getTargetDataByLinkedList(afterObject, afterLinkedList, true, 0);
                 if (objEntry instanceof JSONArray){
                     String firstKey = afterLinkedList.removeFirst();
                     analysisJson(beforeObj, objEntry, beforeLinkedList, afterLinkedList, beforeSort, afterSort, relEntity, resultList, null);
@@ -156,15 +156,14 @@ public class JsonCompareEntity {
     }
 
     /**
-     * 获取数据
-     *
+     * 获取目标数据
      * @param object     数据源
      * @param linkedList 路径
      * @param isSort     是否排序
      * @return 获取的数据
      */
     //todo 在isSort为true的条件下，不能保证排序链条的顺序没有发生改变，可以在调用这个方法的时候，进行处理
-    private static Object getDataByLinkedList(Object object, LinkedList<String> linkedList, boolean isSort, int number) {
+    private static Object getTargetDataByLinkedList(Object object, LinkedList<String> linkedList, boolean isSort, int number) {
         if (linkedList == null || linkedList.size() == 0) {
             return object;
         }
@@ -175,9 +174,9 @@ public class JsonCompareEntity {
             }
             return null;
         }
-        String key = linkedList.getFirst();
+        String firstData = linkedList.getFirst();
         if (object instanceof JSONObject) {
-            Object obj = ((JSONObject) object).get(key);
+            Object obj = ((JSONObject) object).get(firstData);
             if (isSort) {
                 if (linkedList.size() > 1) {
                     linkedList.addLast(linkedList.removeFirst());
@@ -186,15 +185,15 @@ public class JsonCompareEntity {
             } else {
                 linkedList.removeFirst();
             }
-            object = getDataByLinkedList(obj, linkedList, isSort, number);
+            object = getTargetDataByLinkedList(obj, linkedList, isSort, number);
         } else if (object instanceof JSONArray) {
             JSONArray array = ((JSONArray) object);
             if (array.size() == 1) {
                 Object obj = array.get(0);
-                Object o = ((JSONObject) obj).get(key);
+                Object o = ((JSONObject) obj).get(firstData);
                 linkedList.addLast(linkedList.removeFirst());
                 ++ number;
-                object = getDataByLinkedList(o, linkedList, isSort, number);
+                object = getTargetDataByLinkedList(o, linkedList, isSort, number);
             } else {
                 while (number != linkedList.size()){
                     linkedList.addLast(linkedList.removeFirst());
