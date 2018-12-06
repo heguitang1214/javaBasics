@@ -9,7 +9,7 @@ public class User {
     private String name;
     private int age;
 
-    @ExcelField(title="姓名**111", align=2, sort=500)
+    @ExcelField(title="姓名**111", align=2, sort=1)
     public String getName() {
         return name;
     }
@@ -18,7 +18,7 @@ public class User {
         this.name = name;
     }
 
-    @ExcelField(title="年龄**222", align=2, sort=300)
+    @ExcelField(title="年龄**222", align=2, sort=2)
     public int getAge() {
         return age;
     }
