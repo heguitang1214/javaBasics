@@ -49,13 +49,13 @@ public class ExcelUtil {
 
     private List<Map<String, Object>> createExcelRecord(List<SysUser> userList) {
         List<Map<String, Object>> listmap = new ArrayList<>();
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("sheetName", "sheet1");
         listmap.add(map);
         SysUser user = null;
         for (int j = 0; j < userList.size(); j++) {
             user = userList.get(j);
-            Map<String, Object> mapValue = new HashMap<String, Object>();
+            Map<String, Object> mapValue = new HashMap<>();
             mapValue.put("name", user.getName());
             mapValue.put("gender", (user.getGender() == 1) ? "男" : ((user.getGender() == 0) ? "女" : "保密"));
             mapValue.put("email", user.getEmail());

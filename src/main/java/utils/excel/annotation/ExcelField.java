@@ -37,10 +37,10 @@ public @interface ExcelField {
 	 */
 	int sort() default 0;
 
-	/**
-	 * 如果是字典类型，请设置字典的type值
-	 */
-	String dictType() default "";
+//	/**
+//	 * 如果是字典类型，请设置字典的type值
+//	 */
+//	String dictType() default "";
 	
 	/**
 	 * 反射类型

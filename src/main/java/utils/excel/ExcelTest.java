@@ -1,10 +1,14 @@
 package utils.excel;
 
-import javafx.application.Application;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellUtil;
+import org.apache.poi.xssf.streaming.SXSSFCell;
+import org.apache.poi.xssf.streaming.SXSSFRow;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -17,7 +21,11 @@ public class ExcelTest {
 //        System.out.println("完成");
 //        Excel2007AboveOperate("D:/workbook.xlsx");
 
-        testXHSSF();
+        long start = System.currentTimeMillis();
+//        testXHSSF();
+        testSXSSF();
+        System.out.println("耗时：["+(System.currentTimeMillis() - start)+"]");//4437   1317   4558
+
     }
 
 
@@ -37,20 +45,43 @@ public class ExcelTest {
                 filename = filename + "x";
             }
             wb.write(new FileOutputStream(filename));
-            wb.close();
+//            wb.close();
         }
     }
 
-
     private static void  testXHSSF() throws IOException {
         XSSFWorkbook workbook = new XSSFWorkbook();
-
         XSSFSheet sheet = workbook.createSheet("第一个");
-        XSSFSheet sheet1 = workbook.createSheet("第二个");
+        for (int i = 0; i < 200000; i++) {
+            XSSFRow row = sheet.createRow(i);
+            for (int j = 0; j < 10; j = j + 2) {
+                XSSFCell cell = row.createCell(j);
+                cell.setCellValue("Spring");
 
+                XSSFCell cell2 = row.createCell(j+1);
+                cell2.setCellValue("aaa");
+            }
+        }
         FileOutputStream fos = new FileOutputStream("D:/wb1.xls");
         workbook.write(fos);
-        fos.close();
+    }
+
+
+    private static void  testSXSSF() throws IOException {
+//        SXSSFWorkbook wb = new SXSSFWorkbook(100);
+//        SXSSFSheet sheet = wb.createSheet("kao");
+//
+//        for (int i = 0; i < 200000; i++) {
+//            SXSSFRow row = sheet.createRow(i);
+//            for (int j = 0; j < 10; j = j + 2) {
+//                SXSSFCell cell = row.createCell(j);
+//                cell.setCellValue("Spring");
+//                SXSSFCell cell2 = row.createCell(j+1);
+//                cell2.setCellValue("aaa");
+//            }
+//        }
+//        FileOutputStream fos = new FileOutputStream("D:/wb1.xls");
+//        wb.write(fos);
     }
 
     public static void testHSSF() throws Exception {
