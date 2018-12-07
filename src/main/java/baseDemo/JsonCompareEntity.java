@@ -265,21 +265,30 @@ public class JsonCompareEntity {
             return;
         }
         //半刻“”==大道null
-        if ("".equals(beforeObject)) {
-            if ("0".equals(afterObject.toString())) {
-                return;
+//        if ("".equals(beforeObject)) {
+//            if ("0".equals(afterObject.toString())) {
+//                return;
+//            }
+//        }
+        //配置特殊规则
+        Map<List<Object>, List<Object>> map = specialConf();
+        if (map != null && map.size() > 0){
+            Set<List<Object>> keyset = map.keySet();
+            for (List<Object> o : keyset){
+                List<Object> value = map.get(o);
+                if (o.contains(beforeObject) && value.contains(afterObject)){
+                    return;
+                }
             }
         }
-        //配置特殊规则
-//        Map<List<Object>, List<Object>> map = specialConf();
-//        if (map != null && map.size() > 0){
-//            Set<List<Object>> keyset = map.keySet();
-//            for (List<Object> o : keyset){
-//                List<Object> value = map.get(o);
-//                if (o.contains(beforeObject) && value.contains(afterObject)){
-//                    return;
-//                }
-//            }
+        //todo 括号的特殊处理
+//        if (beforeObject.toString().contains("（")){
+//            beforeObject = beforeObject.toString().replaceAll("（", "(");
+//            beforeObject = beforeObject.toString().replaceAll("）", ")");
+//        }
+//        if (afterObject.toString().contains("（")){
+//            afterObject = afterObject.toString().replaceAll("（", "(");
+//            afterObject = afterObject.toString().replaceAll("）", ")");
 //        }
 
 //        时间的处理
@@ -354,7 +363,7 @@ public class JsonCompareEntity {
         Map<List<Object>, List<Object>> map = new HashMap<>();
 //        map.put("--", Arrays.asList("", null));
 //        map.put("", Arrays.asList("结清", "0"));
-        map.put(Collections.singletonList(""), Collections.singletonList(0));
+        map.put(Collections.singletonList(""), Arrays.asList(0, "结清", "销户", "未激活"));
         return map;
     }
 
@@ -543,9 +552,9 @@ public class JsonCompareEntity {
         RelEntity relEntity_149 = new RelEntity("004005.line4.latest24state#line1.orderno", "还款记录（24格）", "icrStdLoanCardInfo.latest24State#serialNo", "准贷记卡.24个月还款状态");
         RelEntity relEntity_150 = new RelEntity("004005.line1.badbalance#line1.orderno", "余额<或有>", "icrStdLoanCardInfo.badBalance#serialNo", "准贷记卡.余额");
         RelEntity relEntity_151 = new RelEntity("004005.line2.loanacctstate#line1.orderno", "账户状态", "icrStdLoanCardInfo.state#serialNo", "准贷记卡.帐户状态");
-        RelEntity relEntity_152 = new RelEntity("004003.line7.month#line1.orderno", "逾期月份", "icrLoanCardInfo.icrLatest5yearOverdueDetail.month#serialNo", "逾期记录明细.逾期月份");
-        RelEntity relEntity_153 = new RelEntity("004003.line7.lastmonths#line1.orderno", "逾期持续月份", "icrLoanCardInfo.icrLatest5yearOverdueDetail.lastMonths#serialNo", "逾期记录明细.逾期持续月数");
-        RelEntity relEntity_154 = new RelEntity("004003.line7.amount#line1.orderno", "逾期金额", "icrLoanCardInfo.icrLatest5yearOverdueDetail.amount#serialNo", "逾期记录明细.逾期金额");
+        RelEntity relEntity_152 = new RelEntity("004003.line7.month#line1.orderno", "逾期月份", "icrLoanInfo.icrLatest5yearOverdueDetail.month#serialNo", "逾期记录明细.逾期月份");
+        RelEntity relEntity_153 = new RelEntity("004003.line7.lastmonths#line1.orderno", "逾期持续月份", "icrLoanInfo.icrLatest5yearOverdueDetail.lastMonths#serialNo", "逾期记录明细.逾期持续月数");
+        RelEntity relEntity_154 = new RelEntity("004003.line7.amount#line1.orderno", "逾期金额", "icrLoanInfo.icrLatest5yearOverdueDetail.amount#serialNo", "逾期记录明细.逾期金额");
         RelEntity relEntity_155 = new RelEntity("003007.line1.count#orderno", "担保笔数", "icrGuaranteeSummary.count#serialNo", "对外担保信息汇总.担保笔数");
         RelEntity relEntity_156 = new RelEntity("003007.line1.amount#orderno", "担保金额", "icrGuaranteeSummary.amount#serialNo", "对外担保信息汇总.担保金额");
         RelEntity relEntity_157 = new RelEntity("003007.line1.balance#orderno", "担保本金余额", "icrGuaranteeSummary.balance#serialNo", "对外担保信息汇总.担保本金余额");
@@ -694,13 +703,13 @@ public class JsonCompareEntity {
 //            }
             List<String> list = compareEntitys(list1.get(i), list2.get(i), Arrays.asList(relEntity_1, relEntity_2, relEntity_3, relEntity_4, relEntity_5, relEntity_6, relEntity_7, relEntity_8, relEntity_9, relEntity_10, relEntity_11, relEntity_12, relEntity_13, relEntity_14, relEntity_15, relEntity_16, relEntity_17, relEntity_18, relEntity_19, relEntity_20, relEntity_21, relEntity_22, relEntity_23, relEntity_24, relEntity_25, relEntity_26, relEntity_27, relEntity_28, relEntity_29, relEntity_30, relEntity_31, relEntity_32, relEntity_33, relEntity_34, relEntity_35, relEntity_36, relEntity_37, relEntity_38, relEntity_39, relEntity_40, relEntity_41, relEntity_42, relEntity_43, relEntity_44, relEntity_45, relEntity_46, relEntity_47, relEntity_48, relEntity_49, relEntity_50, relEntity_51, relEntity_52, relEntity_53, relEntity_54, relEntity_55, relEntity_56, relEntity_57, relEntity_58, relEntity_59, relEntity_60, relEntity_61, relEntity_62, relEntity_63, relEntity_64, relEntity_65, relEntity_66, relEntity_67, relEntity_68, relEntity_69, relEntity_70, relEntity_71, relEntity_72, relEntity_73, relEntity_74, relEntity_75, relEntity_76, relEntity_77, relEntity_78, relEntity_79, relEntity_80, relEntity_81, relEntity_82, relEntity_83, relEntity_84, relEntity_85, relEntity_86, relEntity_87, relEntity_88, relEntity_89, relEntity_90, relEntity_91, relEntity_92, relEntity_93, relEntity_94, relEntity_95, relEntity_96, relEntity_97, relEntity_98, relEntity_99, relEntity_100, relEntity_101, relEntity_102, relEntity_103, relEntity_104, relEntity_105, relEntity_106, relEntity_107, relEntity_108, relEntity_109, relEntity_110, relEntity_111, relEntity_112, relEntity_113, relEntity_114, relEntity_115, relEntity_116, relEntity_117, relEntity_118, relEntity_119, relEntity_120, relEntity_121, relEntity_122, relEntity_123, relEntity_124, relEntity_125, relEntity_126, relEntity_127, relEntity_128, relEntity_129, relEntity_130, relEntity_131, relEntity_132, relEntity_133, relEntity_134, relEntity_135, relEntity_136, relEntity_137, relEntity_138, relEntity_139, relEntity_140, relEntity_141, relEntity_142, relEntity_143, relEntity_144, relEntity_145, relEntity_146, relEntity_147, relEntity_148, relEntity_149, relEntity_150, relEntity_151, relEntity_152, relEntity_153, relEntity_154, relEntity_155, relEntity_156, relEntity_157, relEntity_158, relEntity_159, relEntity_160, relEntity_161, relEntity_162, relEntity_163, relEntity_164, relEntity_165, relEntity_166, relEntity_167, relEntity_168, relEntity_169, relEntity_170, relEntity_171, relEntity_172, relEntity_173, relEntity_174, relEntity_175, relEntity_176, relEntity_177, relEntity_178, relEntity_179, relEntity_180, relEntity_181, relEntity_182, relEntity_183, relEntity_184, relEntity_185, relEntity_186, relEntity_187, relEntity_188, relEntity_189, relEntity_190, relEntity_191, relEntity_192, relEntity_193, relEntity_194, relEntity_195, relEntity_196, relEntity_197, relEntity_198, relEntity_199, relEntity_200, relEntity_201, relEntity_202, relEntity_203, relEntity_204, relEntity_205, relEntity_206, relEntity_207, relEntity_208, relEntity_209, relEntity_210, relEntity_211, relEntity_212, relEntity_213, relEntity_214, relEntity_215, relEntity_216, relEntity_217, relEntity_218, relEntity_219, relEntity_220, relEntity_221, relEntity_222, relEntity_223, relEntity_224, relEntity_225, relEntity_226, relEntity_227, relEntity_228, relEntity_229, relEntity_230, relEntity_231, relEntity_232, relEntity_233, relEntity_234, relEntity_235, relEntity_236, relEntity_237, relEntity_238, relEntity_239, relEntity_240, relEntity_241, relEntity_242, relEntity_243, relEntity_244, relEntity_245, relEntity_246, relEntity_247, relEntity_248, relEntity_249, relEntity_250, relEntity_251, relEntity_252, relEntity_253, relEntity_254, relEntity_255, relEntity_256, relEntity_257, relEntity_258, relEntity_259, relEntity_260, relEntity_261, relEntity_262, relEntity_263, relEntity_264, relEntity_265, relEntity_266, relEntity_267, relEntity_268, relEntity_269, relEntity_270, relEntity_271, relEntity_272, relEntity_273, relEntity_274, relEntity_275, relEntity_276, relEntity_277, relEntity_278, relEntity_279, relEntity_280, relEntity_281, relEntity_282, relEntity_283, relEntity_284, relEntity_285, relEntity_286, relEntity_287, relEntity_288));
 //            List<String> list = compareEntitys(list1.get(i), list2.get(i), Arrays.asList(relEntity_153));
-            System.out.println(i + 1);
+//            System.out.println(i + 1);
             for (String str : list) {
                 System.out.println(str);
             }
-            for (int j = 0; j < 5; j++) {
-                System.out.println();
-            }
+//            for (int j = 0; j < 5; j++) {
+//                System.out.println();
+//            }
 
         }
 
