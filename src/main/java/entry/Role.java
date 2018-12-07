@@ -1,4 +1,4 @@
-package utils.json.entity;
+package entry;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -1,11 +1,10 @@
 package spring.aopAnnotation.service;
 
-import javax.annotation.Resource;
+import entry.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import spring.aopAnnotation.dao.UserDAO;
-import spring.aopAnnotation.model.User;
 
 
 @Component("userService")

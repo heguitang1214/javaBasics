@@ -61,7 +61,9 @@ public class RedisPool {
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
-            client.close();
+            if (client != null){
+                client.close();
+            }
         }
 
     }

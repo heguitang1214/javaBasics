@@ -1,23 +1,23 @@
-package utils.json.test;
+package utilsTest;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import utils.json.entity.Job;
-import utils.json.entity.Role;
-import utils.json.entity.User;
+import entry.Job;
+import entry.Role;
+import entry.User;
+import org.junit.Test;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author he_guitang
- * @version [1.0 , 2018/8/16]
- *          ObjectMapper的使用测试
+ * JSON工具上测试
  */
-public class ObjectMapperTest {
+public class JsonTest {
 
-    public static void main(String[] args) {
-
+    @Test
+    public void test(){
         ObjectMapper objectMapper = new ObjectMapper();
         String param = "[{\"name\":\"张三\",\"password\":\"123456\", \"roles\":[{\"name\":\"角色1\",\"jobs\":[{\"name\":\"职位1\"}," +
                 "{\"name\":\"职位11\"}]},{\"name\":\"角色2\",\"jobs\":[{\"name\":\"职位1\"},{\"name\":\"职位11\"}]}]},{\"name\":\"李四\"," +
@@ -40,6 +40,9 @@ public class ObjectMapperTest {
             System.out.println("=============================================================");
         }
     }
+
+
+
 
 
 }

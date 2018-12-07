@@ -1,7 +1,6 @@
 package spring.aopAnnotation.dao;
 
-
-import spring.aopAnnotation.model.User;
+import entry.User;
 
 public interface UserDAO {
     void save(User user);

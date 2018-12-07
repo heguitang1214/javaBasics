@@ -1,8 +1,8 @@
 package spring.aopAnnotation.dao.impl;
 
+import entry.User;
 import org.springframework.stereotype.Component;
 import spring.aopAnnotation.dao.UserDAO;
-import spring.aopAnnotation.model.User;
 
 /**
  * @author he_guitang

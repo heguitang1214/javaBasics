@@ -1,4 +1,4 @@
-package utils.json.utils;
+package utils;
 
 import java.nio.charset.Charset;
 import java.util.*;

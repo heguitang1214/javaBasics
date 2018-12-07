@@ -1,6 +1,6 @@
 package spring.aopAnnotation.test;
+import entry.User;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import spring.aopAnnotation.model.User;
 import spring.aopAnnotation.service.UserService;
 
 
