@@ -4,7 +4,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,14 +12,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import com.beust.jcommander.internal.Lists;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Comment;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
@@ -29,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.Encodes;
 import utils.ReflectionsUtils;
+import utils.excel.annotation.ExcelConfEnum;
 import utils.excel.annotation.ExcelField;
 
 /**
@@ -70,7 +63,7 @@ public class ExportExcel {
      * @param cls   实体对象，通过annotation.ExportField获取标题
      */
     public ExportExcel(String title, Class<?> cls) {
-        this(title, cls, 1);
+        this(title, cls, ExcelConfEnum.ExportData.getIndex());
     }
 
     /**
@@ -78,7 +71,7 @@ public class ExportExcel {
      *
      * @param title  表格标题，传“空值”，表示无标题
      * @param cls    实体对象，通过annotation.ExportField获取标题
-     * @param type   导出类型（1:导出数据；2：导出模板）
+     * @param type   导出类型（1:导出数据；2：导出模板）,模板支持批注
      * @param groups 导入分组
      */
     public ExportExcel(String title, Class<?> cls, int type, int... groups) {
@@ -86,7 +79,7 @@ public class ExportExcel {
         Field[] fs = cls.getDeclaredFields();
         for (Field f : fs) {
             ExcelField ef = f.getAnnotation(ExcelField.class);
-            if (ef != null && (ef.type() == 0 || ef.type() == type)) {
+            if (ef != null && (ef.type() == 0 || ef.type() == 1)) {
                 if (groups != null && groups.length > 0) {
                     boolean inGroup = false;
                     for (int g : groups) {
@@ -110,7 +103,7 @@ public class ExportExcel {
         Method[] ms = cls.getDeclaredMethods();
         for (Method m : ms) {
             ExcelField ef = m.getAnnotation(ExcelField.class);
-            if (ef != null && (ef.type() == 0 || ef.type() == type)) {
+            if (ef != null && (ef.type() == 0 || ef.type() == 1)) {
                 if (groups != null && groups.length > 0) {
                     boolean inGroup = false;
                     for (int g : groups) {
@@ -144,7 +137,7 @@ public class ExportExcel {
         for (Object[] os : annotationList) {
             String t = ((ExcelField) os[0]).title();
             // 如果是导出，则去掉注释
-            if (type == 1) {
+            if (ExcelConfEnum.ExportData.getIndex() == type) {
                 String[] ss = StringUtils.split(t, "**", 2);
                 if (ss.length == 2) {
                     t = ss[0];
@@ -182,8 +175,8 @@ public class ExportExcel {
      * @param headerList 表头列表
      */
     private void initialize(String title, List<String> headerList) {
-        this.workbook = new SXSSFWorkbook(500);
-        this.sheet = workbook.createSheet("export");
+        this.workbook = new SXSSFWorkbook(ExcelConfEnum.rowAccessWindowSize.getIndex());
+        this.sheet = workbook.createSheet(ExcelConfEnum.sheetName.getDesc());
         this.styles = createStyles(workbook);
         // Create title
         if (StringUtils.isNotBlank(title)) {
@@ -205,9 +198,10 @@ public class ExportExcel {
             Cell cell = headerRow.createCell(i);
             cell.setCellStyle(styles.get("header"));
             String[] ss = StringUtils.split(headerList.get(i), "**", 2);
+            //Excel模板批注 todo 批注失效
             if (ss.length == 2) {
                 cell.setCellValue(ss[0]);
-                Comment comment = this.sheet.createDrawingPatriarch().createCellComment(
+                Comment comment = sheet.createDrawingPatriarch().createCellComment(
                         new XSSFClientAnchor(0, 0, 0, 0, (short) 3, 3, (short) 5, 6));
                 comment.setString(new XSSFRichTextString(ss[1]));
                 cell.setCellComment(comment);
@@ -288,15 +282,6 @@ public class ExportExcel {
         styles.put("header", style);
 
         return styles;
-    }
-
-    /**
-     * 添加一行
-     *
-     * @return 行对象
-     */
-    private Row addRow() {
-        return sheet.createRow(rownum++);
     }
 
 

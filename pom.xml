@@ -7,12 +7,25 @@
     <artifactId>javaBasics</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <!-- 项目属性 -->
+    <properties>
+        <!-- main version setting -->
+        <spring.version>4.3.14.RELEASE</spring.version>
+        <google.zxing.version>3.3.0</google.zxing.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>4.3.14.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
@@ -85,12 +98,12 @@
         <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>core</artifactId>
-            <version>3.3.0</version>
+            <version>${google.zxing.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>javase</artifactId>
-            <version>3.3.0</version>
+            <version>${google.zxing.version}</version>
         </dependency>
         <!--rabbitmq-->
         <dependency>

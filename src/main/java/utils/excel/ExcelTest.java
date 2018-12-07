@@ -7,10 +7,7 @@ import org.apache.poi.xssf.streaming.SXSSFCell;
 import org.apache.poi.xssf.streaming.SXSSFRow;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.*;
 
 import java.io.*;
 
@@ -21,10 +18,12 @@ public class ExcelTest {
 //        System.out.println("完成");
 //        Excel2007AboveOperate("D:/workbook.xlsx");
 
-        long start = System.currentTimeMillis();
+//        long start = System.currentTimeMillis();
 //        testXHSSF();
-        testSXSSF();
-        System.out.println("耗时：["+(System.currentTimeMillis() - start)+"]");//4437   1317   4558
+//        testSXSSF();
+//        System.out.println("耗时：["+(System.currentTimeMillis() - start)+"]");//4437   1317   4558
+
+        writerPostil1();
 
     }
 
@@ -158,7 +157,76 @@ public class ExcelTest {
     }
 
 
+    /**
+     * Excel批注
+     */
+    private static void writerPostil() throws IOException {
+        //创建工作簿对象
+        HSSFWorkbook wb=new HSSFWorkbook();
+        //创建工作表对象
+        HSSFSheet sheet=wb.createSheet("我的工作表");
+        //创建绘图对象
+        HSSFPatriarch p=sheet.createDrawingPatriarch();
+        //创建单元格对象,批注插入到4行,1列,B5单元格
+        HSSFCell cell=sheet.createRow(4).createCell(1);
+        //插入单元格内容
+        cell.setCellValue(new HSSFRichTextString("批注"));
+
+        //获取批注对象
+        //(int dx1, int dy1, int dx2, int dy2, short col1, int row1, short col2, int row2)
+        //前四个参数是坐标点,后四个参数是编辑和显示批注时的大小.
+        HSSFComment comment=p.createComment(new HSSFClientAnchor(0,0,0,0,(short)3,3,(short)5,6));
+        //输入批注信息
+        comment.setString(new HSSFRichTextString("插件批注成功!插件批注成功!"));
+        //添加作者,选中B5单元格,看状态栏
+        comment.setAuthor("toad");
+        //将批注添加到单元格对象中
+        cell.setCellComment(comment);
+
+        //创建输出流
+        FileOutputStream out=new FileOutputStream("D:/writerPostil.xls");
+
+        wb.write(out);
+        //关闭流对象
+        out.close();
+    }
 
 
+    private static void writerPostil1() throws IOException {
+        //创建工作簿对象
+        SXSSFWorkbook workbook=new SXSSFWorkbook();
+        //创建工作表对象
+        Sheet sheet=workbook.createSheet("我的工作表");
+
+//        Row headerRow = sheet.createRow(6);
+
+
+        int i = 0;
+
+//        for (int i = 0; i < 10; i++){
+            Cell cell = sheet.createRow(5).createCell(6);
+
+            cell.setCellValue("数据" + i);
+            Comment comment = sheet.createDrawingPatriarch().createCellComment(
+                    new XSSFClientAnchor(0, 0, 0, 0, (short) 3, 3, (short) 5, 6));
+            comment.setString(new XSSFRichTextString("批注" + i));
+            cell.setCellComment(comment);
+
+
+//            Drawing draw1 = sheet.createDrawingPatriarch();
+//            Comment ct1 = draw1.createCellComment(new XSSFClientAnchor(0, 0, 0,
+//                    0, (short) 3, 3, (short) 9, 10));
+//            ct1.setString(new XSSFRichTextString("批注" + i));
+//            cell.setCellComment(ct1);
+
+//        }
+
+
+
+        FileOutputStream out=new FileOutputStream("D:/writerPostil.xls");
+        workbook.write(out);
+        //关闭流对象
+        out.close();
+    }
 
 }

@@ -1,4 +1,6 @@
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,24 +22,8 @@ public class Test4 {
         System.out.println(number);
         System.out.println("C".matches("[^(0-9)]"));
 
-
-        List<String> list = new ArrayList<>();
-        list.add("2018s");
-        list.add("2018lx ");
-        for (String str : list){
-            if (str.endsWith("s")){
-                System.out.println("s");
-            }else if (str.trim().endsWith("x")){
-                System.out.println("x");
-            }
-        }
-
-
-
-        String string = "121.dsad";
-        String[] strings = string.split("\\.");
-        System.out.println(Arrays.toString(strings));
-
+        String[] ss = StringUtils.split("12345**ertyujk**ertyu", "**", 2);
+        System.out.println(ss.length);
 
     }
 

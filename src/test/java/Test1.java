@@ -21,33 +21,6 @@ public class Test1 {
         System.out.println(str.matches("^//d+(//.//d+)?$"));
         System.out.println(str.matches("^(-)?[0-9]*$"));
 
-
-        Set<Integer> ids = new HashSet<>();
-        ids.add(3);
-
-        Set<Integer> idss = new HashSet<>();
-        idss.add(3);
-        idss.add(32);
-        idss.add(33);
-        ids.removeAll(idss);
-
-        System.out.println(ids);
-
-
-        Map<String, String> map = new HashMap<>(10);
-        map.put("1", "1");
-
-
-        Integer a = 128;
-        Integer b = 128;
-        System.out.println(a == b);
-        System.out.println(a.equals(b));
-
-
-
-        int c = 128;
-        int d = 128;
-        System.out.println(c == d);
     }
 
 }

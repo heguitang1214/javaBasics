@@ -9,7 +9,7 @@ public class User {
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String name;
-    private int age;
+    private Integer age;
     private String password;
     private List<Role> roles = new ArrayList<>();
 
@@ -23,11 +23,11 @@ public class User {
     }
 
     @ExcelField(title="年龄**222", align=2, sort=2)
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
@@ -45,5 +45,15 @@ public class User {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
+                '}';
     }
 }
