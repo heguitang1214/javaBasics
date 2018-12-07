@@ -9,6 +9,11 @@
 
     <!-- 项目属性 -->
     <properties>
+        <!-- 指明使用JDK8 -->
+        <java-version>1.8</java-version>
+        <!-- 指明使用utf-8编码 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <!-- main version setting -->
         <spring.version>4.3.14.RELEASE</spring.version>
         <google.zxing.version>3.3.0</google.zxing.version>
@@ -163,14 +168,19 @@
             <artifactId>junit</artifactId>
             <version>4.11</version>
         </dependency>
-    </dependencies>
+        <!--ftp上传文件-->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>3.3</version>
+        </dependency>
 
-    <properties>
-        <!-- 指明使用JDK8 -->
-        <java-version>1.8</java-version>
-        <!-- 指明使用utf-8编码 -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    </dependencies>
 
     <!-- 设定插件仓库 -->
     <!--<pluginRepositories>-->
@@ -180,6 +190,25 @@
             <!--<url>http://maven.aliyun.com/nexus/content/groups/public</url>-->
         <!--</pluginRepository>-->
     <!--</pluginRepositories>-->
+
+
+    <!--<repositories>-->
+        <!--<repository>-->
+            <!--&lt;!&ndash; Maven 自带的中央仓库使用的Id为central 如果其他的仓库声明也是用该Id-->
+            <!--就会覆盖中央仓库的配置 &ndash;&gt;-->
+            <!--<id>mvnrepository</id>-->
+            <!--<name>mvnrepository</name>-->
+            <!--<url>http://www.mvnrepository.com/</url>-->
+            <!--<layout>default</layout>-->
+            <!--<releases>-->
+                <!--<enabled>true</enabled>-->
+            <!--</releases>-->
+            <!--<snapshots>-->
+                <!--<enabled>false</enabled>-->
+            <!--</snapshots>-->
+        <!--</repository>-->
+    <!--</repositories>-->
+
 
     <build>
         <plugins>

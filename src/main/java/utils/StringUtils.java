@@ -8,8 +8,8 @@ import java.util.*;
  */
 public final class StringUtils {
 
-	public static final String EMPTY = "";
-	public static final int INDEX_NOT_FOUND = -1;
+	private static final String EMPTY = "";
+	private static final int INDEX_NOT_FOUND = -1;
 
 	private static byte[] getBytes(final String content, final Charset charset) {
 		if (content == null) {
@@ -32,7 +32,7 @@ public final class StringUtils {
 			return true;
 		}
 		for (int i = 0; i < strLen; i++) {
-			if (Character.isWhitespace(cs.charAt(i)) == false) {
+			if (!Character.isWhitespace(cs.charAt(i))) {
 				return false;
 			}
 		}
@@ -145,8 +145,7 @@ public final class StringUtils {
 		}
 		final Object first = iterator.next();
 		if (!iterator.hasNext()) {
-			String result = Objects.toString(first);
-			return result;
+			return Objects.toString(first);
 		}
 
 		// two or more elements
@@ -195,8 +194,6 @@ public final class StringUtils {
 
 	/**
 	 * 生成随机num位数
-	 * @param num
-	 * @return
 	 */
 	public static String randomCode(int num){
 		String code = "";
@@ -211,8 +208,6 @@ public final class StringUtils {
 
 	/**
 	 * 首字母大写
-	 * @param string
-	 * @return
 	 */
 	public static String toUpperCase4Index(String string) {
 		char[] charAt = string.toCharArray();
@@ -223,8 +218,6 @@ public final class StringUtils {
 	/**
 	 * 字符转成大写
 	 *
-	 * @param chars
-	 * @return
 	 */
 	public static char toUpperCase(char chars) {
 		if (97 <= chars && chars <= 122) {
@@ -237,8 +230,6 @@ public final class StringUtils {
 	/**
 	 * 参数名ASCII码从小到大排序
 	 *
-	 * @param
-	 * @return
 	 */
 	public static Set sortedmap(Map map) {
 		SortedMap<String, String> sort = new TreeMap<String, String>(map);
@@ -248,8 +239,6 @@ public final class StringUtils {
 
 	/**
 	 * 判断字符串是否为英文
-	 * @param str
-	 * @return
 	 */
 	public static Boolean isEnStr(String str){
 		return str.matches("[a-zA-Z]+");
@@ -257,8 +246,6 @@ public final class StringUtils {
 
 	/**
 	 * unicode 转中文
-	 * @param dataStr
-	 * @return
 	 */
 	public static String decodeUnicode(final String dataStr) {
 		int start = 0;
