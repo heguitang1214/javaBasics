@@ -270,6 +270,18 @@ public class JsonCompareEntity {
                 return;
             }
         }
+        //配置特殊规则
+//        Map<List<Object>, List<Object>> map = specialConf();
+//        if (map != null && map.size() > 0){
+//            Set<List<Object>> keyset = map.keySet();
+//            for (List<Object> o : keyset){
+//                List<Object> value = map.get(o);
+//                if (o.contains(beforeObject) && value.contains(afterObject)){
+//                    return;
+//                }
+//            }
+//        }
+
 //        时间的处理
         String regex_yM = "[0-9]{1}[0-9]{3}([-])\\d{1,2}";
         String regex_yM_ = "[0-9]{1}[0-9]{3}([./])\\d{1,2}";
@@ -335,6 +347,18 @@ public class JsonCompareEntity {
     }
 
 
+    /**
+     * 特殊规则
+     */
+    private static Map<List<Object>, List<Object>> specialConf() {
+        Map<List<Object>, List<Object>> map = new HashMap<>();
+//        map.put("--", Arrays.asList("", null));
+//        map.put("", Arrays.asList("结清", "0"));
+        map.put(Collections.singletonList(""), Collections.singletonList(0));
+        return map;
+    }
+
+
     static class RelEntity {
         private String partyA;
         private String partyADesc;
@@ -356,16 +380,13 @@ public class JsonCompareEntity {
             return partyADesc;
         }
 
-
         String getPartyB() {
             return partyB;
         }
 
-
         String getPartyBDesc() {
             return partyBDesc;
         }
-
     }
 
 

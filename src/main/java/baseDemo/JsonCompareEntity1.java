@@ -14,6 +14,7 @@ import java.util.List;
 /**
  * 利用Json比较实体的内容
  */
+@Deprecated
 public class JsonCompareEntity1 {
 
     /**
