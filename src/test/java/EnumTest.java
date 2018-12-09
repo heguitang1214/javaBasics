@@ -9,6 +9,7 @@ public class EnumTest {
         System.out.println(ExcelConfEnum.ExportData.name());
         System.out.println(ExcelConfEnum.ExportData.ordinal());
         System.out.println(ExcelConfEnum.ExportData.getIndex());
+        System.out.println(ExcelConfEnum.OnlyExport.getIndex());
 
     }
 
