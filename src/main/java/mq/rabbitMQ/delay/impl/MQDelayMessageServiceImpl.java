@@ -1,12 +1,11 @@
 package mq.rabbitMQ.delay.impl;
 
+import mq.rabbitMQ.delay.DelayMessageService;
+import mq.rabbitMQ.utils.CalendarUtils;
+import mq.rabbitMQ.utils.MQProperties;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import ai.yunxi.delay.DelayMessageService;
-import ai.yunxi.utils.CalendarUtils;
-import ai.yunxi.utils.MQProperties;
 
 /**
  * 

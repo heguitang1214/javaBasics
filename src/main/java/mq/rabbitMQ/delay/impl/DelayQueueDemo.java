@@ -1,9 +1,10 @@
 package mq.rabbitMQ.delay.impl;
 
+import mq.rabbitMQ.utils.CalendarUtils;
+import mq.rabbitMQ.utils.MyDelayed;
+
 import java.util.concurrent.DelayQueue;
 
-import ai.yunxi.utils.CalendarUtils;
-import ai.yunxi.utils.MyDelayed;
 
 public class DelayQueueDemo {
 
