@@ -1,8 +1,7 @@
-package mq.rabbitMQ;
+package rabbitMQ;
 
 import java.io.IOException;
 
-import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.AMQP.BasicProperties;
 import com.rabbitmq.client.Address;
 import com.rabbitmq.client.Channel;

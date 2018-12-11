@@ -1,4 +1,4 @@
-package mq.rabbitMQ;
+package rabbitMQ;
 
 import java.io.IOException;
 import java.util.UUID;

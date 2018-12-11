@@ -1,4 +1,4 @@
-package mq.rabbitMQ.utils;
+package rabbitMQ.utils;
 
 import java.util.Set;
 

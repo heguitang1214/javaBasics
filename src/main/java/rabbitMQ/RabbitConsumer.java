@@ -1,7 +1,6 @@
-package mq.rabbitMQ;
+package rabbitMQ;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import com.rabbitmq.client.AMQP.BasicProperties;
 import com.rabbitmq.client.Address;
@@ -12,8 +11,6 @@ import com.rabbitmq.client.Consumer;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
 import com.rabbitmq.client.GetResponse;
-import com.rabbitmq.client.MessageProperties;
-import com.rabbitmq.client.ShutdownSignalException;
 
 /**
  * 

@@ -1,17 +1,9 @@
-package mq.rabbitMQ.utils;
+package rabbitMQ.utils;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
-import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
-
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Consumer;
-import com.rabbitmq.client.DefaultConsumer;
-import com.rabbitmq.client.Envelope;
-import com.rabbitmq.client.AMQP.BasicProperties;
 
 /**
  * 

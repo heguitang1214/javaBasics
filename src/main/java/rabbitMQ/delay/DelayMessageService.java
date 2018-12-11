@@ -1,4 +1,4 @@
-package mq.rabbitMQ.delay;
+package rabbitMQ.delay;
 /**
  * 
  * @author 小五老师-云析学院

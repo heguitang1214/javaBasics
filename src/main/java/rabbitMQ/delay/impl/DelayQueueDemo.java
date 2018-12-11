@@ -1,7 +1,7 @@
-package mq.rabbitMQ.delay.impl;
+package rabbitMQ.delay.impl;
 
-import mq.rabbitMQ.utils.CalendarUtils;
-import mq.rabbitMQ.utils.MyDelayed;
+import rabbitMQ.utils.CalendarUtils;
+import rabbitMQ.utils.MyDelayed;
 
 import java.util.concurrent.DelayQueue;
 
