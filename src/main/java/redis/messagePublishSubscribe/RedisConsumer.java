@@ -1,4 +1,4 @@
-package redis.example;
+package redis.messagePublishSubscribe;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
@@ -11,7 +11,7 @@ public class RedisConsumer extends JedisPubSub {
     // 接收订阅信息事件处理
     public void onMessage(String channel, String message) {
         //收到close消息后取消订阅
-        if("close".equals(message)){
+        if ("close".equals(message)) {
             this.unsubscribe(channel);
         }
         System.out.println(Thread.currentThread().getName() + "收到来自" + channel + "发布的消息:" + message);
@@ -42,13 +42,15 @@ public class RedisConsumer extends JedisPubSub {
         System.out.println(Thread.currentThread().getName() + "收到来自" + channel + "发布的消息:" + message);
     }
 
-    public void consume(String... channel) {
-        Jedis client = new Jedis("127.0.0.1", 6379);
+    private void consume(String... channel) {
+        Jedis client = new Jedis("47.93.194.11", 6379);
+        client.auth("");
         client.subscribe(this, channel);
     }
 
     public void pConsume(String... channel) {
-        Jedis client = new Jedis("127.0.0.1", 6379);
+        Jedis client = new Jedis("47.93.194.11", 6379);
+        client.auth("");
         client.psubscribe(this, channel);
     }
 
@@ -61,19 +63,21 @@ public class RedisConsumer extends JedisPubSub {
 //                consumer.consume("news.sport","news.weather");
 //            }
 //        },"张三").start();
-//
+
+
 //        new Thread(new Runnable() {
 //            public void run() {
 //                RedisConsumer consumer = new RedisConsumer();
 //                consumer.consume( "news.game");
 //            }
 //        },"李四").start();
+
+
         final RedisConsumer consumer = new RedisConsumer();
         new Thread(new Runnable() {
             public void run() {
                 consumer.consume("news.sport");
             }
         }, "王五").start();
-
     }
 }
