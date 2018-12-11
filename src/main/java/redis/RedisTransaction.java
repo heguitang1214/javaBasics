@@ -11,8 +11,9 @@ import java.util.List;
  **/
 public class RedisTransaction {
 
-    public void submitOrder(long userId, int amount) {
-        Jedis client = new Jedis("127.0.0.1", 6379);
+    private void submitOrder(long userId, int amount) {
+        Jedis client = new Jedis("47.93.194.11", 6379);
+        client.auth("heguitang");
         try {
             client.watch("iPhoneX");
 
@@ -27,6 +28,7 @@ public class RedisTransaction {
             trans.decrBy("iPhoneX", amount);
             trans.zadd("orders:" + userId, amount, "iPhone");
             trans.incrBy("account:"+userId,1000);
+            //执行事务
             List<Response<?>> result = trans.execGetResponse();
 
             if (result.size() == 0) {
@@ -40,8 +42,7 @@ public class RedisTransaction {
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
-            if (client != null)
-                client.close();
+            client.close();
         }
     }
 
@@ -49,7 +50,8 @@ public class RedisTransaction {
         final RedisTransaction transaction = new RedisTransaction();
         Jedis client = null;
         try {
-            client = new Jedis("127.0.0.1", 6379);
+            client = new Jedis("47.93.194.11", 6379);
+            client.auth("heguitang");
             client.flushDB();
             //初始化商品数据
             client.set("iPhoneX", "10");
@@ -57,6 +59,7 @@ public class RedisTransaction {
             if (client != null)
                 client.close();
         }
+
         new Thread(new Runnable() {
             public void run() {
                 transaction.submitOrder(1l, 2);
