@@ -1,4 +1,4 @@
-package redis.example;
+package redis;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Response;
@@ -7,9 +7,7 @@ import redis.clients.jedis.Transaction;
 import java.util.List;
 
 /**
- * @program: redis
- * @description:
- * @create: 2018-11-16 13:30
+ * Redis事务操作
  **/
 public class RedisTransaction {
 

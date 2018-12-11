@@ -1,4 +1,4 @@
-package redis.example;
+package redis;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Pipeline;
@@ -7,9 +7,7 @@ import redis.clients.jedis.Response;
 import java.util.List;
 
 /**
- * @program: redis
- * @description:
- * @create: 2018-11-16 15:18
+ * Redis管道
  **/
 public class RedisPipeline {
 
