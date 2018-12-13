@@ -40,6 +40,13 @@
             <scope>test</scope>
             <!--<version>2.1.1.RELEASE</version>-->
         </dependency>
+        <!--springBoot热部署-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <!-- 取消传递依赖 -->
+            <optional>true</optional>
+        </dependency>
         <!--<dependency>-->
             <!--<groupId>org.springframework.boot</groupId>-->
             <!--<artifactId>spring-boot-starter-amqp</artifactId>-->

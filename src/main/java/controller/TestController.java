@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
+//@RestController
 @RequestMapping("/")
 public class TestController {
 
@@ -13,7 +14,7 @@ public class TestController {
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     @ResponseBody
     public String test(){
-        return "hello111";
+        return "hello11122223333";
     }
 
 
