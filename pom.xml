@@ -6,6 +6,8 @@
     <groupId>groupId</groupId>
     <artifactId>javaBasics</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <!--<packaging>war</packaging>-->
+    <!--<packaging>pom</packaging>-->
 
     <!-- 项目属性 -->
     <properties>
@@ -13,9 +15,7 @@
         <java-version>1.8</java-version>
         <!-- 指明使用utf-8编码 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
         <!-- main version setting -->
-        <spring.version>4.3.14.RELEASE</spring.version>
         <google.zxing.version>3.3.0</google.zxing.version>
     </properties>
 
@@ -32,20 +32,14 @@
             <scope>test</scope>
             <version>2.1.1.RELEASE</version>
         </dependency>
-
-
-        <!--spring相关jar包-->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+            <version>2.0.6.RELEASE</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-web</artifactId>-->
-            <!--<version>${spring.version}</version>-->
-        <!--</dependency>-->
 
+
+        <!--cglib-->
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
@@ -61,11 +55,11 @@
             <artifactId>jdom</artifactId>
             <version>2.0.2</version>
         </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.8.9</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.fasterxml.jackson.core</groupId>-->
+            <!--<artifactId>jackson-databind</artifactId>-->
+            <!--<version>2.8.9</version>-->
+        <!--</dependency>-->
         <!--redis-->
         <dependency>
             <groupId>redis.clients</groupId>
@@ -90,24 +84,6 @@
             <artifactId>poi-ooxml</artifactId>
             <version>3.9</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.apache.poi</groupId>-->
-            <!--<artifactId>poi</artifactId>-->
-            <!--<version>3.15</version>-->
-        <!--</dependency>-->
-        <!--日志:slf4j-->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-nop</artifactId>
-            <version>1.7.25</version>
-            <!--<scope>test</scope>-->
-            <scope>compile</scope>
-        </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.slf4j</groupId>-->
-            <!--<artifactId>slf4j-api</artifactId>-->
-            <!--<version>1.7.25</version>-->
-        <!--</dependency>-->
         <!--公共包-->
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -131,17 +107,6 @@
             <artifactId>amqp-client</artifactId>
             <version>4.2.1</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-            <version>2.0.6.RELEASE</version>
-        </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.amqp</groupId>-->
-            <!--<artifactId>spring-amqp</artifactId>-->
-            <!--<version>2.0.6.RELEASE</version>-->
-        <!--</dependency>-->
-
         <!--httpclient-->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -163,37 +128,6 @@
             <artifactId>httpclient</artifactId>
             <version>4.5.3</version>
         </dependency>
-        <!--servlet相关jar包-->
-        <!--<dependency>-->
-            <!--<groupId>javax.servlet</groupId>-->
-            <!--<artifactId>javax.servlet-api</artifactId>-->
-            <!--<version>4.0.1</version>-->
-            <!--<scope>provided</scope>-->
-        <!--</dependency>-->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet.jsp</groupId>
-            <artifactId>jsp-api</artifactId>
-            <version>2.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <!--junit测试工具-->
-        <!--<dependency>-->
-            <!--<groupId>junit</groupId>-->
-            <!--<artifactId>junit</artifactId>-->
-            <!--<version>4.11</version>-->
-        <!--</dependency>-->
         <!--ftp上传文件-->
         <dependency>
             <groupId>commons-io</groupId>
@@ -205,6 +139,44 @@
             <artifactId>commons-net</artifactId>
             <version>3.3</version>
         </dependency>
+
+        <!--spring相关jar包-->
+        <!--<dependency>-->
+        <!--<groupId>org.springframework</groupId>-->
+        <!--<artifactId>spring-context</artifactId>-->
+        <!--<version>${spring.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>org.springframework</groupId>-->
+        <!--<artifactId>spring-web</artifactId>-->
+        <!--<version>${spring.version}</version>-->
+        <!--</dependency>-->
+
+        <!--servlet相关jar包-->
+        <!--<dependency>-->
+            <!--<groupId>javax.servlet</groupId>-->
+            <!--<artifactId>jstl</artifactId>-->
+            <!--<version>1.2</version>-->
+            <!--<type>jar</type>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>javax.servlet</groupId>-->
+            <!--<artifactId>servlet-api</artifactId>-->
+            <!--<version>2.5</version>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>javax.servlet.jsp</groupId>-->
+            <!--<artifactId>jsp-api</artifactId>-->
+            <!--<version>2.1</version>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
+        <!--junit测试工具-->
+        <!--<dependency>-->
+            <!--<groupId>junit</groupId>-->
+            <!--<artifactId>junit</artifactId>-->
+            <!--<version>4.11</version>-->
+        <!--</dependency>-->
 
     </dependencies>
 
@@ -234,8 +206,6 @@
             <!--</snapshots>-->
         <!--</repository>-->
     <!--</repositories>-->
-
-
     <build>
         <plugins>
             <!--指定Java版本-->
