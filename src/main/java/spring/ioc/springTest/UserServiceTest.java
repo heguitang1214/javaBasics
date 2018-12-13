@@ -11,8 +11,6 @@ public class UserServiceTest {
 		testAdd();
 	}
 
-
-
 	private static void testAdd() throws Exception {
 		BeanFactory applicationContext = new ClassPathXmlApplicationContext();
 		

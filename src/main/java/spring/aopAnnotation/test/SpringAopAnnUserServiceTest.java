@@ -9,7 +9,7 @@ import spring.aopAnnotation.service.UserService;
 public class SpringAopAnnUserServiceTest {
 
 	public static void main(String[] args) {
-		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring_beans.xml");
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("springConf/spring_beans.xml");
 
 		UserService service = (UserService)ctx.getBean("userService");
 		System.out.println("动态代理对象:" + service.getClass());

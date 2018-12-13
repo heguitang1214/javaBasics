@@ -22,7 +22,7 @@ public class ClassPathXmlApplicationContext implements BeanFactory {
     public ClassPathXmlApplicationContext() throws Exception {
         SAXBuilder sb = new SAXBuilder();
 
-        Document doc = sb.build(this.getClass().getClassLoader().getResourceAsStream("my_spring_beans.xml")); //构造文档对象
+        Document doc = sb.build(this.getClass().getClassLoader().getResourceAsStream("springConf/my_spring_beans.xml")); //构造文档对象
         Element root = doc.getRootElement(); //获取根元素HD
         List list = root.getChildren("bean");//取名字为disk的所有元素
         for (int i = 0; i < list.size(); i++) {
