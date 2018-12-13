@@ -324,37 +324,6 @@ public class JsonCompareEntity {
         return linkedList;
     }
 
-    /**
-     * 特殊业务处理:
-     * 获取当前字符串中的数字，然后加1
-     */
-    private static Object getNumber(String str) {
-        if (str.matches("[\\d]+")) {
-            Integer result = Integer.valueOf(str) + 1;
-            return result.toString();
-        } else {
-            String number = str.replaceAll("[^(0-9)]", "");
-            if (StringUtils.isNotBlank(number)) {
-                Integer result = Integer.valueOf(number) + 1;
-                return result.toString();
-            } else {
-                return str;
-            }
-        }
-    }
-
-    /**
-     * 特殊业务处理:然后加1
-     */
-    private static Object getNumberByRegd(String str) {
-        if (str.matches("[\\d]+")) {
-            Integer result = Integer.valueOf(str) + 1;
-            return result.toString();
-        } else {
-            return str;
-        }
-    }
-
 
     /**
      * 特殊规则
