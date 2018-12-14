@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class ImportExcel {
 
-    private static Logger log = LoggerFactory.getLogger(ImportExcel.class);
+    private static Logger logger = LoggerFactory.getLogger(ImportExcel.class);
 
     /**
      * 工作表对象
@@ -119,7 +119,7 @@ public class ImportExcel {
         }
         this.sheet = workbook.getSheetAt(sheetIndex);
         this.headerNum = headerNum;
-        log.debug("ImportExcel Initialize success!");
+        logger.debug("ImportExcel Initialize success!");
     }
 
     /**
@@ -302,7 +302,7 @@ public class ImportExcel {
                             }
                         }
                     } catch (Exception ex) {
-                        log.info("Get cell value [" + i + "," + column + "] error: " + ex.toString());
+                        logger.info("Get cell value [" + i + "," + column + "] error: " + ex.toString());
                         val = null;
                     }
                     // set entity value
@@ -319,7 +319,7 @@ public class ImportExcel {
                 sb.append(val).append(",");
             }
             dataList.add(e);
-            log.debug("Read success: [" + i + "] " + sb.toString());
+            logger.debug("Read success: [" + i + "] " + sb.toString());
         }
         return dataList;
     }

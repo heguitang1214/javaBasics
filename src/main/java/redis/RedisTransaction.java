@@ -48,16 +48,14 @@ public class RedisTransaction {
 
     public static void main(String[] args) {
         final RedisTransaction transaction = new RedisTransaction();
-        Jedis client = null;
+        Jedis client = new Jedis("47.93.194.11", 6379);
+        client.auth("heguitang");
         try {
-            client = new Jedis("47.93.194.11", 6379);
-            client.auth("heguitang");
             client.flushDB();
             //初始化商品数据
             client.set("iPhoneX", "10");
         } finally {
-            if (client != null)
-                client.close();
+            client.close();
         }
 
         new Thread(new Runnable() {

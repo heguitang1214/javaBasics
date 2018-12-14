@@ -13,10 +13,8 @@ public class UserServiceTest {
 
 	private static void testAdd() throws Exception {
 		BeanFactory applicationContext = new ClassPathXmlApplicationContext();
-		
-		
+
 		UserService service = (UserService)applicationContext.getBean("userService");
-		
 
 		User u = new User();
 		u.setUsername("zhangsan");
