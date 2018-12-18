@@ -46,25 +46,28 @@ public class ThreadLock {
 
 
     }
-}
 
-//输出方法,线程安全
-class Outputer{
+    //输出方法,线程安全
+    class Outputer{
 
-    private Lock lock = new ReentrantLock();
+        private Lock lock = new ReentrantLock();
 
-    //线程安全方法
-    void output(String name){
-        lock.lock();//当前线程上锁
-        try {
-            for (int i = 0; i < name.length(); i++) {
-                System.out.print(name.charAt(i));
+        //线程安全方法
+        void output(String name){
+            lock.lock();//当前线程上锁
+            try {
+                for (int i = 0; i < name.length(); i++) {
+                    System.out.print(name.charAt(i));
+                }
+                System.out.println();
+            }finally {
+                lock.unlock();//当前线程释放锁
             }
-            System.out.println();
-        }finally {
-            lock.unlock();//当前线程释放锁
         }
+
     }
 
 }
+
+
 
