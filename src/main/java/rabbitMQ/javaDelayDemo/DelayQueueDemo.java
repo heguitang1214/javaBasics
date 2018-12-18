@@ -1,10 +1,13 @@
-package rabbitMQ.delayDemo.impl;
+package rabbitMQ.javaDelayDemo;
 
 import rabbitMQ.utils.CalendarUtils;
-import rabbitMQ.utils.MyDelayed;
+
 import java.util.concurrent.DelayQueue;
 
-
+/**
+ * 利用rabbitmq的DelayQueue来实现延迟队列
+ * 性能高，本机内存级别，适合单机
+ */
 public class DelayQueueDemo {
 
     public static void main(String[] args) {

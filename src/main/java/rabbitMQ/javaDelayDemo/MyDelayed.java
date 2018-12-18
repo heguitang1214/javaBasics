@@ -1,9 +1,15 @@
-package rabbitMQ.utils;
+package rabbitMQ.javaDelayDemo;
+
+import rabbitMQ.utils.CalendarUtils;
 
 import java.util.Calendar;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 需要实现Delayed接口
+ * 利用对象来实现
+ */
 public class MyDelayed implements Delayed {
 
     //任务超时时间戳

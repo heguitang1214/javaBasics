@@ -1,9 +1,8 @@
-package rabbitMQ.utils;
+package rabbitMQ.redisDelayDemo;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
@@ -36,6 +35,6 @@ public class RedisConfig {
         jedisPoolConfig.setMaxTotal(maxTotal);
         jedisPoolConfig.setMaxIdle(maxIdle);
         jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
-        return new JedisPool(jedisPoolConfig, host, port, timeout);
+        return new JedisPool(jedisPoolConfig, host, port, timeout, "heguitang");
     }
 }

@@ -1,4 +1,4 @@
-package rabbitMQ.delayDemo;
+package rabbitMQ.utils;
 /**
  * 消息延时服务
  */

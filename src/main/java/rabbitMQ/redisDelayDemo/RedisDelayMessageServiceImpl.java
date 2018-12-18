@@ -1,10 +1,9 @@
-package rabbitMQ.delayDemo.impl;
+package rabbitMQ.redisDelayDemo;
 
-import rabbitMQ.delayDemo.DelayMessageService;
-import rabbitMQ.utils.CalendarUtils;
-import rabbitMQ.utils.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import rabbitMQ.utils.CalendarUtils;
+import rabbitMQ.utils.DelayMessageService;
 
 
 /**
