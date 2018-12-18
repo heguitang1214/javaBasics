@@ -13,17 +13,20 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.MessageProperties;
 
 /**
- * 
- * @author 小五老师
- * @createTime 2018年9月4日 下午2:44:47
- * 
+ *	消息确认机制
  */
 public class PublisherConfirmProduct {
+
+	public static void main(String[] args) throws Exception {
+//		commonConfirm(); //普通确认机制
+//		batchConfirm(); //批量确认机制
+		asyncConfirm(); //异步确认机制
+	}
 
 	private static final String EXCHANGE_NAME = "demo.exchange"; //交换器名称
 	private static final String ROUTING_KEY = "demo.routingkey"; //路由键
 	private static final String QUEUE_NAME = "demo.queue"; //队列名称
-	private static final String IP_ADDRESS = "192.168.110.130";
+	private static final String IP_ADDRESS = "47.93.194.11";
 	private static final int PORT = 5672;//RabbitMQ 服务端默认端口号为 5672
 	
 	public static void commonConfirm() throws Exception{
@@ -144,10 +147,5 @@ public class PublisherConfirmProduct {
 		channel.close() ;
 		connection.close();
 	}
-	
-	public static void main(String[] args) throws Exception {
-//		commonConfirm(); //普通确认机制
-//		batchConfirm(); //批量确认机制
-		asyncConfirm(); //异步确认机制
-	}
+
 }

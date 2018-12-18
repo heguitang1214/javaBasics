@@ -52,7 +52,6 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-
         <!--springBoot热部署-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -60,12 +59,15 @@
             <!-- 取消传递依赖 -->
             <optional>true</optional>
         </dependency>
-
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-amqp</artifactId>-->
-            <!--<version>2.0.6.RELEASE</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+            <version>2.0.6.RELEASE</version>
+        </dependency>
 
 
         <!--cglib-->
@@ -132,11 +134,11 @@
             <version>${google.zxing.version}</version>
         </dependency>
         <!--rabbitmq-->
-        <dependency>
-            <groupId>com.rabbitmq</groupId>
-            <artifactId>amqp-client</artifactId>
-            <version>4.2.1</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.rabbitmq</groupId>-->
+            <!--<artifactId>amqp-client</artifactId>-->
+            <!--<version>4.2.1</version>-->
+        <!--</dependency>-->
         <!--httpclient-->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>

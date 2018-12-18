@@ -1,12 +1,10 @@
 package rabbitMQ;
 
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.MessageProperties;
+import com.rabbitmq.client.*;
 
 /**
- * 生产者 向RabbitMQ发送消息
+ * 简单的生产者
+ *  向RabbitMQ发送消息
  */
 public class RabbitMQProducer {
     private static final String QUEUE_NAME = "demo.queue";
@@ -31,6 +29,6 @@ public class RabbitMQProducer {
         //关闭资源
         channel.close();
         connection.close();
-        System.out.println("消息发送完成......");
+        System.out.println("rabbitMQ消息发送完成...");
     }
 }

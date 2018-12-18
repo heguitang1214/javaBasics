@@ -8,10 +8,7 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 /**
- * 
- * @author 小五老师-云析学院
- * @createTime 2018年11月11日 下午5:50:47
- * Jeids config
+ * Jedis配置
  */
 @Configuration
 public class RedisConfig {
@@ -26,21 +23,19 @@ public class RedisConfig {
 
     @Value("${spring.redis.jedis.pool.max-idle}")
     private int maxIdle;
-    
+
     @Value("${spring.redis.jedis.pool.max-total}")
     private int maxTotal;
-    
+
     @Value("${spring.redis.jedis.pool.max-wait}")
     private long maxWaitMillis;
 
-	@Bean
+    @Bean
     public JedisPool redisPoolFactory() {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxTotal(maxTotal);
         jedisPoolConfig.setMaxIdle(maxIdle);
         jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
-        
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout);
-        return jedisPool;
+        return new JedisPool(jedisPoolConfig, host, port, timeout);
     }
 }

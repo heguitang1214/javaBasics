@@ -5,9 +5,9 @@ import com.rabbitmq.client.*;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-
 /**
- * 消费者 处理RabbitMQ中的消息
+ * 简单的消费者
+ * 处理RabbitMQ中的消息
  */
 public class RabbitMQConsumer {
     private static final String QUEUE_NAME = "demo.queue";
@@ -34,7 +34,6 @@ public class RabbitMQConsumer {
         TimeUnit.SECONDS.sleep(1);//关闭
         channel.close();
         connection.close();
-
     }
 
 }
