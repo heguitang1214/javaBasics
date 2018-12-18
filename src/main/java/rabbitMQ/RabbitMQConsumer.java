@@ -21,6 +21,9 @@ public class RabbitMQConsumer {
         factory.setPort(5672);
         Connection connection = factory.newConnection(); //创建连接
         final Channel channel = connection.createChannel(); //创建信道在信道上传递消息
+        //在basicConsume非自动确认消息的前提下，如果一定数目的消息
+        // （通过基于consume或者channel设置Qos的值）未被确认前，不进行消费新的消息。
+//        channel.basicQos(1);
         //告诉RabbitMQ我可以接收消息了
         channel.basicConsume(QUEUE_NAME, new DefaultConsumer(channel) {
             @Override
