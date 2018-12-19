@@ -5,7 +5,7 @@ import rabbitMQ.utils.CalendarUtils;
 import java.util.concurrent.DelayQueue;
 
 /**
- * 利用rabbitmq的DelayQueue来实现延迟队列
+ * 利用JDK的DelayQueue来实现延迟队列
  * 性能高，本机内存级别，适合单机
  */
 public class DelayQueueDemo {
