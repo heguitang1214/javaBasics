@@ -11,14 +11,14 @@
            http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
 	<context:annotation-config />
-	<context:component-scan base-package="spring.aopXml"/>
+	<context:component-scan base-package="springDemo.aopXml"/>
 
-	<bean id="logInterceptor" class="spring.aopXml.aop.LogInterceptor"/>
+	<bean id="logInterceptor" class="springDemo.aopXml.aop.LogInterceptor"/>
 
 	<!--aop的xml配置:方式一-->
 	<aop:config>
 		<!--配置织入点,这个织入点在整个aop里面都可以使用-->
-		<aop:pointcut id="servicePointcut" expression="execution(public * spring.aopXml.service..*.add(..))"/>
+		<aop:pointcut id="servicePointcut" expression="execution(public * springDemo.aopXml.service..*.add(..))"/>
 
 		<aop:aspect id="logAspect" ref="logInterceptor">
 			<aop:before method="before" pointcut-ref="servicePointcut"/>

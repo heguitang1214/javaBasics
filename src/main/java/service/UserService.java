@@ -16,4 +16,9 @@ public class UserService {
     private final Logger logger = LoggerFactory.getLogger(UserService.class);
 
 
+    public void test(){
+        logger.info("测试。。。。");
+    }
+
+
 }

@@ -6,7 +6,8 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 //指定扫描的包，springBooboot默认的扫描包为：com.example.demo.xxx
-@ComponentScan("controller")
+//@ComponentScan("controller")
+@ComponentScan(basePackages = {"controller", "spring.aop"})//"spring.aopAnnotation.aop",
 public class Application {
 
 	public static void main(String[] args) {

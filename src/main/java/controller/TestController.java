@@ -7,6 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.UserService;
+import spring.aop.loggerManage.LoggerManage;
+import spring.aop.userAudit.OpTypeEnum;
+import spring.aop.userAudit.UserAudited;
 import utils.excel.ExportExcel;
 import utils.excel.annotation.ExcelConfEnum;
 
@@ -22,10 +26,17 @@ public class TestController {
 
     private final Logger logger = LoggerFactory.getLogger(TestController.class);
 
+    private UserService userService;
+
+    @UserAudited(opType = OpTypeEnum.update, action = "测试")
+    @LoggerManage(logDescription = "日志测试")
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     @ResponseBody
     public String test(){
         logger.info("web请求测试");
+
+//        userService.test();
+
         return "成功！";
     }
 
