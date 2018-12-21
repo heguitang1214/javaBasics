@@ -63,7 +63,7 @@ public class ExportExcel {
      * @param cls   实体对象，通过annotation.ExportField获取标题
      */
     public ExportExcel(String title, Class<?> cls) {
-        this(title, cls, ExcelConfEnum.ExportData.getIndex());
+        this(title, cls, ExcelConfEnum.EXPORT_DATA.getIndex());
     }
 
     /**
@@ -137,7 +137,7 @@ public class ExportExcel {
         for (Object[] os : annotationList) {
             String t = ((ExcelField) os[0]).title();
             // 如果是导出，则去掉注释
-            if (ExcelConfEnum.ExportData.getIndex() == type) {
+            if (ExcelConfEnum.EXPORT_DATA.getIndex() == type) {
                 String[] ss = StringUtils.split(t, "**", 2);
                 if (ss.length == 2) {
                     t = ss[0];
@@ -175,8 +175,8 @@ public class ExportExcel {
      * @param headerList 表头列表
      */
     private void initialize(String title, List<String> headerList) {
-        this.workbook = new SXSSFWorkbook(ExcelConfEnum.rowAccessWindowSize.getIndex());
-        this.sheet = workbook.createSheet(ExcelConfEnum.sheetName.getDesc());
+        this.workbook = new SXSSFWorkbook(ExcelConfEnum.ROW_ACCESS_WINDOW_SIZE.getIndex());
+        this.sheet = workbook.createSheet(ExcelConfEnum.SHEET_NAME.getDesc());
         this.styles = createStyles(workbook);
         // Create title
         if (StringUtils.isNotBlank(title)) {

@@ -6,10 +6,10 @@ public class EnumTest {
     @Test
     public void test1(){
 
-        System.out.println(ExcelConfEnum.ExportData.name());
-        System.out.println(ExcelConfEnum.ExportData.ordinal());
-        System.out.println(ExcelConfEnum.ExportData.getIndex());
-        System.out.println(ExcelConfEnum.OnlyExport.getIndex());
+        System.out.println(ExcelConfEnum.EXPORT_DATA.name());
+        System.out.println(ExcelConfEnum.EXPORT_DATA.ordinal());
+        System.out.println(ExcelConfEnum.EXPORT_DATA.getIndex());
+        System.out.println(ExcelConfEnum.ONLY_EXPORT.getIndex());
 
     }
 

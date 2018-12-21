@@ -25,7 +25,7 @@ public class ExcelTest {
             user.setAge(i);
             list.add(user);
         }
-        new ExportExcel(null, User.class, ExcelConfEnum.ExportData.getIndex()).setDataList(list)
+        new ExportExcel(null, User.class, ExcelConfEnum.EXPORT_DATA.getIndex()).setDataList(list)
                 .writeFile("D:/用户信息.xlsx").dispose();
         System.out.println("导出完成！");
     }

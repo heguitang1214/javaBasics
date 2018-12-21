@@ -52,7 +52,7 @@ public class TestController {
             user.setAge(i);
             list.add(user);
         }
-        new ExportExcel(null, User.class, ExcelConfEnum.ExportData.getIndex()).setDataList(list)
+        new ExportExcel(null, User.class, ExcelConfEnum.EXPORT_DATA.getIndex()).setDataList(list)
                 .writeWebClient(response, "用户信息.xlsx").dispose();
         logger.info("excel导出完毕！");
         return "导出完毕！";
